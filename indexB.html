@@ -14,12 +14,12 @@
     <body>
         <div class="page">
             <div class="banner">
-                <img src="logo.png">
+                <a href="login.html"><img src="images/logo.png"></a>
             </div>
 
             <div class="main">
                 <h1>Create Account</h1>
-                <form id="submitIssueForm">
+                <form id="createAccountForm">
                 <label for="email">Enter Email:</label>
                 <input type="text" name="email" id="email" required>
                 <br>
@@ -48,7 +48,7 @@
 
         <script>
         // create references (const)
-        const form = document.getElementById("submitIssueForm");
+        const form = document.getElementById("createAccountForm");
         const inputEmail = document.getElementById("email");
         const inputPassword = document.getElementById("password");
         const inputPostcode = document.getElementById("postcode");
@@ -70,6 +70,9 @@
             inputPostcode.value = "";
             inputFirstName.value = "";
             inputLastName.value = "";
+
+            //takes the user to their new account
+            window.location.href = "account.html";
         });
         </script>
     </body>
