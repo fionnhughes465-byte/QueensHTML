@@ -1,0 +1,97 @@
+p{
+    color: blue;
+}
+
+body{
+    background-color: black;
+}
+
+h1{
+    color: white;
+    text-align: center;
+}
+
+.banner{
+    background-color: white;
+    height: 60px;
+}
+
+.banner img{
+    height: 170%;
+    padding-left: 5%;
+}
+
+.main{
+    padding-top: 7%;
+}
+
+.accountButton{
+    background-color: white;
+    width: 150px;
+    height: 56px;
+    text-align: center;
+    margin-left: 65%;
+    margin-bottom: 5%;
+    display: inline-block;
+}
+
+.accountButton:hover{
+    background-color: grey;
+}
+
+.accountInfo{
+    background-color: white;
+    margin-left: 10%;
+    width: 150px;
+    height: 70px;
+    
+}
+
+label{
+    color: white;
+    font-size: 30px;
+    margin-left: 2%;
+}
+label::after{
+    content: "\a";
+    white-space: pre;
+}
+
+select{
+    margin-left: 3%;
+}
+
+input{
+    width: 80%;
+    height: auto;
+    margin-left: 3%;
+}
+
+input::after{
+    content: "\a";
+    white-space: pre;
+}
+
+.submitButton{
+    background-color: white;
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 80%;
+}
+
+.submitButton:hover{
+    background-color: grey;
+}
+
+#messageOutput{
+    color: red;
+    margin-left: 33%;
+}
+
+.dropdown{
+    color: white;
+    margin-top: 20px;
+    margin-left: 5%;
+}

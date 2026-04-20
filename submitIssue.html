@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1">
+        <title>Submit Issue</title>
+
+        <link rel="stylesheet" href="styles.css">
+
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="banner">
+                <a href="account.html"><img src="images/logo.png"></a>
+
+            </div>
+
+            <div class="main">
+                <h1>Please tell us your issue:</h1>
+                <form id="submitIssueForm">
+                <label for="city">What city is your issue in?</label>
+                <select name="city" id="city" required>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                </select>
+                <br>
+                <br>
+                <br>
+                <label for="description">What is your issue?</label>
+                <input type="text" name="description" id="description" required>
+                <br>
+                <button class="submitButton" type="submit">Submit</button>
+                </form>
+                <div id="messageOutput"></div>
+            </div>
+        </div>
+
+        <script>
+        // create references (const)
+        const form = document.getElementById("submitIssueForm");
+        const inputDescription = document.getElementById("description");
+        const outputDiv = document.getElementById("messageOutput");
+
+        //add event listener
+        form.addEventListener("submit", function(event) {
+            // Prevent the default form submission behaviour (page refresh)
+            event.preventDefault();
+
+            // Replace the div text with a confirmation of submission
+            outputDiv.textContent = "Issue Submitted, Thank You";
+            
+            //Clear the input box
+            inputDescription.value = "";
+        });
+        </script>
+    </body>
+</html>
