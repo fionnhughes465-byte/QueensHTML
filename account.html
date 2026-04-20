@@ -19,15 +19,49 @@
 
             <div class="main">
                 <h1>Account</h1>
-                    <div class="accountInfo">
-                    <p>Acount Info</p>
+                    <h2>Acount Information:</h2>
+                <div class="accountInfo">
+                    <form id="accountInformation">
+                        <label for="email" style="font-size: small; color: black;">Email:</label>
+                        <input type="text" name="email" id="email" value="email123" required>
+                        <br>
+                        <label for="password" style="font-size: small; color: black;">Enter Password:</label>
+                        <input type="text" name="password" id="password" value="password123" required>
+                        <br>
+                        <label for="postcode" style="font-size: small; color: black;">Enter Postcode:</label>
+                        <input type="text" name="postcode" id="postcode" value="postcode123" required>
+                        <br>
+                        <label for="firstName" style="font-size: small; color: black;">Enter First Name:</label>
+                        <input type="text" name="firstName" id="firstName" value="fname" required>
+                        <br>
+                        <label for="lastName" style="font-size: small; color: black;">Enter Last Name:</label>
+                        <input type="text" name="lastName" id="lastName" value="lname" required>
+                        <button class="submitButton" type="submit">Update Information</button>
+                    </form>
+                    <div id="messageOutput"></div>
                 </div>
-                <a href="submitIssue.html"><button class="accountButton" type="button">Submit Issue</button></a>
-                <a href="individualIssues.html"><button class="accountButton" type="button">View Your Issues</button></a>
-                <a href="allIssues.html"><button class="accountButton" type="button">View All Reviewed Issues</button></a>
-
+                <div class="accountOptions">
+                    <a href="submitIssue.html"><button class="accountButton" type="button">Submit Issue</button></a>
+                    <a href="individualIssues.html"><button class="accountButton" type="button">View Your Issues</button></a>
+                    <a href="allIssues.html"><button class="accountButton" type="button">View All Reviewed Issues</button></a>
+                </div>
             </div>
         </div>
-    </body>
+        <script>
+        // create references (const)
+        const form = document.getElementById("accountInformation");
+        const outputDiv = document.getElementById("messageOutput");
 
+        //add event listener
+        form.addEventListener("submit", function(event) {
+            // Prevent the default form submission behaviour (page refresh)
+            event.preventDefault();
+
+            // Replace the div text with a confirmation of update
+            outputDiv.textContent = "Information Updated";
+            
+            //it should leave the current and updated information in the boxes
+        });
+        </script>
+    </body>
 </html>
