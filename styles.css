@@ -1,3 +1,10 @@
+p{
+    color: blue;
+}
+
+body{
+    background-color: black;
+}
 
 h1{
     color: white;
@@ -81,59 +88,38 @@ input::after{
 #messageOutput{
     color: red;
     margin-left: 33%;
+    margin-bottom: 70px;
 }
 
-.dropdown{
-    color: white;
-    margin-top: 20px;
-    margin-left: 5%;
+.dropdown {
+  color: black;
+  margin-top: 30px;
+  margin-left: 5%;
+  background-color: white;
+  width: fit-content;
+  padding: 3%;
 }
 
-.toolbar1 {
-    position: fixed;
-    width: 100%;
-    height: 15px;
-    top: 0;
-    left: 0;
-    padding: 5px 10px; 
-    background: #ffffff;
-    border-bottom: 1px solid #333;
+.dropdown-content{
+    display:none;
+    position: absolute;
+    background-color: white;
+    max-width:60%;
+    word-wrap:break-word;
 }
 
-.signinbutton {
-   cursor: pointer;
-    background: transparent;
-    border: 0px solid;
-    font-size: 100%;
-    font-weight: 900;
-    color: #000;
-    text-transform: uppercase;
+.dropdown:hover .dropdown-content {
+  display: inline-block;
+  margin-inline: inherit;
+  padding: 5px;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: 80% 20%;
-  position: fixed;
-    width: 100%;
-    height: 90px;
-    margin-top: 15px;
-    left: 0;
-    padding: 5px 10px; 
-    background: #12b2e6; 
+.createAccountButton{
+    margin-top: 50px;
+    background-color: white;
+    margin-left: 2%;
+    
 }
-
-.site-logo-big {
-    height: 73px;
-    width: 373px;
-    margin: 0;
-    margin-left: 40px;
-    margin-top: 10px;
-    padding: 0;
-    transform: translate(-10px, 0px);
-    position: relative;
-    top: 10;
-}
-
-.content {
-  padding-top: 100px;  /* push paragraphs and stuff down from under the toolbar*/
+.createAccountButton:hover{
+    background-color: grey;
 }
