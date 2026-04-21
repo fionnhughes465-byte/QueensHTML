@@ -7,13 +7,13 @@
         initial-scale=1">
         <title>Create Account</title>
 
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="CSS/styles.css">
     </head>
 
     <body>
         <div class="page">
             <div class="banner">
-                <a href="login.html"><img src="logo.png"></a>
+                <a href="login.html"><img src="Images/logo.png"></a>
             </div>
 
             <div class="main">
@@ -63,11 +63,19 @@
 
             //TEMPORARY!!!!!!!!!! WILL CHANGE WHEN USERID GETS AUTO INCREMENTED!!! ONCE USERID AUTO INCREMENTS, REMOVE THE '20' FROM DOWN THERE!!! ALSO REMOVE THIS COMMENT
             //Takes the vlaues that were input into the boxes, and fills them into the SQL statement
-            const sql = `
-                INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
-                VALUES (20, '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')
-            `;
             try {
+
+                const idfinder = 'SELECT COUNT(UserID) FROM User;';
+
+                let result1 = await runQuery(idfinder);
+                let count = Number(result1.data[0]['COUNT(UserID)']);
+
+                const count2 = count + 1;
+
+                 const sql = `
+                INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
+                VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')`;
+                 
                 //Uses runQuery from myJs.js, along with the SQL statement we just made
                 const result = await runQuery(sql);
 
