@@ -71,7 +71,7 @@
 }
 
 .parallax{
-  background-image: url("../IMAGES/bluecity.png");
+  background-image: url("bluecity.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
