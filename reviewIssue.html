@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1">
+        <title>Review Issue</title>
+
+        <link rel="stylesheet" href="styles.css">
+
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="banner">
+                <img src="images/logo.png">
+            </div>
+
+            <div class="main">
+                <div class="issue">
+                    <h3>Issue ID</h3>
+                    <p>City+description</p>
+                </div>
+                <form id="issueStatus">
+                <label for="submittedIssueStatus" style="font-size: medium;">Status:</label>
+                <select name="submittedIssueStatus" id="submittedIssueStatus">
+                    <option value="option1">--</option>
+                    <option value="option2">Accept</option>
+                    <option value="option2">Reject</option>
+                </select>
+                <br>
+                <button class="submitButton" type="submit" id="submit1">Update Status</button>
+                </form>
+                <div id="messageOutput1"></div>
+                <br>
+                <br>
+                <button class="reviewerButton" type="button" onclick="createAReviewedIssue();">Create a Reviewed Issue</button>
+                <form id="createReviewForm"> 
+                    <label for="reviewedcity" style="color: black;font-size: medium;">What city is the issue in?</label>
+                    <select name="reviewedcity" id="reviewedcity" required>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="reviewedIssueDescription" style="color: black; font-size: medium;">What is the issue?</label>
+                    <input type="text" name="reviewedIssueDescription" id="reviewedIssueDescription" required>
+                    <button class="submitButton" type="submit" id="submit2">Submit</button>
+                    <div id="messageOutput2"></div>
+                </form>
+                <br>
+                <button class="reviewerButton" type="button" onclick="createAnAction();">Create an action</button>
+                <form id="createActionForm">
+                    <label for="reviewedActionType" style="color: black; font-size: medium;">Action Type:</label>
+                    <select name="reviewedActionType" id="reviewedActionType">
+                        <option value="option1">--</option>
+                        <option value="option2">option1</option>
+                        <option value="option2">option2</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="reviewedActionInPlace" style="color: black; font-size: medium;">In Place:</label>
+                    <select name="reviewedActionInPlace" id="reviewedActionInPlace">
+                        <option value="option1">--</option>
+                        <option value="option2">option1</option>
+                        <option value="option2">option2</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="reviewedActionDescription" style="color: black; font-size: medium;">What is the action being taken?</label>
+                    <input type="text" name="reviewedActionDescription" id="reviewedActionDescription" required>
+                    <br>
+                    <br>
+                    <label for="reviewedOrganization" style="color: black; font-size: medium;">Organization:</label>
+                    <select name="reviewedOrganization" id="reviewedOrganization" style=>
+                        <option value="option1">--</option>
+                        <option value="option2">option1</option>
+                        <option value="option2">option2</option>
+                    </select>
+                    <button class="submitButton" type="submit" id="submit3">Submit</button>
+                    <div id="messageOutput3"></div>
+                </form>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+
+        <script>
+            //shows form to create a reviewed issue when clicked
+            function createAReviewedIssue(){
+                document.getElementById("createReviewForm").style.display = 'block';
+            }
+            //shows form to create a action when clicked
+            function createAnAction(){
+                document.getElementById("createActionForm").style.display = 'block';
+            }
+
+            // create references (const)
+            const form1 = document.getElementById("issueStatus");
+            const form2 = document.getElementById("createReviewForm");
+            const form3 = document.getElementById("createActionForm");
+
+            const outputDiv1 = document.getElementById("messageOutput1");
+
+            const inputReviewedDescription = document.getElementById("reviewedIssueDescription");
+            const outputDiv2 = document.getElementById("messageOutput2");
+
+            const inputActionDescription = document.getElementById("reviewedActionDescription");
+            const outputDiv3 = document.getElementById("messageOutput3");
+
+            //add event listeners
+            form1.addEventListener("submit", function(event1) {
+                // Prevent the default form submission behaviour (page refresh)
+                event1.preventDefault();
+
+                // Replace the div text with a confirmation of submission
+                outputDiv1.textContent = "Status Updated";
+                
+            });
+
+            form2.addEventListener("submit", function(event2) {
+                // Prevent the default form submission behaviour (page refresh)
+                event2.preventDefault();
+
+                // Replace the div text with a confirmation of submission
+                outputDiv2.textContent = "Reviewed Issue Submitted";
+                
+                //Clear the input box
+                inputReviewedDescription.value = "";
+            });
+
+            form3.addEventListener("submit", function(event3) {
+                // Prevent the default form submission behaviour (page refresh)
+                event3.preventDefault();
+
+                // Replace the div text with a confirmation of submission
+                outputDiv3.textContent = "Action Submitted";
+                
+                //Clear the input box
+                inputActionDescription.value = "";
+            });
+
+        </script>
+    </body>
+</html>
