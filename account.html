@@ -7,60 +7,149 @@
         initial-scale=1">
         <title>Account</title>
 
-        <link rel="stylesheet" href="styles.css">
-
+        <link rel="stylesheet" href="CSS/styles.css">
     </head>
 
     <body>
         <div class="page">
             <div class="banner">
-                <a href="account.html"><img src="images/logo.png"></a>
+                <a href="login.html"><img src="Images/logo.png"></a>
             </div>
 
             <div class="main">
                 <h1>Account</h1>
-                    <h2>Acount Information:</h2>
+                <h2>Acount Information:</h2>
+
                 <div class="accountInfo">
                     <form id="accountInformation">
-                        <label for="email" style="font-size: small; color: black;">Email:</label>
-                        <input type="text" name="email" id="email" value="email123" required>
+
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" required>
                         <br>
-                        <label for="password" style="font-size: small; color: black;">Enter Password:</label>
-                        <input type="text" name="password" id="password" value="password123" required>
+
+                        <label for="password">Enter Password:</label>
+                        <input type="text" id="password" required>
                         <br>
-                        <label for="postcode" style="font-size: small; color: black;">Enter Postcode:</label>
-                        <input type="text" name="postcode" id="postcode" value="postcode123" required>
+
+                        <label for="postcode">Enter Postcode:</label>
+                        <input type="text" id="postcode" required>
                         <br>
-                        <label for="firstName" style="font-size: small; color: black;">Enter First Name:</label>
-                        <input type="text" name="firstName" id="firstName" value="fname" required>
+
+                        <label for="firstName">Enter First Name:</label>
+                        <input type="text" id="firstName" required>
                         <br>
-                        <label for="lastName" style="font-size: small; color: black;">Enter Last Name:</label>
-                        <input type="text" name="lastName" id="lastName" value="lname" required>
+
+                        <label for="lastName">Enter Last Name:</label>
+                        <input type="text" id="lastName" required>
+                        <br>
+
                         <button class="submitButton" type="submit">Update Information</button>
                     </form>
+
                     <div id="messageOutput"></div>
                 </div>
+
                 <div class="accountOptions">
-                    <a href="submitIssue.html"><button class="accountButton" type="button">Submit Issue</button></a>
-                    <a href="individualIssues.html"><button class="accountButton" type="button">View Your Issues</button></a>
-                    <a href="allIssues.html"><button class="accountButton" type="button">View All Reviewed Issues</button></a>
+                    <a href="submitIssue.html"><button type="button">Submit Issue</button></a>
+                    <a href="individualIssues.html"><button type="button">View Your Issues</button></a>
+                    <a href="allIssues.html"><button type="button">View All Reviewed Issues</button></a>
                 </div>
             </div>
         </div>
+
+        <script src="JavaScript/myJs.js"></script>
         <script>
-        // create references (const)
-        const form = document.getElementById("accountInformation");
-        const outputDiv = document.getElementById("messageOutput");
+            window.addEventListener("DOMContentLoaded", async () => {
 
-        //add event listener
-        form.addEventListener("submit", function(event) {
-            // Prevent the default form submission behaviour (page refresh)
-            event.preventDefault();
+            // create references (const)
+            const form = document.getElementById("accountInformation");
+            const outputDiv = document.getElementById("messageOutput");
 
-            // Replace the div text with a confirmation of update
-            outputDiv.textContent = "Information Updated";
-            
-            //it should leave the current and updated information in the boxes
+            //Gets the UserID that was stored from the createAccount page
+            const userID = localStorage.getItem("userID");
+
+            //If there's no UserID found, then it will send the user back to the login page
+            if (!userID) {
+                window.location.href = "login.html";
+                return;
+            }
+
+
+            async function loadUser() {
+
+                //sql statement for gettign all the details of the user that's logged in
+                const sql = "SELECT * FROM `User` WHERE UserID=" + userID;
+
+                try {
+                    //Runnnign the query using the sql statement above
+                    const result = await runQuery(sql);
+
+                    //Making sure a record was returned
+                    if (result.success && result.data && result.data.length > 0) {
+
+                        //Stores the first, and hopefully only, record returned
+                        const user = result.data[0];
+
+                        //Filling in the boxes in the form
+                        document.getElementById("email").value = user.Email;
+                        document.getElementById("password").value = user.Password;
+                        document.getElementById("postcode").value = user.Postcode;
+                        document.getElementById("firstName").value = user.Forename;
+                        document.getElementById("lastName").value = user.Surname;
+
+                        //Gets rid of any status messages that were there
+                        outputDiv.textContent = "";
+
+                    } else {//The error message if no user is found
+                        outputDiv.textContent = "User not found or bad response";
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                    outputDiv.textContent = "Error loading account";
+                }
+            }
+
+            loadUser();
+
+            //add event listener
+            form.addEventListener("submit", async (event) => {
+                // Prevent the default form submission behaviour (page refresh)
+                event.preventDefault();
+
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value.trim();
+                const postcode = document.getElementById("postcode").value.trim();
+                const firstName = document.getElementById("firstName").value.trim();
+                const lastName = document.getElementById("lastName").value.trim();
+
+                //The sql statement for updating the user's information
+                const sql = `
+                    UPDATE \`User\`
+                    SET Email='${email}',
+                        Password='${password}',
+                        Postcode='${postcode}',
+                        Forename='${firstName}',
+                        Surname='${lastName}'
+                    WHERE UserID=${userID}
+                `;
+
+                try {
+                    const result = await runQuery(sql);
+
+                    if (result.success) {
+                        // Replace the div text with a confirmation of update
+                        outputDiv.textContent = "Information Updated";
+                        loadUser();
+                    } else {
+                        outputDiv.textContent = result.error;
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                    outputDiv.textContent = "Request failed";
+                }
+            });
         });
         </script>
     </body>

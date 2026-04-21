@@ -7,24 +7,109 @@
         initial-scale=1">
         <title>Individual Issues</title>
 
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="CSS/styles.css">
 
     </head>
 
     <body>
         <div class="page">
             <div class="banner">
-                <a href="account.html"><img src="images/logo.png"></a>
+                <a href="account.html"><img src="Images/logo.png"></a>
             </div>
 
             <div class="main">
                 <h1>Your Issues</h1>
                 <br>
-                <div class="dropdown">Issue ID (1)
-                <div class="dropdown-content">Issue info (city and description) </div> </div>
-                <div class="dropdown">Issue ID (2)
-                <div class="dropdown-content">Issue info (city and description) </div> </div>
+                <div id="issuesContainer"></div>
             </div>
         </div>
+
+        <script src="JavaScript/myJs.js"></script>
+        <script>
+            //Stores the CityIDs alongside their related city, so I can display the city name next to the issue details
+            const cities = {
+                102: "London",
+                103: "Birmingham",
+                104: "Glasgow",
+                105: "Liverpool",
+                106: "Bristol",
+                107: "Sheffield",
+                108: "Manchester",
+                109: "Leeds",
+                110: "Edinburgh",
+                111: "Leicester",
+                112: "Bradford",
+                113: "Cardiff",
+                114: "Coventry",
+                115: "Nottingham",
+                116: "Hull",
+                117: "Belfast",
+                118: "Stoke",
+                119: "Newcastle",
+                120: "Wolverhampton",
+                121: "Derby",
+                122: "Southampton",
+                123: "Portsmouth",
+                124: "Plymouth",
+                125: "Brighton and Hove",
+                126: "Westminster"
+            };
+
+            window.addEventListener("DOMContentLoaded", async () => {
+
+                //Gets the users details that were stored
+                const userID = localStorage.getItem("userID");
+                const container = document.getElementById("issuesContainer");
+
+                //sql statement to get all issues the user submitted
+                const sql = "SELECT * FROM Submitted_Issue WHERE UserID=" + userID;
+
+                try {
+                    //Running the sql from above
+                    const result = await runQuery(sql);
+
+                    //Should display this message if there were no issues found
+                    if (!result || !result.data || !Array.isArray(result.data)) {
+                        container.innerHTML = "<p>No issues found</p>";
+                        return;
+                    }
+
+                    const issues = result.data;
+
+                    if (issues.length === 0) {
+                        container.innerHTML = "<p>No issues found</p>";
+                        return;
+                    }
+
+                    let html = "";
+
+                    //Goes through every issue that the user submitted
+                    issues.forEach(issue => {
+
+                        //Takes the value of 1 or 0 from the submitted issues table, and turns it into a status message
+                        const status = issue.IsRejected == 1 ? "Rejected" : "Not Rejected";
+
+                        //Creates the display for each issue
+                        html += `
+                            <div class="dropdown">
+                                Issue ID (${issue.IssueID})
+                                <div class="dropdown-content">
+                                    <strong>City:</strong> ${cities[issue.CityID] || "Unknown"} <br>
+                                    <strong>Status:</strong> ${status} <br>
+                                    <strong>Issue:</strong> ${issue.Issue}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    //This is so the above html gets displayed
+                    container.innerHTML = html;
+
+                } catch (error) {
+                    console.error(error);
+                    container.innerHTML = "<p>Error loading issues</p>";
+                }
+            });
+        </script>
     </body>
 </html>

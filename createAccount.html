@@ -7,14 +7,13 @@
         initial-scale=1">
         <title>Create Account</title>
 
-        <link rel="stylesheet" href="styles.css">
-
+        <link rel="stylesheet" href="CSS/styles.css">
     </head>
 
     <body>
         <div class="page">
             <div class="banner">
-                <a href="login.html"><img src="images/logo.png"></a>
+                <a href="login.html"><img src="Images/logo.png"></a>
             </div>
 
             <div class="main">
@@ -46,8 +45,9 @@
             </div>
         </div>
 
+        <script src="JavaScript/myJs.js"></script>
+
         <script>
-        // create references (const)
         const form = document.getElementById("createAccountForm");
         const inputEmail = document.getElementById("email");
         const inputPassword = document.getElementById("password");
@@ -57,22 +57,55 @@
         const outputDiv = document.getElementById("messageOutput");
 
         //add event listener
-        form.addEventListener("submit", function(event) {
+        form.addEventListener("submit", async function(event) {
             // Prevent the default form submission behaviour (page refresh)
             event.preventDefault();
 
-            // Replace the div text with a confirmation of submission
-            outputDiv.textContent = "Account Created";
-            
-            //Clear the input box
-            inputEmail.value = "";
-            inputPassword.value = "";
-            inputPostcode.value = "";
-            inputFirstName.value = "";
-            inputLastName.value = "";
+            //TEMPORARY!!!!!!!!!! WILL CHANGE WHEN USERID GETS AUTO INCREMENTED!!! ONCE USERID AUTO INCREMENTS, REMOVE THE '20' FROM DOWN THERE!!! ALSO REMOVE THIS COMMENT
+            //Takes the vlaues that were input into the boxes, and fills them into the SQL statement
+            const sql = `
+                INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
+                VALUES (20, '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')
+            `;
+            try {
+                //Uses runQuery from myJs.js, along with the SQL statement we just made
+                const result = await runQuery(sql);
 
-            //takes the user to their new account
-            window.location.href = "account.html";
+                //If there aren't any errors then this is execcuted
+                if (result.success) {
+
+                    //This is for a query to look up the user with the email that was just typed in (Assuming there in only one of each email. Can be changed to look at UserID after I'm not manually setting UserID anymore)
+                    const getUser =
+                        "SELECT * FROM `User` WHERE Email='" + inputEmail.value + "'";
+
+                    //Runs the above query
+                    const userResult = await runQuery(getUser);
+                    const user = userResult.data[0];//Returns the first and only result, which should be the user who just put their details in
+
+                    //Stores the UserID if the user who just logged in so it is used on account when it switches pages
+                    localStorage.setItem("userID", user.UserID);
+
+                    // Replace the div text with a confirmation of submission
+                    outputDiv.textContent = "Account Created";
+
+                    //Clear the input box
+                    inputEmail.value = "";
+                    inputPassword.value = "";
+                    inputPostcode.value = "";
+                    inputFirstName.value = "";
+                    inputLastName.value = "";
+
+                    //takes the user to their new account
+                    window.location.href = "account.html";
+
+                } else { //If something goes wrong, for example it tries to create a user with an already existing UserID, then this happens
+                    outputDiv.textContent = "Database error";
+                }
+
+            } catch (error) {
+                outputDiv.textContent = "Request failed";
+                console.error(error);
+            }
         });
         </script>
     </body>

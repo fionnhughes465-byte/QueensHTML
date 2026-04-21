@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1">
+        <title>Log In</title>
+
+        <link rel="stylesheet" href="CSS/styles.css">
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="banner">
+                <img src="Images/logo.png">
+            </div>
+
+            <div class="main">
+                <h1>Log In</h1>
+                <form id="loginForm">
+                <label for="email">Enter Email:</label>
+                <input type="text" id="email" required>
+                <br>
+                <br>
+                <label for="password">Enter Password:</label>
+                <input type="text" id="password" required>
+                <br>
+                <br>
+                <a href="createAccount.html">
+                    <button type="button">Create Account</button>
+                </a>
+                <button type="submit">Submit</button>
+                </form>
+                <div id="messageOutput"></div>
+            </div>
+        </div>
+
+        <script src="JavaScript/myJs.js"></script>
+        <script>
+            // create references (const)
+            const form = document.getElementById("loginForm");
+            const inputEmail = document.getElementById("email");
+            const inputPassword = document.getElementById("password");
+            const outputDiv = document.getElementById("messageOutput");
+
+            //add event listener
+            form.addEventListener("submit", async function(event) {
+                // Prevent the default form submission behaviour (page refresh)
+                event.preventDefault();
+
+                //sql statement to check the user's email and password against the database (POSSIBLY ADD HASHING TO MAKE IT MORE SECURE)
+                const sql =
+                    "SELECT * FROM `User` WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+
+                try {
+                    //Running the above sql
+                    const result = await runQuery(sql);
+
+                    //Runs if the query returns a record
+                    if (result.success && result.data.length > 0) {
+
+                        //Stores the first, and hopefully only, record returned
+                        const user = result.data[0];
+
+                        //Storing the UserID in the local storage so it can be used in other pages, like account
+                        localStorage.setItem("userID", user.UserID);
+
+                        //Displays a login message and brings the user to the account page. ALthough the login page isn't open long enough to read the message
+                        outputDiv.textContent = "...logging in...";
+                        window.location.href = "account.html";
+
+                    } else {
+                        outputDiv.textContent = "Incorrect login details";
+                    }
+
+                } catch (error) {
+                    outputDiv.textContent = "Request failed";
+                    console.error(error);
+                }
+            });
+        </script>
+    </body>
+</html>
