@@ -1,114 +1,195 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport"
-        content="width=device-width,
-        initial-scale=1">
-        <title>Create Account</title>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UN-Habitat Group Project</title>
 
-        <link rel="stylesheet" href="CSS/styles.css">
-    </head>
+  <link rel="stylesheet" href="CSS/style.css">
 
-    <body>
-        <div class="page">
-            <div class="banner">
-                <a href="login.html"><img src="Images/logo.png"></a>
-            </div>
+</head>
 
-            <div class="main">
+<body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <button class="toolbutton">Actions</button>
+            <button class="toolbutton">Towns/Cities</button>
+            <button class="toolbutton">Issues</button>
+            <button class="toolbutton">Buisnesses</button>
+            <button class="toolbutton" style="border-color: #8e8e8e;">Charities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
+
+    
+    <div class="content">
+
+        <section class="parallax">
+            <div style="height: 5px;"></div>
+            <div style="background-color: white; margin-left: 350px; margin-right: 350px;">
                 <h1>Create Account</h1>
-                <form id="createAccountForm">
+            <form id="createAccountForm">
                 <label for="email">Enter Email:</label>
-                <input type="text" name="email" id="email" required>
+                <input type="text" name="email" id="email" class="textb" required>
                 <br>
                 <br>
                 <label for="password">Enter Password:</label>
-                <input type="text" name="password" id="password" required>
+                <input type="text" name="password" id="password" class="textb" required>
                 <br>
                 <br>
                 <label for="postcode">Enter Postcode:</label>
-                <input type="text" name="postcode" id="postcode" required>
+                <input type="text" name="postcode" id="postcode" class="textb" required>
                 <br>
                 <br>
                 <label for="firstName">Enter First Name:</label>
-                <input type="text" name="firstName" id="firstName" required>
+                <input type="text" name="firstName" id="firstName" class="textb" required>
                 <br>
                 <br>
                 <label for="lastName">Enter Last Name:</label>
-                <input type="text" name="lastName" id="lastName" required>
+                <input type="text" name="lastName" id="lastName" class="textb" required>
                 <br>
                 <br>
-                <button class="submitButton" type="submit">Submit</button>
-                </form>
+                <label for="reviewer">Are you a reviewer? (Please tick the box if yes):</label>
+                <input type="checkbox" id="reviewerCheckbox" name="reviewerCheckbox" value="reviewer">
+                <br>
+                <br>
+                <button class="loginbutton" type="submit" style="margin-left: 235px;">Submit</button>
+                <br>
+                <br>
+            </form>
                 <div id="messageOutput"></div>
             </div>
+            <div style="height: 5px;"></div>
+
+                <div class="grid-container">
+                <div style="text-align: center; color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+                    <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+                    sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+                </div>
+
+                <div style="color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+                    <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+                    <br>
+                    <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+                    <br>
+                    <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+                </div>
+
+                <div style="color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+                    <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+                    <p></p>
+                    <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+                </div>
         </div>
 
-        <script src="JavaScript/myJs.js"></script>
+        </section>
 
+    </div>
+
+        <script src="JavaScript/myJs.js"></script>
         <script>
         const form = document.getElementById("createAccountForm");
+
         const inputEmail = document.getElementById("email");
         const inputPassword = document.getElementById("password");
         const inputPostcode = document.getElementById("postcode");
         const inputFirstName = document.getElementById("firstName");
         const inputLastName = document.getElementById("lastName");
+        const reviewerCheckbox = document.getElementById("reviewerCheckbox");
+
         const outputDiv = document.getElementById("messageOutput");
 
-        //add event listener
         form.addEventListener("submit", async function(event) {
-            // Prevent the default form submission behaviour (page refresh)
             event.preventDefault();
 
-            //TEMPORARY!!!!!!!!!! WILL CHANGE WHEN USERID GETS AUTO INCREMENTED!!! ONCE USERID AUTO INCREMENTS, REMOVE THE '20' FROM DOWN THERE!!! ALSO REMOVE THIS COMMENT
-            //Takes the vlaues that were input into the boxes, and fills them into the SQL statement
             try {
 
-                const idfinder = 'SELECT COUNT(UserID) FROM User;';
+                const isReviewer = reviewerCheckbox.checked;
 
-                let result1 = await runQuery(idfinder);
-                let count = Number(result1.data[0]['COUNT(UserID)']);
+                if (isReviewer) {
 
-                const count2 = count + 1;
+                    const idfinder = 'SELECT COUNT(ReviewerID) FROM Reviewer;';
+                    let result1 = await runQuery(idfinder);
+                    let count = Number(result1.data[0]['COUNT(ReviewerID)']);
+                    const newID = count + 1;
 
-                 const sql = `
-                INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
-                VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')`;
-                 
-                //Uses runQuery from myJs.js, along with the SQL statement we just made
-                const result = await runQuery(sql);
+                    const reviewerSQL = `
+                        INSERT INTO Reviewer (ReviewerID, Email, Password, Forename, Surname, DateJoined, IsAdmin)
+                        VALUES (
+                            '${newID}',
+                            '${inputEmail.value}',
+                            '${inputPassword.value}',
+                            '${inputFirstName.value}',
+                            '${inputLastName.value}',
+                            CURDATE(),
+                            0
+                        )
+                    `;
 
-                //If there aren't any errors then this is execcuted
-                if (result.success) {
+                    const result = await runQuery(reviewerSQL);
 
-                    //This is for a query to look up the user with the email that was just typed in (Assuming there in only one of each email. Can be changed to look at UserID after I'm not manually setting UserID anymore)
-                    const getUser =
-                        "SELECT * FROM `User` WHERE Email='" + inputEmail.value + "'";
+                    if (result.success) {
+                        outputDiv.textContent = "Reviewer Account Created";
+                        localStorage.setItem("reviewerID", newID);
+                        window.location.href = "reviewIssue.html";
+                    } else {
+                        outputDiv.textContent = "Database error";
+                    }
 
-                    //Runs the above query
-                    const userResult = await runQuery(getUser);
-                    const user = userResult.data[0];//Returns the first and only result, which should be the user who just put their details in
+                } else {
 
-                    //Stores the UserID if the user who just logged in so it is used on account when it switches pages
-                    localStorage.setItem("userID", user.UserID);
+                    const idfinder = 'SELECT COUNT(UserID) FROM User;';
+                    let result1 = await runQuery(idfinder);
+                    let count = Number(result1.data[0]['COUNT(UserID)']);
+                    const newID = count + 1;
 
-                    // Replace the div text with a confirmation of submission
-                    outputDiv.textContent = "Account Created";
+                    const userSQL = `
+                        INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
+                        VALUES (
+                            '${newID}',
+                            '${inputEmail.value}',
+                            '${inputPassword.value}',
+                            '${inputPostcode.value}',
+                            '${inputFirstName.value}',
+                            '${inputLastName.value}'
+                        )
+                    `;
 
-                    //Clear the input box
-                    inputEmail.value = "";
-                    inputPassword.value = "";
-                    inputPostcode.value = "";
-                    inputFirstName.value = "";
-                    inputLastName.value = "";
+                    const result = await runQuery(userSQL);
 
-                    //takes the user to their new account
-                    window.location.href = "account.html";
-
-                } else { //If something goes wrong, for example it tries to create a user with an already existing UserID, then this happens
-                    outputDiv.textContent = "Database error";
+                    if (result.success) {
+                        outputDiv.textContent = "User Account Created";
+                        localStorage.setItem("userID", newID);
+                        window.location.href = "account.html";
+                    } else {
+                        outputDiv.textContent = "Database error";
+                    }
                 }
+
+                inputEmail.value = "";
+                inputPassword.value = "";
+                inputPostcode.value = "";
+                inputFirstName.value = "";
+                inputLastName.value = "";
+                reviewerCheckbox.checked = false;
 
             } catch (error) {
                 outputDiv.textContent = "Request failed";
