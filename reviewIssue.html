@@ -37,6 +37,10 @@
                 <br>
                 <button class="reviewerButton" type="button" onclick="createAReviewedIssue();">Create a Reviewed Issue</button>
                 <form id="createReviewForm"> 
+                    <label for="reviewedIssueName" style="color: black; font-size: medium;">Name:</label>
+                    <input type="text" name="reviewedIssueName" id="reviewedIssueName" required>
+                    <br>
+                    <br>
                     <label for="reviewedcity" style="color: black;font-size: medium;">What city is the issue in?</label>
                     <select name="reviewedcity" id="reviewedcity" required>
                         <option value="option1">Option 1</option>
@@ -105,6 +109,7 @@
             const outputDiv1 = document.getElementById("messageOutput1");
 
             const inputReviewedDescription = document.getElementById("reviewedIssueDescription");
+            const inputReviewedName = document.getElementById("reviewedIssueName");
             const outputDiv2 = document.getElementById("messageOutput2");
 
             const inputActionDescription = document.getElementById("reviewedActionDescription");
@@ -129,6 +134,7 @@
                 
                 //Clear the input box
                 inputReviewedDescription.value = "";
+                inputReviewedName.value = "";
             });
 
             form3.addEventListener("submit", function(event3) {
