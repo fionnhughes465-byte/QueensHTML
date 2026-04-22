@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1">
+        <title>Create Account</title>
+
+        <link rel="stylesheet" href="styles.css">
+
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="banner">
+                <a href="login.html"><img src="images/logo.png"></a>
+            </div>
+
+            <div class="main">
+                <h1>Create Reviewer</h1>
+                <form id="createReviewerForm">
+                <label for="email">Enter Email:</label>
+                <input type="text" name="email" id="email" required>
+                <br>
+                <br>
+                <label for="password">Enter Password:</label>
+                <input type="text" name="password" id="password" required>
+                <br>
+                <br>
+                <label for="postcode">Enter Postcode:</label>
+                <input type="text" name="postcode" id="postcode" required>
+                <br>
+                <br>
+                <label for="firstName">Enter First Name:</label>
+                <input type="text" name="firstName" id="firstName" required>
+                <br>
+                <br>
+                <label for="lastName">Enter Last Name:</label>
+                <input type="text" name="lastName" id="lastName" required>
+                <br>
+                <br>
+                <button class="submitButton" type="submit">Submit</button>
+                </form>
+                <div id="messageOutput"></div>
+            </div>
+        </div>
+
+        <script>
+        // create references (const)
+        const form = document.getElementById("createReviewerForm");
+        const inputEmail = document.getElementById("email");
+        const inputPassword = document.getElementById("password");
+        const inputPostcode = document.getElementById("postcode");
+        const inputFirstName = document.getElementById("firstName");
+        const inputLastName = document.getElementById("lastName");
+        const outputDiv = document.getElementById("messageOutput");
+
+        //add event listener
+        form.addEventListener("submit", function(event) {
+            // Prevent the default form submission behaviour (page refresh)
+            event.preventDefault();
+
+            // Replace the div text with a confirmation of submission
+            outputDiv.textContent = "Reviewer Created";
+            
+            //Clear the input box
+            inputEmail.value = "";
+            inputPassword.value = "";
+            inputPostcode.value = "";
+            inputFirstName.value = "";
+            inputLastName.value = "";
+
+            //takes the user to their new account
+            window.location.href = "account.html";
+        });
+        </script>
+    </body>
+</html>
