@@ -7,6 +7,7 @@
     padding: 5px 10px; 
     background: #ffffff;
     border-bottom: 1px solid #333;
+    z-index: 100;
 }
 
 .signinbutton {
@@ -19,6 +20,11 @@
     text-transform: uppercase;
 }
 
+.signinbutton:hover {
+   cursor: pointer;
+   color: white;
+}
+
 .toolbar2 {
   display: grid;
   grid-template-columns: 80% 20%;
@@ -29,6 +35,7 @@
   left: 0;
   padding: 5px 10px; 
   background: #12b2e6; 
+  z-index: 100;
 }
 
 .site-logo-big {
@@ -52,6 +59,7 @@
     left: 0;
     padding: 0px 10px; 
     background: #ffffff;
+    z-index: 100;
 }
 
 .toolbutton {
@@ -66,12 +74,29 @@
   font-size: 16px;
   cursor: pointer;
 }
+
+.loginbutton {
+border: 1px solid #3a3a3a;
+  color: rgb(0, 0, 0);
+  background-color: #12b2e6;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.toolbutton:hover {
+  background-color: #909090;
+  cursor: pointer;
+}
 .content {
   padding-top: 155px;  /* push paragraphs and stuff down from under the toolbar*/
 }
 
 .parallax{
-  background-image: url("bluecity.png");
+  background-image: url("../IMAGES/bluecity.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -89,4 +114,144 @@
   left: 0;
   padding: 5px 10px; 
   background: #12b2e6; 
+}
+
+.banner{
+    background-color: white;
+    height: 60px;
+}
+
+.banner img{
+    height: 170%;
+    padding-left: 5%;
+}
+
+.main{
+    padding-top: 7%;
+}
+
+.accountButton{
+    background-color: white;
+    width: 150px;
+    height: 56px;
+    text-align: center;
+}
+
+.accountButton:hover{
+    background-color: grey;
+}
+
+.accountOptions{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.accountInfo{
+    font-size: small;
+    margin-left: 3%;
+    width: 94%;
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+
+label{
+    font-size: 30px;
+    margin-left: 2%;
+}
+label::after{
+    content: "\a";
+    white-space: pre;
+}
+
+select{
+    margin-left: 3%;
+}
+
+input{
+    width: 80%;
+    height: auto;
+    margin-left: 3%;
+}
+
+input::after{
+    content: "\a";
+    white-space: pre;
+}
+
+.submitButton:hover{
+    background-color: grey;
+}
+
+#messageOutput{
+    color: red;
+    margin-left: 33%;
+    margin-bottom: 70px;
+}
+
+.dropdown {
+  color: black;
+  margin-top: 30px;
+  margin-left: 5%;
+  background-color: white;
+  width: fit-content;
+  padding: 3%;
+}
+
+.dropdown-content{
+    display:none;
+    position: absolute;
+    background-color: white;
+    max-width:60%;
+    word-wrap:break-word;
+}
+
+.dropdown:hover .dropdown-content {
+  display: inline-block;
+  margin-inline: inherit;
+  padding: 5px;
+}
+
+.createAccountButton{
+    margin-top: 50px;
+    background-color: white;
+    margin-left: 2%;
+    
+}
+.createAccountButton:hover{
+    background-color: grey;
+}
+
+.textb{
+    font-size: 25px;
+    height: 25px;
+}
+
+.searchb{
+    font-size: 25px;
+    height: 30px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+th {
+    position: sticky;
+    background-color: #12b2e6;
+    top: 0 ;
 }
