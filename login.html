@@ -1,84 +1,105 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport"
-        content="width=device-width,
-        initial-scale=1">
-        <title>Log In</title>
+<!doctype html>
+<html lang="en">
 
-        <link rel="stylesheet" href="styles.css">
-    </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UN-Habitat Group Project</title>
 
-    <body>
-        <div class="page">
-            <div class="banner">
-                <img src="logo.png">
-            </div>
+  <link rel="stylesheet" href="CSS/style.css">
 
-            <div class="main">
-                <h1>Log In</h1>
-                <form id="loginForm">
-                <label for="email">Enter Email:</label>
-                <input type="text" id="email" required>
-                <br>
-                <br>
-                <label for="password">Enter Password:</label>
-                <input type="text" id="password" required>
-                <br>
-                <br>
-                <a href="createAccount.html">
-                    <button type="button">Create Account</button>
-                </a>
-                <button type="submit">Submit</button>
-                </form>
-                <div id="messageOutput"></div>
-            </div>
+</head>
+
+<body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
         </div>
 
-        <script src="JavaScript/myJs.js"></script>
-        <script>
-            // create references (const)
-            const form = document.getElementById("loginForm");
-            const inputEmail = document.getElementById("email");
-            const inputPassword = document.getElementById("password");
-            const outputDiv = document.getElementById("messageOutput");
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+    </div>
 
-            //add event listener
-            form.addEventListener("submit", async function(event) {
-                // Prevent the default form submission behaviour (page refresh)
-                event.preventDefault();
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <button class="toolbutton">Actions</button>
+            <button class="toolbutton">Towns/Cities</button>
+            <button class="toolbutton">Issues</button>
+            <button class="toolbutton">Buisnesses</button>
+            <button class="toolbutton" style="border-color: #8e8e8e;">Charities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
 
-                //sql statement to check the user's email and password against the database (POSSIBLY ADD HASHING TO MAKE IT MORE SECURE)
-                const sql =
-                    "SELECT * FROM `User` WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+    <div class="content">
 
-                try {
-                    //Running the above sql
-                    const result = await runQuery(sql);
+        <section class="parallax">
+            <div style="height: 100px;"></div>
+            <div style="background-color: white; margin-left: 200px; margin-right: 200px;">
+                <h1>Log In</h1>
+                <div style="display: grid; grid-template-columns: 80% 20%;">
+                    
+                    <div>
+                        <form id="loginForm">
+                            <label for="email">Enter Email:</label>
+                            <input type="text" id="email" class="textb" required>
+                            <br>
+                            <br>
+                            <label for="password">Enter Password:</label>
+                            <input type="text" id="password" class="textb" required>
+                            <br><br><br>
+                        </form>
+                    </div>
+                    <div>
+                        <a href="createaccount.html">
+                            <button class="loginbutton">Create Account</button>
+                        </a>
+                        <br>
+                        <br>
+                        <br>
+                        <button type="submit" class="loginbutton">Submit</button>
+                    </div>
+                    
+                </div>
 
-                    //Runs if the query returns a record
-                    if (result.success && result.data.length > 0) {
+                <div id="messageOutput"></div>
+            </div>
+            <div style="height: 70px;"></div>
 
-                        //Stores the first, and hopefully only, record returned
-                        const user = result.data[0];
+                <div class="grid-container">
+                <div style="text-align: center; color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+                    <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+                    sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+                </div>
 
-                        //Storing the UserID in the local storage so it can be used in other pages, like account
-                        localStorage.setItem("userID", user.UserID);
+                <div style="color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+                    <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+                    <br>
+                    <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+                    <br>
+                    <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+                </div>
 
-                        //Displays a login message and brings the user to the account page. ALthough the login page isn't open long enough to read the message
-                        outputDiv.textContent = "...logging in...";
-                        window.location.href = "account.html";
+                <div style="color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+                    <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+                    <p></p>
+                    <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+                </div>
+        </div>
 
-                    } else {
-                        outputDiv.textContent = "Incorrect login details";
-                    }
+        </section>
 
-                } catch (error) {
-                    outputDiv.textContent = "Request failed";
-                    console.error(error);
-                }
-            });
-        </script>
-    </body>
+    </div>
+    
+</body>
+
 </html>
