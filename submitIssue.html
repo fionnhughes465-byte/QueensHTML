@@ -78,7 +78,7 @@
                 //sql statement getting the information for the submitted issue
                 const sql = `
                     INSERT INTO Submitted_Issue (UserID, CityID, ReviewID, Issue, Date, IsRejected)
-                    VALUES (${userID}, ${city.value}, NULL, '${description.value}', '${today}', 0)
+                    VALUES ('${userID}', ${city.value}, NULL, '${description.value}', '${today}', 0)
                 `;
 
                 try {
