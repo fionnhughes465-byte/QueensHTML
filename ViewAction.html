@@ -12,15 +12,11 @@
     document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams(window.location.search);
         const ID = params.get("id");
-        const Name = params.get("name");
-        const Website = params.get("website");
 
         document.getElementById("ID").value = ID;
-        document.getElementById("Name").value = Name;
-        document.getElementById("Link").value = Website;
 
         try {
-            const descriptionQuery = `SELECT Description FROM Organisation WHERE ID = ${ID};`;
+            const descriptionQuery = `SELECT * FROM Organisation WHERE ID = ${ID};`;
             const result = "";
             //const result = await runQuery(descriptionQuery);
             
@@ -80,7 +76,7 @@
         <section class="parallax">
             <div style="height: 5px;"></div>
             <div style="background-color: white; margin-left: 350px; margin-right: 350px;">
-                <h1 style="text-align: center;">View Organisation</h1>
+                <h1 style="text-align: center;">View Action</h1>
             <form id="createAccountForm">
                 <label for="ID">ID:</label>
                 <input type="text" name="ID" id="ID" class="textb" required readonly>
