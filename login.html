@@ -48,11 +48,11 @@
                     <div>
                         <form id="loginForm">
                             <label for="email">Enter Email:</label>
-                            <input type="text" id="email" class="textb" required>
+                            <input type="email" id="email" class="textb" required>
                             <br>
                             <br>
                             <label for="password">Enter Password:</label>
-                            <input type="text" id="password" class="textb" required>
+                            <input type="password" id="password" class="textb" required>
                             <br>
                             <br>
                             <label for="reviewer">Are you a reviewer? (Please tick the box if yes):</label>
@@ -117,60 +117,64 @@
         //Prevents the page from refreshing
         event.preventDefault();
 
-        try {
+        if (/[']/.test(email) == false && /[']/.test(password) == false) {
+            try {
 
-            //Checks if the isReviewer checkbox is ticked
-            const isReviewer = reviewerCheckbox.checked;
+                //Checks if the isReviewer checkbox is ticked
+                const isReviewer = reviewerCheckbox.checked;
 
-            if (isReviewer) {
+                if (isReviewer) {
 
-                const sql = "SELECT * FROM Reviewer WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+                    const sql = "SELECT * FROM Reviewer WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
 
-                const result = await runQuery(sql);
+                    const result = await runQuery(sql);
 
-                if (result.success && result.data.length > 0) {
+                    if (result.success && result.data.length > 0) {
 
-                    const reviewer = result.data[0];
+                        const reviewer = result.data[0];
 
-                    //Stores the reviewerID to be used in the review issues page
-                    localStorage.setItem("reviewerID", reviewer.ReviewerID);
+                        //Stores the reviewerID to be used in the review issues page
+                        localStorage.setItem("reviewerID", reviewer.ReviewerID);
 
-                    outputDiv.textContent = "...logging in...";
-                    window.location.href = "reviewIssue.html";
+                        outputDiv.textContent = "...logging in...";
+                        window.location.href = "reviewIssue.html";
 
-                } else {
-                    outputDiv.textContent = "Incorrect reviewer login details";
-                }
-
-            } else {
-
-                const sql = "SELECT * FROM User WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
-
-                const result = await runQuery(sql);
-
-                if (result.success && result.data.length > 0) {
-
-                    const user = result.data[0];
-
-                    //Stores the user ID to be used on the account page
-                    localStorage.setItem("userID", user.UserID);
-
-                    outputDiv.textContent = "...logging in...";
-                    window.location.href = "account.html";
+                    } else {
+                        outputDiv.textContent = "Incorrect reviewer login details";
+                    }
 
                 } else {
-                    outputDiv.textContent = "Incorrect login details";
+
+                    const sql = "SELECT * FROM User WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+
+                    const result = await runQuery(sql);
+
+                    if (result.success && result.data.length > 0) {
+
+                        const user = result.data[0];
+
+                        //Stores the user ID to be used on the account page
+                        localStorage.setItem("userID", user.UserID);
+
+                        outputDiv.textContent = "...logging in...";
+                        window.location.href = "account.html";
+
+                    } else {
+                        outputDiv.textContent = "Incorrect login details";
+                    }
                 }
+
+                //Clear the input boxes
+                inputEmail.value="";
+                inputPassword="";
+                reviewerCheckbox="";
+
+            } catch (error) {
+                outputDiv.textContent = "Request failed";
+                console.error(error);
             }
-
-            //Clear the input boxes
-            inputEmail.value="";
-            inputPassword="";
-            reviewerCheckbox="";
-
-        } catch (error) {
-            outputDiv.textContent = "Request failed";
-            console.error(error);
+        } else {
+            alert("Invalid email/password.");
         }
     });
     </script>
