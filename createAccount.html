@@ -120,7 +120,7 @@
         const inputLastName = document.getElementById("lastName");
         const reviewerCheckbox = document.getElementById("reviewerCheckbox");
         const reviewerNonsense = document.getElementById("reviewerNonsense");
-        const outputDiv = document.getElementById("messageOutput");
+        const outputPre = document.getElementById("messageOutput");
 
 
         const userID = localStorage.getItem("userID");
@@ -135,69 +135,98 @@
         form.addEventListener("submit", async function(event) {
             // Prevent the default form submission behaviour (page refresh)
             event.preventDefault();
+        
+            const email = inputEmail.value.trim();
+            const password = inputPassword.value.trim();
+            const postcode = inputPostcode.value.trim();
+            const firstName = inputFirstName.value.trim();
+            const lastName = inputLastName.value.trim();
 
-            //Takes the values inputand put them into a sql statement
-            try {
-                //Checks if the checkbox is checked, which decides whether or not to treat this user as a reviewer
-                const isReviewer = reviewerCheckbox.checked;
-
-                if (isReviewer) {
-
-                    const idfinder = 'SELECT COUNT(ReviewerID) FROM Reviewer;';
-                    let result1 = await runQuery(idfinder);
-                    let count = Number(result1.data[0]['COUNT(ReviewerID)']);
-                    const count2 = count + 1;
-
-                    const reviewerSQL = `
-                        INSERT INTO Reviewer (ReviewerID, Email, Password, Forename, Surname, DateJoined, IsAdmin)
-                        VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputFirstName.value}', '${inputLastName.value}', CURDATE(), 0)`;
-
-                    //Uses runQuery from myJs.js, along with the SQL statement we just made
-                    const result = await runQuery(reviewerSQL);
-
-                    if (result.success) {
-                        outputDiv.textContent = "Reviewer Account Created";
-                        //Stores the ReviewerID for while on the next page, so the ReviewerID can be added to the reviewedIssues
-                        localStorage.setItem("reviewerID", count2);
-                        //Goes to the reviewIssue page
-                        window.location.href = "reviewIssue.html";
+            //Validation: checks for null values to stop someone entering with white text
+            let errors = "";
+            if (/[a-z]/.test(password) == false) errors += "Password must contain a lower case character\n";
+            if (/[A-Z]/.test(password) == false) errors += "Password must contain an upper case character\n";
+            if (/\d/.test(password) == false) errors += "Password must contain a number\n";
+            if (/^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/.test(postcode) == false) errors += "Postcode must be in the correct format\n";
+            if (email == "") errors += "Email cannot be empty\n";
+            if (password == "") errors += "Password cannot be empty\n";
+            if (postcode == "") errors += "Postcode cannot be empty\n";
+            if (firstName == "") errors += "First name cannot be empty\n";
+            if (lastName == "") errors += "Last name cannot be empty\n"; 
+            if (/[']/.test(email)) errors += "Email cannot contain apostrophes\n";
+            if (/[']/.test(password)) errors += "Password cannot contain apostrophes\n";
+            if (/[']/.test(postcode)) errors += "Postcode cannot contain apostrophes\n";
+            if (/[']/.test(firstName)) errors += "First name cannot contain apostrophes\n";
+            if (/[']/.test(lastName)) errors += "Last name cannot contain apostrophes\n"; 
+          
+            if (errors == "") {
+                //Takes the values inputand put them into a sql statement
+                try {
+                    //Checks if the checkbox is checked, which decides whether or not to treat this user as a reviewer
+                    const isReviewer = reviewerCheckbox.checked;
+    
+                    if (isReviewer) {
+    
+                        const idfinder = 'SELECT COUNT(ReviewerID) FROM Reviewer;';
+                        let result1 = await runQuery(idfinder);
+                        let count = Number(result1.data[0]['COUNT(ReviewerID)']);
+                        const count2 = count + 1;
+    
+                        const reviewerSQL = `
+                            INSERT INTO Reviewer (ReviewerID, Email, Password, Forename, Surname, DateJoined, IsAdmin)
+                            VALUES ('R${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputFirstName.value}', '${inputLastName.value}', CURDATE(), 0)`;
+    
+                        //Uses runQuery from myJs.js, along with the SQL statement we just made
+                        const result = await runQuery(reviewerSQL);
+    
+                        if (result.success) {
+                            outputPre.textContent = "Reviewer Account Created";
+                            //Stores the ReviewerID for while on the next page, so the ReviewerID can be added to the reviewedIssues
+                            localStorage.setItem("reviewerID", count2);
+                            //Goes to the reviewIssue page
+                            window.location.href = "reviewIssue.html";
+                        } else {
+                            outputPre.textContent = "Database error";
+                        }
                     } else {
-                        outputDiv.textContent = "Database error";
+                        const idfinder = 'SELECT COUNT(UserID) FROM User;';
+                        let result1 = await runQuery(idfinder);
+                        let count = Number(result1.data[0]['COUNT(UserID)']);
+                        const count2 = count + 1;
+    
+                        const userSQL = `
+                            INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
+                            VALUES ('U${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')`;
+    
+                        //Uses runQuery from myJs.js, along with the SQL statement we just made
+                        const result = await runQuery(userSQL);
+    
+                        if (result.success) {
+                            outputPre.textContent = "User Account Created";
+                            //Stores the UserID if the user who just logged in so it is used on account when it switches pages
+                            localStorage.setItem("userID", count2);
+                            window.location.href = "account.html";
+                        } else {
+                            outputPre.textContent = "Database error";
+                        }
                     }
-                } else {
-                    const idfinder = 'SELECT COUNT(UserID) FROM User;';
-                    let result1 = await runQuery(idfinder);
-                    let count = Number(result1.data[0]['COUNT(UserID)']);
-                    const count2 = count + 1;
+    
+                    //Clear the input boxes
+                    inputEmail.value = "";
+                    inputPassword.value = "";
+                    inputPostcode.value = "";
+                    inputFirstName.value = "";
+                    inputLastName.value = "";
+                    reviewerCheckbox.checked = false;
 
-                    const userSQL = `
-                        INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
-                        VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')`;
-
-                    //Uses runQuery from myJs.js, along with the SQL statement we just made
-                    const result = await runQuery(userSQL);
-
-                    if (result.success) {
-                        outputDiv.textContent = "User Account Created";
-                        //Stores the UserID if the user who just logged in so it is used on account when it switches pages
-                        localStorage.setItem("userID", count2);
-                        window.location.href = "account.html";
-                    } else {
-                        outputDiv.textContent = "Database error";
-                    }
+                } catch (error) {
+                    outputPre.textContent = "Request failed";
+                    console.error(error);
                 }
-
-                //Clear the input boxes
-                inputEmail.value = "";
-                inputPassword.value = "";
-                inputPostcode.value = "";
-                inputFirstName.value = "";
-                inputLastName.value = "";
-                reviewerCheckbox.checked = false;
-
-            } catch (error) {
-                outputDiv.textContent = "Request failed";
-                console.error(error);
+            } 
+            else {
+                outputPre.textContent = "There has been an error(s):\n\n" + errors;
+                console.log(errors);
             }
         });
         </script>
