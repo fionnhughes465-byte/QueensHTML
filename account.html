@@ -7,58 +7,115 @@
         initial-scale=1">
         <title>Account</title>
 
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="CSS/style.css">
     </head>
 
     <body>
-        <div class="page">
-            <div class="banner">
-                <a href="login.html"><img src="logo.png"></a>
+        <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+           <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <a href="reviewedIssues.html"><button class="toolbutton">Issues</button></a>
+            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
+            <a href="Charities.html"><button class="toolbutton" style="border-right: 3px solid #8e8e8e;">Charities</button></a>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
+
+            <div class="content">
+
+                <section class="parallax">
+
+                    <div style="height: 100px;"></div>
+                    <div style="background-color: white; margin-left: 200px; margin-right: 200px;">
+                            <h1 style="text-align: center;">Account</h1>
+                        <h2 style="text-align: center;">Acount Information:</h2>
+
+                        <div class="accountInfo">
+                            <form id="accountInformation">
+
+                                <label for="email" style= "color: black";>Email:</label>
+                                <input type="email" name="email" id="email" class="textb" required
+                                maxlength="320">
+                                <br>
+
+                                <label for="password" style= "color: black">Enter Password:</label>
+                                <input type="password" name="password" id="password" class="textb" required
+                                minlength="8" maxlength="40">
+                                <br>
+
+                                <label for="postcode" style= "color: black">Enter Postcode:</label>
+                                <input type="text" name="postcode" id="postcode" class="textb" required
+                                maxlength="7">
+                                <br>
+
+                                <label for="firstName" style= "color: black">Enter First Name:</label>
+                                <input type="text" name="firstName" id="firstName" class="textb" required
+                                maxlength="40">
+                                <br>
+
+                                <label for="lastName" style= "color: black">Enter Last Name:</label>
+                                <input type="text" name="lastName" id="lastName" class="textb" required
+                                maxlength="40">
+                                <br>
+                                <br><br><br>
+
+                                <button class="loginbutton" type="submit">Update Information</button>
+                            </form>
+
+                             <div class="accountOptions">
+                                <a href="submitIssue.html"><button class="loginbutton">Submit Issue</button></a>
+                                <a href="individualIssues.html"><button class="loginbutton">View Your Issues</button></a>
+                                <a href="allIssues.html"><button class="loginbutton">View All Reviewed Issues</button></a>
+                            </div>
+
+                            <pre id="messageOutput"></pre>
+                        </div>
+                    
+                    </div>
+
+                    <div style="height: 70px;"></div>
+
+                </section>
+
+                <div class="grid-container">
+            <div style="text-align: center; color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+                <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+                sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
             </div>
 
-            <div class="main">
-                <h1>Account</h1>
-                <h2>Acount Information:</h2>
+            <div style="color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+                <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+                <br>
+                <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+                <br>
+                <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+            </div>
 
-                <div class="accountInfo">
-                    <form id="accountInformation">
-
-                        <label for="email" style= "color: black";>Email:</label>
-                        <input type="email" name="email" id="email" class="textb" required
-                        maxlength="320">
-                        <br>
-
-                        <label for="password" style= "color: black">Enter Password:</label>
-                        <input type="password" name="password" id="password" class="textb" required
-                        minlength="8" maxlength="40">
-                        <br>
-
-                        <label for="postcode" style= "color: black">Enter Postcode:</label>
-                        <input type="text" name="postcode" id="postcode" class="textb" required
-                        maxlength="7">
-                        <br>
-
-                        <label for="firstName" style= "color: black">Enter First Name:</label>
-                        <input type="text" name="firstName" id="firstName" class="textb" required
-                        maxlength="40">
-                        <br>
-
-                        <label for="lastName" style= "color: black">Enter Last Name:</label>
-                        <input type="text" name="lastName" id="lastName" class="textb" required
-                        maxlength="40">
-                        <br>
-
-                        <button class="submitButton" type="submit">Update Information</button>
-                    </form>
-
-                    <pre id="messageOutput"></pre>
-                </div>
-
-                <div class="accountOptions">
-                    <a href="submitIssue.html"><button type="button">Submit Issue</button></a>
-                    <a href="individualIssues.html"><button type="button">View Your Issues</button></a>
-                    <a href="allIssues.html"><button type="button">View All Reviewed Issues</button></a>
-                </div>
+            <div style="color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+                <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+                <p></p>
+                <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+            </div>
+        </div>
             </div>
         </div>
 
@@ -75,7 +132,7 @@
 
             //If there's no UserID found, then it will send the user back to the login page
             if (!userID) {
-                window.location.href = "login.html";
+                //window.location.href = "login.html";
                 return;
             }
 
