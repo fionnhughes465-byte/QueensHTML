@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1">
+        <title>Create Organization</title>
+
+        <link rel="stylesheet" href="styles.css">
+
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="banner">
+                <img src="images/logo.png"></a>
+            </div>
+
+            <div class="main">
+                <h1>Create Organization</h1>
+                <form id="createOrganizationForm">
+                <label for="organizationName">Organization name:</label>
+                <input type="text" name="organizationName" id="organizationName" required>
+                <br>
+                <br>
+                <label for="organizationType">Organization Type:</label>
+                <select name="organizationType" id="organizationType" required>
+                    <option value="charity">Charity</option>
+                    <option value="construction">Construction</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="dangerousChemicals">Dangerous Chemicals</option>
+                    <option value="gas">Gas</option>
+                </select>
+                <br>
+                <br>
+                <label for="organizationdescription">Description:</label>
+                <input type="text" name="organizationdescription" id="organizationdescription" required>
+                <br>
+                <br>
+                <label for="organizationwebLink">Web Link:</label>
+                <input type="text" name="organizationwebLink" id="organizationwebLink" required>
+                <br>
+                <br>
+                <button class="submitButton" type="submit">Submit</button>
+                </form>
+                <div id="messageOutput"></div>
+            </div>
+        </div>
+
+        <script>
+        // create references (const)
+        const form = document.getElementById("createOrganizationForm");
+        const inputOrganizationName = document.getElementById("organizationName");
+        const inputOrganizationDescription = document.getElementById("organizationdescription");
+        const inputOrganizationWebLink = document.getElementById("organizationwebLink");
+        const outputDiv = document.getElementById("messageOutput");
+
+        //add event listener
+        form.addEventListener("submit", function(event) {
+            // Prevent the default form submission behaviour (page refresh)
+            event.preventDefault();
+
+            // Replace the div text with a confirmation of submission
+            outputDiv.textContent = "Organization Created";
+            
+            //Clear the input box
+            inputOrganizationName.value = "";
+            inputOrganizationDescription.value = "";
+            inputOrganizationWebLink.value = "";
+
+        });
+        </script>
+    </body>
+</html>
