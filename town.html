@@ -42,23 +42,15 @@
         <div style="display: grid; grid-template-columns: 27.5% 72.5%;">
             <div>
                 <table style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
+                    <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Region</th>
                     </tr>
-                        <tr><td>102</td><td>London</td><td>England</td></tr>
-                        <tr><td>103</td><td>Birmingham</td><td>England</td></tr>
-                        <tr><td>104</td><td>Glasgow</td><td>Scotland</td></tr>
-                        <tr><td>105</td><td>Liverpool</td><td>England</td></tr>
-                        <tr><td>106</td><td>Bristol</td><td>England</td></tr>
-                        <tr><td>107</td><td>Sheffield</td><td>England</td></tr>
-                        <tr><td>108</td><td>Manchester</td><td>England</td></tr>
-                        <tr><td>109</td><td>Leeds</td><td>England</td></tr>
-                        <tr><td>110</td><td>Edinburgh</td><td>Scotland</td></tr>
-                        <tr><td>111</td><td>Leicester</td><td>England</td></tr>
-                        <tr><td>112</td><td>Bradford</td><td>England</td></tr>
-                        <tr><td>113</td><td>Cardiff</td><td>Wales</td></tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
 
@@ -113,6 +105,72 @@
         </div>
 
     </div>
+
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    const tableBody = document.querySelector("table tbody");
+
+    const idInput = document.getElementById("ID");
+    const nameInput = document.getElementById("Name");
+    const regionInput = document.getElementById("Region");
+
+    let allCities = [];
+
+    function applyFilters() {
+
+        const idFilter = idInput.value.trim().toLowerCase();
+        const nameFilter = nameInput.value.trim().toLowerCase();
+        const regionFilter = regionInput.value.trim().toLowerCase();
+
+        tableBody.innerHTML = "";
+
+        for (const city of allCities) {
+
+            const matchesID =
+                idFilter === "" || String(city.CityID).includes(idFilter);
+
+            const matchesName =
+                nameFilter === "" || city.Name.toLowerCase().includes(nameFilter);
+
+            const matchesRegion =
+                regionFilter === "" || city.Region.toLowerCase().includes(regionFilter);
+            if (matchesID && matchesName && matchesRegion) {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${city.CityID}</td>
+                    <td>${city.Name}</td>
+                    <td>${city.Region}</td>
+                `;
+
+                tableBody.appendChild(row);
+            }
+        }
+    }
+
+    async function loadCities() {
+        try {
+            const sql = "SELECT * FROM City";
+            const result = await runQuery(sql);
+
+            if (!result.success || !result.data) return;
+
+            allCities = result.data;
+
+            applyFilters();
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    idInput.addEventListener("input", applyFilters);
+    nameInput.addEventListener("input", applyFilters);
+    regionInput.addEventListener("input", applyFilters);
+
+    loadCities();
+    </script>
     
 </body>
 

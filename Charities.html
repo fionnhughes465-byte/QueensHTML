@@ -64,11 +64,15 @@
         <div style="display: grid; grid-template-columns: 45% 55%;">
             <div>
                 <table style="margin-top: 50px; display: block; overflow-y: auto; overflow-x: auto; width: 100%; height: 400px; font-size: 20px;">
+                    <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Website</th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
 
@@ -116,25 +120,29 @@
     
     <script src="JavaScript/myJs.js"></script>
     <script>
-    const table = document.querySelector("table");
+    const tableBody = document.querySelector("table tbody");
+
+    const idInput = document.getElementById("ID");
+    const nameInput = document.getElementById("Name");
 
     let allOrganisations = [];
 
-    async function loadOrganisations() {
-        try {
+    function applyFilters() {
 
-            const sql = "SELECT OrganizationID, Name, WebLink FROM Organization WHERE OrganizationType = 1";
-            const result = await runQuery(sql);
+        const idFilter = idInput.value.trim().toLowerCase();
+        const nameFilter = nameInput.value.trim().toLowerCase();
 
-            if (!result.success || !result.data) return;
+        tableBody.innerHTML = "";
 
-            allOrganisations = result.data;
+        for (const org of allOrganisations) {
 
-            const header = table.querySelector("tr");
-            table.innerHTML = "";
-            table.appendChild(header);
+            const matchesID =
+                idFilter === "" || String(org.OrganizationID).includes(idFilter);
 
-            for (const org of allOrganisations) {
+            const matchesName =
+                nameFilter === "" || org.Name.toLowerCase().includes(nameFilter);
+
+            if (matchesID && matchesName) {
 
                 const row = document.createElement("tr");
 
@@ -144,13 +152,30 @@
                     <td>${org.WebLink}</td>
                 `;
 
-                table.appendChild(row);
+                tableBody.appendChild(row);
             }
+        }
+    }
+
+    async function loadOrganisations() {
+        try {
+
+            const sql = "SELECT * FROM Organization WHERE ORganizationType = 1";
+            const result = await runQuery(sql);
+
+            if (!result.success || !result.data) return;
+
+            allOrganisations = result.data;
+
+            applyFilters();
 
         } catch (error) {
             console.error(error);
         }
     }
+
+    idInput.addEventListener("input", applyFilters);
+    nameInput.addEventListener("input", applyFilters);
 
     loadOrganisations();
     </script>
