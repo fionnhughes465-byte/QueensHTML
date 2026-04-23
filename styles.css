@@ -132,7 +132,28 @@ input::after{
     font-family: "Roboto", sans-serif;
 }
 
+.dropdown {
+  color: black;
+  margin-top: 30px;
+  margin-left: 5%;
+  background-color: white;
+  width: fit-content;
+  padding: 3%;
+}
 
+.dropdown-content{
+    display:none;
+    position: absolute;
+    background-color: white;
+    max-width:60%;
+    word-wrap:break-word;
+}
+
+.dropdown:hover .dropdown-content {
+  display: inline-block;
+  margin-inline: inherit;
+  padding: 5px;
+}
 
 .issue{
     background-color: white;
