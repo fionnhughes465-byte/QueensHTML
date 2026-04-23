@@ -1,15 +1,28 @@
+
+.roboto-robotoFont {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
 body{
     background-color: black;
+    font-family: "Roboto", sans-serif;
 }
 
 h1{
     color: white;
     text-align: center;
+    font-family: "Roboto", sans-serif;
 }
 
 h2{
     color: white;
     margin-left: 4%;
+    font-family: "Roboto", sans-serif;
 }
 
 .banner{
@@ -24,6 +37,7 @@ h2{
 
 .main{
     padding-top: 7%;
+    font-family: "Roboto", sans-serif;
 }
 
 .accountButton{
@@ -31,6 +45,7 @@ h2{
     width: 150px;
     height: 56px;
     text-align: center;
+    font-family: "Roboto", sans-serif;
 }
 
 .accountButton:hover{
@@ -42,6 +57,7 @@ h2{
     justify-content: space-between;
     margin-top: 40px;
     margin-bottom: 40px;
+    font-family: "Roboto", sans-serif;
 }
 
 .accountInfo{
@@ -51,12 +67,14 @@ h2{
     background-color: white;
     color: black;
     padding: 10px;
+    font-family: "Roboto", sans-serif;
 }
 
 label{
     color: white;
     font-size: 30px;
     margin-left: 2%;
+    font-family: "Roboto", sans-serif;
 }
 label::after{
     content: "\a";
@@ -65,12 +83,14 @@ label::after{
 
 select{
     margin-left: 3%;
+    font-family: "Roboto", sans-serif;
 }
 
 input{
     width: 80%;
     height: auto;
     margin-left: 3%;
+    font-family: "Roboto", sans-serif;
 }
 
 input::after{
@@ -85,6 +105,8 @@ input::after{
     text-align: center;
     margin-top: 50px;
     margin-left: 80%;
+    font-family: "Roboto", sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .submitButton:hover{
@@ -95,39 +117,19 @@ input::after{
     color: red;
     margin-left: 33%;
     margin-bottom: 70px;
-}
-
-.dropdown {
-  color: black;
-  margin-top: 30px;
-  margin-left: 5%;
-  background-color: white;
-  width: fit-content;
-  padding: 3%;
-}
-
-.dropdown-content{
-    display:none;
-    position: absolute;
-    background-color: white;
-    max-width:60%;
-    word-wrap:break-word;
-}
-
-.dropdown:hover .dropdown-content {
-  display: inline-block;
-  margin-inline: inherit;
-  padding: 5px;
+    font-family: "Roboto", sans-serif;
 }
 
 .createAccountButton{
     margin-top: 50px;
     background-color: white;
     margin-left: 2%;
+    font-family: "Roboto", sans-serif;
     
 }
 .createAccountButton:hover{
     background-color: grey;
+    font-family: "Roboto", sans-serif;
 }
 
 
@@ -137,10 +139,12 @@ input::after{
     width: 94%;
     margin-left: 3%;
     padding: 5px;
+    font-family: "Roboto", sans-serif;
 }
 
 h3{
     color: black;
+    font-family: "Roboto", sans-serif;
 }
 
 .reviewerButton{
@@ -148,6 +152,7 @@ h3{
     height: 30px;
     margin-bottom: 10px;
     margin-left: 3%;
+    font-family: "Roboto", sans-serif;
 }
 
 .reviewerButton:hover{
@@ -158,31 +163,39 @@ h3{
     display: none;
     background-color: white;
     padding: 20px;
+    font-family: "Roboto", sans-serif;
 }
 
 #createActionForm{
     display: none;
     background-color: white;
     padding: 20px;
+    font-family: "Roboto", sans-serif;
 }
 
 #messageOutput1{
     color: red;
     margin-left: 33%;
+    font-family: "Roboto", sans-serif;
 }
 
 #messageOutput2{
     color: red;
+    font-family: "Roboto", sans-serif;
 }
 #messageOutput3{
     color: red;
+    font-family: "Roboto", sans-serif;
 }
+
+
 
 .reportButton{
     background-color: white;
     width: 16%;
     margin-left: 3%;
     margin-bottom: 1%;
+    font-family: "Roboto", sans-serif;
 }
 
 .reportButton:hover{
