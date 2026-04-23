@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UN-Habitat Group Project</title>
+
+  <link rel="stylesheet" href="CSS/style.css">
+
+</head>
+
+<body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <button class="toolbutton">Issues</button>
+            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
+            <a href="Charities.html"><button class="toolbutton" style="border-color: #8e8e8e;">Charities</button></a>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <section class="parallax">
+            <div style="height: 100px;"></div>
+            <div style="background-color: white; margin-left: 200px; margin-right: 200px;">
+                <h1>Log In</h1>
+                <div style="display: grid; grid-template-columns: 80% 20%;">
+                    
+                    <div>
+                        <form id="loginForm">
+                            <label for="email">Enter Email:</label>
+                            <input type="text" id="email" class="textb" required>
+                            <br>
+                            <br>
+                            <label for="password">Enter Password:</label>
+                            <input type="text" id="password" class="textb" required>
+                            <br>
+                            <br>
+                            <label for="reviewer">Are you a reviewer? (Please tick the box if yes):</label>
+                            <input type="checkbox" id="reviewerCheckbox" name="reviewerCheckbox" value="reviewer">
+                            <br>
+                            <br>
+                        </form>
+                    </div>
+                    <div>
+                        <a href="createAccount.html">
+                            <button class="loginbutton">Create Account</button>
+                        </a>
+                        <br>
+                        <br>
+                        <br>
+                        <button type="submit" form="loginForm" class="loginbutton">Submit</button>
+                    </div>
+                    
+                </div>
+
+                <div id="messageOutput"></div>
+            </div>
+            <div style="height: 70px;"></div>
+
+                <div class="grid-container">
+                <div style="text-align: center; color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+                    <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+                    sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+                </div>
+
+                <div style="color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+                    <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+                    <br>
+                    <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+                    <br>
+                    <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+                </div>
+
+                <div style="color: #fff;">
+                    <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+                    <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+                    <p></p>
+                    <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+                </div>
+        </div>
+
+        </section>
+
+    </div>
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    const form = document.getElementById("loginForm");
+    const inputEmail = document.getElementById("email");
+    const inputPassword = document.getElementById("password");
+    const reviewerCheckbox = document.getElementById("reviewerCheckbox");
+    const outputDiv = document.getElementById("messageOutput");
+
+    //Runs when the login submit button is clicked
+    form.addEventListener("submit", async function(event) {
+        //Prevents the page from refreshing
+        event.preventDefault();
+
+        try {
+
+            //Checks if the isReviewer checkbox is ticked
+            const isReviewer = reviewerCheckbox.checked;
+
+            if (isReviewer) {
+
+                const sql = "SELECT * FROM Reviewer WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+
+                const result = await runQuery(sql);
+
+                if (result.success && result.data.length > 0) {
+
+                    const reviewer = result.data[0];
+
+                    //Stores the reviewerID to be used in the review issues page
+                    localStorage.setItem("reviewerID", reviewer.ReviewerID);
+
+                    outputDiv.textContent = "...logging in...";
+                    window.location.href = "reviewIssue.html";
+
+                } else {
+                    outputDiv.textContent = "Incorrect reviewer login details";
+                }
+
+            } else {
+
+                const sql = "SELECT * FROM User WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+
+                const result = await runQuery(sql);
+
+                if (result.success && result.data.length > 0) {
+
+                    const user = result.data[0];
+
+                    //Stores the user ID to be used on the account page
+                    localStorage.setItem("userID", user.UserID);
+
+                    outputDiv.textContent = "...logging in...";
+                    window.location.href = "account.html";
+
+                } else {
+                    outputDiv.textContent = "Incorrect login details";
+                }
+            }
+
+            //Clear the input boxes
+            inputEmail.value="";
+            inputPassword="";
+            reviewerCheckbox="";
+
+        } catch (error) {
+            outputDiv.textContent = "Request failed";
+            console.error(error);
+        }
+    });
+    </script>
+</body>
+
+</html>

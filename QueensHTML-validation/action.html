@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UN-Habitat Group Project</title>
+
+  <link rel="stylesheet" href="CSS/style.css">
+
+</head>
+
+<body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <button class="toolbutton">Issues</button>
+            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
+            <a href="Charities.html"><button class="toolbutton" style="border-color: #8e8e8e;">Charities</button></a>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div style="display: grid; grid-template-columns: 45% 55%;">
+            <div>
+                <table id="actionTable" style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>City/Town</th>
+                            <th>Duration</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <form id="createAccountForm">
+                    <label for="ID">Search ID:</label>
+                    <input type="search" name="ID" id="ID" class="searchb">
+                    <br>
+                    <br>
+                    <label for="Name">Search Name:</label>
+                    <input type="search" name="Name" id="Name" class="searchb">
+                    <br>
+                    <br>
+                    <label for="Town">Search Town:</label>
+                    <input type="search" name="Town" id="Town" class="searchb">
+                    <br>
+                    <br>
+                    <label for="duriation">Search Duration:</label>
+                    <select name="duriation" id="duriation" class="searchb">
+                        <option value="">Select Duration</option>
+                        <option value="Long Term">Long Term</option>
+                        <option value="Short Term">Short Term</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="AvailableOnly">Available Only</label>
+                    <input type="checkbox" name="AvailableOnly" id="AvailableOnly" class="searchb";>
+                    <br>
+                    <br>
+                </form>
+                <div id="messageOutput"></div>
+            </div>
+        </div>
+
+
+        <div class="grid-container">
+            <div style="text-align: center; color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+                <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+                sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+            </div>
+
+            <div style="color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+                <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+                <br>
+                <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+                <br>
+                <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+            </div>
+
+            <div style="color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+                <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+                <p></p>
+                <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    const tableBody = document.querySelector("#actionTable tbody");
+
+    const idInput = document.getElementById("ID");
+    const nameInput = document.getElementById("Name");
+    const townInput = document.getElementById("Town");
+    const durationInput = document.getElementById("duriation");
+
+    let allActions = [];
+
+    function getDuration(actionType) {
+        return actionType == 1 ? "Long Term" :
+            actionType == 2 ? "Short Term" :
+            "Unknown";
+    }
+
+    function applyFilters() {
+
+        const idFilter = idInput.value.trim().toLowerCase();
+        const nameFilter = nameInput.value.trim().toLowerCase();
+        const townFilter = townInput.value.trim().toLowerCase();
+        const durationFilter = durationInput.value;
+
+        tableBody.innerHTML = "";
+
+        for (const action of allActions) {
+
+            const matchesID =
+                idFilter === "" || String(action.ActionID).includes(idFilter);
+
+            const matchesName =
+                nameFilter === "" || action.Name.toLowerCase().includes(nameFilter);
+
+            const matchesTown =
+                townFilter === "" || action.CityName.toLowerCase().includes(townFilter);
+
+            const duration = getDuration(action.ActionType);
+
+            const matchesDuration =
+                durationFilter === "" || duration === durationFilter;
+
+            if (matchesID && matchesName && matchesTown && matchesDuration) {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${action.ActionID}</td>
+                    <td>${action.Name}</td>
+                    <td>${action.CityName}</td>
+                    <td>${duration}</td>
+                    <td>${action.Description}</td>
+                `;
+
+                tableBody.appendChild(row);
+            }
+        }
+    }
+
+    async function loadActions() {
+        try {
+
+            const actionSQL = "SELECT * FROM Action";
+            const actionResult = await runQuery(actionSQL);
+
+            if (!actionResult.success || !actionResult.data) return;
+
+            const tempActions = [];
+
+            for (const action of actionResult.data) {
+
+                const issueSQL = `SELECT CityID FROM Reviewed_Issue WHERE ReviewID=${action.ReviewID}`;
+                const issueResult = await runQuery(issueSQL);
+
+                let cityName = "Unknown";
+
+                if (issueResult.success && issueResult.data.length > 0) {
+                    const cityID = issueResult.data[0].CityID;
+
+                    const citySQL = `SELECT Name FROM City WHERE CityID=${cityID}`;
+                    const cityResult = await runQuery(citySQL);
+
+                    if (cityResult.success && cityResult.data.length > 0) {
+                        cityName = cityResult.data[0].Name;
+                    }
+                }
+
+                tempActions.push({
+                    ActionID: action.ActionID,
+                    Name: action.Name,
+                    ActionType: action.ActionType,
+                    Description: action.Description,
+                    CityName: cityName
+                });
+            }
+
+            allActions = tempActions;
+            applyFilters();
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    idInput.addEventListener("input", applyFilters);
+    nameInput.addEventListener("input", applyFilters);
+    townInput.addEventListener("input", applyFilters);
+    durationInput.addEventListener("change", applyFilters);
+
+    loadActions();
+    </script>
+</body>
+
+</html>

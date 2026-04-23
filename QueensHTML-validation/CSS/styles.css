@@ -1,0 +1,190 @@
+body{
+    background-color: black;
+}
+
+h1{
+    color: white;
+    text-align: center;
+}
+
+h2{
+    color: white;
+    margin-left: 4%;
+}
+
+.banner{
+    background-color: white;
+    height: 60px;
+}
+
+.banner img{
+    height: 170%;
+    padding-left: 5%;
+}
+
+.main{
+    padding-top: 7%;
+}
+
+.accountButton{
+    background-color: white;
+    width: 150px;
+    height: 56px;
+    text-align: center;
+}
+
+.accountButton:hover{
+    background-color: grey;
+}
+
+.accountOptions{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.accountInfo{
+    font-size: small;
+    margin-left: 3%;
+    width: 94%;
+    background-color: white;
+    color: black;
+    padding: 10px;
+}
+
+label{
+    color: white;
+    font-size: 30px;
+    margin-left: 2%;
+}
+label::after{
+    content: "\a";
+    white-space: pre;
+}
+
+select{
+    margin-left: 3%;
+}
+
+input{
+    width: 80%;
+    height: auto;
+    margin-left: 3%;
+}
+
+input::after{
+    content: "\a";
+    white-space: pre;
+}
+
+.submitButton{
+    background-color: white;
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 80%;
+}
+
+.submitButton:hover{
+    background-color: grey;
+}
+
+#messageOutput{
+    color: red;
+    margin-left: 33%;
+    margin-bottom: 70px;
+}
+
+.dropdown {
+  color: black;
+  margin-top: 30px;
+  margin-left: 5%;
+  background-color: white;
+  width: fit-content;
+  padding: 3%;
+}
+
+.dropdown-content{
+    display:none;
+    position: absolute;
+    background-color: white;
+    max-width:60%;
+    word-wrap:break-word;
+}
+
+.dropdown:hover .dropdown-content {
+  display: inline-block;
+  margin-inline: inherit;
+  padding: 5px;
+}
+
+.createAccountButton{
+    margin-top: 50px;
+    background-color: white;
+    margin-left: 2%;
+    
+}
+.createAccountButton:hover{
+    background-color: grey;
+}
+
+
+
+.issue{
+    background-color: white;
+    width: 94%;
+    margin-left: 3%;
+    padding: 5px;
+}
+
+h3{
+    color: black;
+}
+
+.reviewerButton{
+    width: 30%;
+    height: 30px;
+    margin-bottom: 10px;
+    margin-left: 3%;
+}
+
+.reviewerButton:hover{
+    background-color: grey;
+}
+
+#createReviewForm{
+    display: none;
+    background-color: white;
+    padding: 20px;
+}
+
+#createActionForm{
+    display: none;
+    background-color: white;
+    padding: 20px;
+}
+
+#messageOutput1{
+    color: red;
+    margin-left: 33%;
+}
+
+#messageOutput2{
+    color: red;
+}
+#messageOutput3{
+    color: red;
+}
+
+.reportButton{
+    background-color: white;
+    width: 16%;
+    margin-left: 3%;
+    margin-bottom: 1%;
+}
+
+.reportButton:hover{
+    background-color: gray;
+}

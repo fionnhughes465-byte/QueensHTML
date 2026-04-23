@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UN-Habitat Group Project</title>
+
+  <link rel="stylesheet" href="CSS/style.css">
+
+</head>
+
+<body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <button class="toolbutton">Issues</button>
+            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
+            <a href="Charities.html"><button class="toolbutton" style="border-color: #8e8e8e;">Charities</button></a>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div style="display: grid; grid-template-columns: 27.5% 72.5%;">
+            <div>
+                <table style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Region</th>
+                    </tr>
+                        <tr><td>102</td><td>London</td><td>England</td></tr>
+                        <tr><td>103</td><td>Birmingham</td><td>England</td></tr>
+                        <tr><td>104</td><td>Glasgow</td><td>Scotland</td></tr>
+                        <tr><td>105</td><td>Liverpool</td><td>England</td></tr>
+                        <tr><td>106</td><td>Bristol</td><td>England</td></tr>
+                        <tr><td>107</td><td>Sheffield</td><td>England</td></tr>
+                        <tr><td>108</td><td>Manchester</td><td>England</td></tr>
+                        <tr><td>109</td><td>Leeds</td><td>England</td></tr>
+                        <tr><td>110</td><td>Edinburgh</td><td>Scotland</td></tr>
+                        <tr><td>111</td><td>Leicester</td><td>England</td></tr>
+                        <tr><td>112</td><td>Bradford</td><td>England</td></tr>
+                        <tr><td>113</td><td>Cardiff</td><td>Wales</td></tr>
+                </table>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <form id="createAccountForm">
+                    <label for="ID">Search ID:</label>
+                    <input type="search" name="ID" id="ID" class="searchb">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <label for="Name">Search Name:</label>
+                    <input type="search" name="Name" id="Name" class="searchb">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <label for="Region">Search Region:</label>
+                    <input type="search" name="Region" id="Region" class="searchb">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </form>
+                <div id="messageOutput"></div>
+            </div>
+        </div>
+
+
+        <div class="grid-container">
+            <div style="text-align: center; color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+                <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+                sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+            </div>
+
+            <div style="color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+                <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+                <br>
+                <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+                <br>
+                <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+            </div>
+
+            <div style="color: #fff;">
+                <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+                <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+                <p></p>
+                <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+
+</html>

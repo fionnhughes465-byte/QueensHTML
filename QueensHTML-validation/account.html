@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1">
+        <title>Account</title>
+
+        <link rel="stylesheet" href="CSS/styles.css">
+    </head>
+
+    <body>
+        <div class="page">
+            <div class="banner">
+                <a href="login.html"><img src="Images/logo.png"></a>
+            </div>
+
+            <div class="main">
+                <h1>Account</h1>
+                <h2>Acount Information:</h2>
+
+                <div class="accountInfo">
+                    <form id="accountInformation">
+
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required
+                        maxlength="320">
+                        <br>
+
+                        <label for="password">Enter Password:</label>
+                        <input type="password" id="password" required 
+                        minlength="8" maxlength="40">
+                        <br>
+
+                        <label for="postcode">Enter Postcode:</label>
+                        <input type="text" id="postcode" required
+                        maxlength="7">
+                        <br>
+
+                        <label for="firstName">Enter First Name:</label>
+                        <input type="text" id="firstName" required
+                        maxlength="40">
+                        <br>
+
+                        <label for="lastName">Enter Last Name:</label>
+                        <input type="text" id="lastName" required
+                        maxlength="40">
+                        <br>
+
+                        <button class="submitButton" type="submit">Update Information</button>
+                    </form>
+
+                    <pre id="messageOutput"></pre>
+                </div>
+
+                <div class="accountOptions">
+                    <a href="submitIssue.html"><button type="button">Submit Issue</button></a>
+                    <a href="individualIssues.html"><button type="button">View Your Issues</button></a>
+                    <a href="allIssues.html"><button type="button">View All Reviewed Issues</button></a>
+                </div>
+            </div>
+        </div>
+
+        <script src="JavaScript/myJs.js"></script>
+        <script>
+            window.addEventListener("DOMContentLoaded", async () => {
+
+            // create references (const)
+            const form = document.getElementById("accountInformation");
+            const outputPre = document.getElementById("messageOutput");
+
+            //Gets the UserID that was stored from the createAccount page
+            const userID = localStorage.getItem("userID");
+
+            //If there's no UserID found, then it will send the user back to the login page
+            if (!userID) {
+                window.location.href = "login.html";
+                return;
+            }
+
+
+            async function loadUser() {
+
+                //sql statement for gettign all the details of the user that's logged in
+                const sql = "SELECT * FROM `User` WHERE UserID=" + userID;
+
+                try {
+                    //Runnnign the query using the sql statement above
+                    const result = await runQuery(sql);
+
+                    //Making sure a record was returned
+                    if (result.success && result.data && result.data.length > 0) {
+
+                        //Stores the first, and hopefully only, record returned
+                        const user = result.data[0];
+
+                        //Filling in the boxes in the form
+                        document.getElementById("email").value = user.Email;
+                        document.getElementById("password").value = user.Password;
+                        document.getElementById("postcode").value = user.Postcode;
+                        document.getElementById("firstName").value = user.Forename;
+                        document.getElementById("lastName").value = user.Surname;
+
+                        //Gets rid of any status messages that were there
+                        outputPre.textContent = "";
+
+                    } else {//The error message if no user is found
+                        outputPre.textContent = "User not found or bad response";
+                    }
+
+                } catch (error) {
+                    console.error(error);
+                    outputPre.textContent = "Error loading account";
+                }
+            }
+
+            loadUser();
+
+            //add event listener
+            form.addEventListener("submit", async (event) => {
+                // Prevent the default form submission behaviour (page refresh)
+                event.preventDefault();
+
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value.trim();
+                const postcode = document.getElementById("postcode").value.trim();
+                const firstName = document.getElementById("firstName").value.trim();
+                const lastName = document.getElementById("lastName").value.trim();
+
+                //Validation: checks for null values to stop someone entering 
+                let errors = "";
+                if (/[a-z]/.test(password) == false) errors += "Password must contain a lower case character\n";
+                if (/[A-Z]/.test(password) == false) errors += "Password must contain an upper case character\n";
+                if (/\d/.test(password) == false) errors += "Password must contain a number\n";
+                if (/^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/.test(postcode) == false) errors += "Postcode must be in the correct format\n";
+                if (email == "") errors += "Email cannot be empty\n";
+                if (password == "") errors += "Password cannot be empty\n";
+                if (postcode == "") errors += "Postcode cannot be empty\n";
+                if (firstName == "") errors += "First name cannot be empty\n";
+                if (lastName == "") errors += "Last name cannot be empty\n"; 
+                if (/[']/.test(email)) errors += "Email cannot contain apostrophes\n";
+                if (/[']/.test(password)) errors += "Password cannot contain apostrophes\n";
+                if (/[']/.test(postcode)) errors += "Postcode cannot contain apostrophes\n";
+                if (/[']/.test(firstName)) errors += "First name cannot contain apostrophes\n";
+                if (/[']/.test(lastName)) errors += "Last name cannot contain apostrophes\n"; 
+
+                if (errors == "") {
+                    //The sql statement for updating the user's information
+                    const sql = `
+                        UPDATE \`User\`
+                        SET Email='${email}',
+                            Password='${password}',
+                            Postcode='${postcode}',
+                            Forename='${firstName}',
+                            Surname='${lastName}'
+                        WHERE UserID=${userID}
+                    `;
+
+                    try {
+                        const result = await runQuery(sql);
+
+                        if (result.success) {
+                            // Replace the div text with a confirmation of update
+                            outputPre.textContent = "Information Updated";
+                            loadUser();
+                        } else {
+                            outputPre.textContent = result.error;
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+                        outputPre.textContent = "Request failed";
+                    } 
+                }
+                else {
+                    outputPre.textContent = "There has been an error(s):\n\n" + errors;
+                    console.log(errors);
+                }
+            });
+        });
+        </script>
+    </body>
+</html>
