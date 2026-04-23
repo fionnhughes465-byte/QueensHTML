@@ -121,6 +121,15 @@
         const reviewerCheckbox = document.getElementById("reviewerCheckbox");
         const outputDiv = document.getElementById("messageOutput");
 
+
+        const userID = localStorage.getItem("userID");
+
+        //If there's no UserID found, then it will send the user back to the login page
+        //alert(userID);
+        if (/[R]/.test(userID) == false || userID == null) {
+            reviewerNonsense.style.display = 'none';
+        }
+
         //add event listener
         form.addEventListener("submit", async function(event) {
             // Prevent the default form submission behaviour (page refresh)
