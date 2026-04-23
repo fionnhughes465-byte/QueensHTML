@@ -41,34 +41,18 @@
 
         <div style="display: grid; grid-template-columns: 45% 55%;">
             <div>
-                <table style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>City/Town</th>
-                        <th>Duration</th>
-                        <th>Active</th>
-                    </tr>
-                        <tr><td>1</td><td>Alpine Explorer</td><td>Interlaken</td><td>5 days</td><td>Yes</td></tr>
-                        <tr><td>2</td><td>Coastal Heritage</td><td>Lisbon</td><td>4 days</td><td>Yes</td></tr>
-                        <tr><td>3</td><td>Northern Lights</td><td>Tromsø</td><td>3 days</td><td>Limited</td></tr>
-                        <tr><td>4</td><td>Santorini Sunset</td><td>Fira</td><td>2 days</td><td>No</td></tr>
-                        <tr><td>5</td><td>Kyoto Gardens</td><td>Kyoto</td><td>6 days</td><td>Yes</td></tr>
-                        <tr><td>6</td><td>Moroccan Souks</td><td>Marrakech</td><td>4 days</td><td>Limited</td></tr>
-                        <tr><td>7</td><td>Scottish Highlands</td><td>Inverness</td><td>5 days</td><td>Yes</td></tr>
-                        <tr><td>8</td><td>Icelandic Adventure</td><td>Reykjavík</td><td>7 days</td><td>No</td></tr>
-                        <tr><td>9</td><td>Amalfi Coast</td><td>Positano</td><td>3 days</td><td>Limited</td></tr>
-                        <tr><td>10</td><td>Banff Wilderness</td><td>Banff</td><td>4 days</td><td>Yes</td></tr>
-                        <tr><td>11</td><td>Machu Picchu</td><td>Cusco</td><td>8 days</td><td>Limited</td></tr>
-                        <tr><td>12</td><td>Swiss Chocolate</td><td>Zurich</td><td>2 days</td><td>Yes</td></tr>
-                        <tr><td>13</td><td>Greek Islands</td><td>Mykonos</td><td>6 days</td><td>Yes</td></tr>
-                        <tr><td>14</td><td>Croatian Riviera</td><td>Dubrovnik</td><td>5 days</td><td>No</td></tr>
-                        <tr><td>15</td><td>Safari Serengeti</td><td>Arusha</td><td>7 days</td><td>Limited</td></tr>
-                        <tr><td>16</td><td>Patagonian Trek</td><td>El Calafate</td><td>6 days</td><td>Yes</td></tr>
-                        <tr><td>17</td><td>Norwegian Fjords</td><td>Bergen</td><td>4 days</td><td>Yes</td></tr>
-                        <tr><td>18</td><td>Bali Retreat</td><td>Ubud</td><td>5 days</td><td>Limited</td></tr>
-                        <tr><td>19</td><td>Tuscany Vineyards</td><td>Florence</td><td>3 days</td><td>Yes</td></tr>
-                        <tr><td>20</td><td>Prague Castle</td><td>Prague</td><td>2 days</td><td>No</td></tr>
+                <table id="actionTable" style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>City/Town</th>
+                            <th>Duration</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
 
@@ -89,8 +73,8 @@
                     <label for="duriation">Search Duration:</label>
                     <select name="duriation" id="duriation" class="searchb">
                         <option value="">Select Duration</option>
-                        <option value="Smith">Long Term</option>
-                        <option value="Johnson">Short Term</option>
+                        <option value="Long Term">Long Term</option>
+                        <option value="Short Term">Short Term</option>
                     </select>
                     <br>
                     <br>
@@ -129,7 +113,118 @@
         </div>
 
     </div>
-    
+
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    const tableBody = document.querySelector("#actionTable tbody");
+
+    const idInput = document.getElementById("ID");
+    const nameInput = document.getElementById("Name");
+    const townInput = document.getElementById("Town");
+    const durationInput = document.getElementById("duriation");
+
+    let allActions = [];
+
+    function getDuration(actionType) {
+        return actionType == 1 ? "Long Term" :
+            actionType == 2 ? "Short Term" :
+            "Unknown";
+    }
+
+    function applyFilters() {
+
+        const idFilter = idInput.value.trim().toLowerCase();
+        const nameFilter = nameInput.value.trim().toLowerCase();
+        const townFilter = townInput.value.trim().toLowerCase();
+        const durationFilter = durationInput.value;
+
+        tableBody.innerHTML = "";
+
+        for (const action of allActions) {
+
+            const matchesID =
+                idFilter === "" || String(action.ActionID).includes(idFilter);
+
+            const matchesName =
+                nameFilter === "" || action.Name.toLowerCase().includes(nameFilter);
+
+            const matchesTown =
+                townFilter === "" || action.CityName.toLowerCase().includes(townFilter);
+
+            const duration = getDuration(action.ActionType);
+
+            const matchesDuration =
+                durationFilter === "" || duration === durationFilter;
+
+            if (matchesID && matchesName && matchesTown && matchesDuration) {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${action.ActionID}</td>
+                    <td>${action.Name}</td>
+                    <td>${action.CityName}</td>
+                    <td>${duration}</td>
+                    <td>${action.Description}</td>
+                `;
+
+                tableBody.appendChild(row);
+            }
+        }
+    }
+
+    async function loadActions() {
+        try {
+
+            const actionSQL = "SELECT * FROM Action";
+            const actionResult = await runQuery(actionSQL);
+
+            if (!actionResult.success || !actionResult.data) return;
+
+            const tempActions = [];
+
+            for (const action of actionResult.data) {
+
+                const issueSQL = `SELECT CityID FROM Reviewed_Issue WHERE ReviewID=${action.ReviewID}`;
+                const issueResult = await runQuery(issueSQL);
+
+                let cityName = "Unknown";
+
+                if (issueResult.success && issueResult.data.length > 0) {
+                    const cityID = issueResult.data[0].CityID;
+
+                    const citySQL = `SELECT Name FROM City WHERE CityID=${cityID}`;
+                    const cityResult = await runQuery(citySQL);
+
+                    if (cityResult.success && cityResult.data.length > 0) {
+                        cityName = cityResult.data[0].Name;
+                    }
+                }
+
+                tempActions.push({
+                    ActionID: action.ActionID,
+                    Name: action.Name,
+                    ActionType: action.ActionType,
+                    Description: action.Description,
+                    CityName: cityName
+                });
+            }
+
+            allActions = tempActions;
+            applyFilters();
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    idInput.addEventListener("input", applyFilters);
+    nameInput.addEventListener("input", applyFilters);
+    townInput.addEventListener("input", applyFilters);
+    durationInput.addEventListener("change", applyFilters);
+
+    loadActions();
+    </script>
 </body>
 
 </html>
