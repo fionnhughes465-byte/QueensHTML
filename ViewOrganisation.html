@@ -7,9 +7,10 @@
 
   <link rel="stylesheet" href="CSS/style.css">
 
+  <script src="JavaScript/myJs.js"></script>
   <script>
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         const params = new URLSearchParams(window.location.search);
         const ID = params.get("id");
         const Name = params.get("name");
@@ -18,30 +19,46 @@
         document.getElementById("ID").value = ID;
         document.getElementById("Name").value = Name;
         document.getElementById("Link").value = Website;
+        const descriptionContent = document.getElementById("Description");
+
 
         try {
-            const descriptionQuery = `SELECT Description FROM Organisation WHERE ID = ${ID};`;
-            const result = "";
-            //const result = await runQuery(descriptionQuery);
+            const descriptionQuery = `SELECT Description FROM Organization WHERE OrganizationID = ${ID};`;
+            const result = await runQuery(descriptionQuery);
             
             //If there aren't any errors then this is execcuted
             if (result.success) {
-
-                const description = result.data[0].Description;
-                document.getElementById("description").value = description;
+                const description = result.data[0];
+                descriptionContent.textContent = description.Description;
 
             } else { //If something goes wrong, for example it tries to create a user with an already existing UserID, then this happens
-                outputDiv.textContent = "Database error";
+                //outputDiv.textContent = "Database error";
                 const description = "This is a placeholder description, as there was an error retrieving the description from the database.";
             }
-
         } catch (error) {
-            outputDiv.textContent = "Request failed";
+            //outputDiv.textContent = "Request failed";
             console.error(error);
             const description = "This is a placeholder description, as there was an error retrieving the description from the database.";
         }
         // we need the type drop down to be populated from the organsation type table
+        const orgTypeSelect = document.getElementById("Type");
+        
+        async function loadTypes() {
+            const response = await runQuery("SELECT Name FROM Organization_Type");
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+            
+            response.data.forEach(function(type) {
+                const option = document.createElement("option");
+                option.value = type.Name;
+                option.textContent = type.Name;
+                orgTypeSelect.appendChild(option);
+            });
+        }
+        loadTypes();
         // we need the first one that is autoselected to be the same as the one from the other page
+        
 
     });
   </script>
@@ -92,9 +109,7 @@
                 <br>
                 <label for="Type">Type:</label>
                 <select name="Type" id="Type" class="searchb" disabled style="color: black;">
-                    <option value="">Select Duration</option>
-                    <option value="Smith">Long Term</option>
-                    <option value="Johnson">Short Term</option>
+                    <option value="">Select Type</option>
                 </select>
                 <br>
                 <br>
