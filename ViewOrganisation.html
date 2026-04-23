@@ -62,12 +62,10 @@
         const TypeQuery = `SELECT OrganizationType FROM Organization WHERE OrganizationID = ${ID};`;
         const typeidresult = await runQuery(TypeQuery);
         const typeid = typeidresult.data[0].OrganizationType;
-        alert(typeid);
 
         const TypeNameQuery = `SELECT Name FROM Organization_Type WHERE TypeKey = ${typeid};`;
         const typenameresult = await runQuery(TypeNameQuery);
         const typename = typenameresult.data[0].Name;
-        alert(typename);
         document.getElementById("Type").value = typename;
     });
   </script>
@@ -91,7 +89,7 @@
             <a href="action.html"><button class="toolbutton">Actions</button></a>
             <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
             <a href="reviewedIssues.html"><button class="toolbutton">Issues</button></a>
-            <a href="Business.html"><button class="toolbutton">Businesses</button></a>
+            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
             <a href="Charities.html"><button class="toolbutton">Charities</button></a>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
@@ -118,7 +116,6 @@
                 <br>
                 <label for="Type">Type:</label>
                 <select name="Type" id="Type" class="searchb" disabled style="color: black;">
-                    <option value="">Select Type</option>
                 </select>
                 <br>
                 <br>
@@ -176,7 +173,7 @@
         let Type;
         let Website;
 
-        document.getElementById('editButton').addEventListener('click', function() {
+        document.getElementById('editButton').addEventListener('click', async function() {
             event.preventDefault();
             
                 ID = document.getElementById("ID").value;
@@ -192,7 +189,6 @@
                 {
                     document.getElementById('backButton').textContent = 'Cancel';
                 }
-                document.getElementById("ID").readOnly = false;
                 document.getElementById("Name").readOnly = false;
                 document.getElementById("Type").disabled = false;
                 document.getElementById("Description").readOnly = false;
@@ -210,10 +206,33 @@
                 document.getElementById("Description").readOnly = true;
                 document.getElementById("Link").readOnly = true;
 
-                //sql to upfate database
-                
+                //sql to update database
+                const TypeQuery = `SELECT TypeKey FROM Organization_Type WHERE Name = '${Type}';`;
+                const typeidresult = await runQuery(TypeQuery);
+                const typeID = typeidresult.data[0].TypeKey;
 
-            }
+
+                const sql = `
+                        UPDATE \`Organization\`
+                        SET Name = '${Name}',
+                            OrganizationType = ${typeID},
+                            Description = '${Description}',
+                            WebLink = '${Website}'
+                        WHERE OrganizationID= ${ID}
+                    `;
+
+                    try {
+                        const result = await runQuery(sql);
+
+                        if (result.success) {
+                            // Replace the div text with a confirmation of update
+                        } else {
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+                    } 
+                }
         });
 
         const backButton = document.getElementById('backButton');
