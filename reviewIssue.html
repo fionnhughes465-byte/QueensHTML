@@ -33,20 +33,20 @@
                 <form id="issueStatus">
                 <label for="submittedIssueStatus" style="font-size: medium;">Status:</label>
                 <select name="submittedIssueStatus" id="submittedIssueStatus">
-                    <option value="">--</option>
                     <option value="1">Accept</option>
                     <option value="2">Reject</option>
                 </select>
                 <br>
                 <button class="submitButton" type="submit" id="submit1">Update Status</button>
                 </form>
+
                 <div id="messageOutput1"></div>
                 <br>
                 <br>
                 <button class="reviewerButton" type="button" onclick="createAReviewedIssue();">Create a Reviewed Issue</button>
                 <form id="createReviewForm"> 
                     <label for="reviewedIssueName" style="color: black; font-size: medium;">Name:</label>
-                    <input type="text" name="reviewedIssueName" id="reviewedIssueName" required>
+                    <input type="text" name="reviewedIssueName" id="reviewedIssueName" required maxlength="30">
                     <br>
                     <br>
                     <label for="reviewedcity" style="color: black;font-size: medium;">What city is the issue in?</label>
@@ -59,9 +59,14 @@
                     <button class="submitButton" type="submit" id="submit2">Submit</button>
                     <div id="messageOutput2"></div>
                 </form>
+
                 <br>
                 <button class="reviewerButton" type="button" onclick="createAnAction();">Create an action</button>
                 <form id="createActionForm">
+                    <label for="reviewedActionName" style="color: black; font-size: medium;">Briefly describe the action in a couple of words:</label>
+                    <input type="text" name="reviewedActionName" id="reviewedActionName" required>
+                    <br>
+                    <br>
                     <label for="reviewedActionType" style="color: black; font-size: medium;">Action Type:</label>
                     <select name="reviewedActionType" id="reviewedActionType">
                         <option value="option1">--</option>
@@ -70,13 +75,12 @@
                     <br>
                     <label for="reviewedActionInPlace" style="color: black; font-size: medium;">In Place:</label>
                     <select name="reviewedActionInPlace" id="reviewedActionInPlace">
-                        <option value="">--</option>
                         <option value="1">Yes</option>
                         <option value="2">No</option>
                     </select>
                     <br>
                     <br>
-                    <label for="reviewedActionDescription" style="color: black; font-size: medium;">What is the action being taken?</label>
+                    <label for="reviewedActionDescription" style="color: black; font-size: medium;">Further describe the action being taken:</label>
                     <input type="text" name="reviewedActionDescription" id="reviewedActionDescription" required>
                     <br>
                     <br>
@@ -105,40 +109,49 @@
 
         //Loads the submitted issue IDs from the database, to displau all of them in the dropdown box
         async function loadIssueIDs() {
-            //Runs a query to get all the issue IDs from submitted issue
-            const response = await runQuery("SELECT IssueID FROM Submitted_Issue");
+            try {
+                //Runs a query to get all the issue IDs from submitted issue
+                const response = await runQuery("SELECT IssueID FROM Submitted_Issue");
 
-            //Checks that the returned data was valid/data was returned
-            if (!response.data || !Array.isArray(response.data)) return;
+                //Checks that the returned data was valid/data was returned
+                if (!response.data || !Array.isArray(response.data)) return;
 
-            //Loops through all the issue IDs that were returned
-            response.data.forEach(function(issue) {
-                const option = document.createElement("option");
-                option.value = issue.IssueID;
-                option.textContent = issue.IssueID;
-                issueSelect.appendChild(option);
-            });
+                //Loops through all the issue IDs that were returned
+                response.data.forEach(function(issue) {
+                    const option = document.createElement("option");
+                    option.value = issue.IssueID;
+                    option.textContent = issue.IssueID;
+                    issueSelect.appendChild(option);
+                });
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
+            }
         }
 
         loadIssueIDs();
 
         //Gets the dropdown box for selecting a city for the reviewed issue
         const reviewedCitySelect = document.getElementById("reviewedcity");
-
         async function loadCities() {
-            //Getting the city ID and names
-            const response = await runQuery("SELECT CityID, Name FROM City");
+            try {
+                //Getting the city ID and names
+                const response = await runQuery("SELECT CityID, Name FROM City");
 
-            //Checks that the returned data was valid/data was returned
-            if (!response.data || !Array.isArray(response.data)) return;
-            
-            //Loops through all the citys that were returned
-            response.data.forEach(function(city) {
-                const option = document.createElement("option");
-                option.value = city.CityID;
-                option.textContent = city.Name;
-                reviewedCitySelect.appendChild(option);
-            });
+                //Checks that the returned data was valid/data was returned
+                if (!response.data || !Array.isArray(response.data)) return;
+                
+                //Loops through all the citys that were returned
+                response.data.forEach(function(city) {
+                    const option = document.createElement("option");
+                    option.value = city.CityID;
+                    option.textContent = city.Name;
+                    reviewedCitySelect.appendChild(option);
+                });
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
+            }
         }
 
         loadCities();
@@ -147,19 +160,24 @@
         const actionTypeSelect = document.getElementById("reviewedActionType");
 
         async function loadActionTypes() {
-            //Getting the number for the type of action, and the name of the action type
-            const response = await runQuery("SELECT TypeKey, TypeName FROM Action_Type");
+            try {
+                //Getting the number for the type of action, and the name of the action type
+                const response = await runQuery("SELECT TypeKey, TypeName FROM Action_Type");
 
-            //Checks that the returned data was valid/data was returned
-            if (!response.data || !Array.isArray(response.data)) return;
+                //Checks that the returned data was valid/data was returned
+                if (!response.data || !Array.isArray(response.data)) return;
 
-            //Loops through all the action types that were returned
-            response.data.forEach(function(type) {
-                const option = document.createElement("option");
-                option.value = type.TypeKey;
-                option.textContent = type.TypeName;
-                actionTypeSelect.appendChild(option);
-            });
+                //Loops through all the action types that were returned
+                response.data.forEach(function(type) {
+                    const option = document.createElement("option");
+                    option.value = type.TypeKey;
+                    option.textContent = type.TypeName;
+                    actionTypeSelect.appendChild(option);
+                });
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
+            }
         }
 
         loadActionTypes();
@@ -168,19 +186,24 @@
         const orgSelect = document.getElementById("reviewedOrganization");
 
         async function loadOrganizations() {
-            //Getting the organization IDs and the names of the orgainizations
-            const response = await runQuery("SELECT OrganizationID, Name FROM Organization");
+            try {
+                //Getting the organization IDs and the names of the orgainizations
+                const response = await runQuery("SELECT OrganizationID, Name FROM Organization");
 
-            //Checks that the returned data was valid/data was returned
-            if (!response.data || !Array.isArray(response.data)) return;
+                //Checks that the returned data was valid/data was returned
+                if (!response.data || !Array.isArray(response.data)) return;
 
-            //Loops through all the organizations that were returned
-            response.data.forEach(function(org) {
-                const option = document.createElement("option");
-                option.value = org.OrganizationID;
-                option.textContent = org.Name;
-                orgSelect.appendChild(option);
-            });
+                //Loops through all the organizations that were returned
+                response.data.forEach(function(org) {
+                    const option = document.createElement("option");
+                    option.value = org.OrganizationID;
+                    option.textContent = org.Name;
+                    orgSelect.appendChild(option);
+                });
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
+            }
         }
 
         loadOrganizations();
@@ -193,22 +216,27 @@
             //Stores the issue ID of the submitted issue selected
             const id = this.value;
             if (!id) return;
-
+            
             currentIssueID = id;
+            
+            try {
+                //Gets the details of the submitted issue, along with the city it's in
+                const response = await runQuery(
+                    "SELECT Submitted_Issue.IssueID, Submitted_Issue.Issue, City.Name FROM Submitted_Issue JOIN City ON Submitted_Issue.CityID = City.CityID WHERE Submitted_Issue.IssueID = " + id
+                );
 
-            //Gets the details of the submitted issue, along with the city it's in
-            const response = await runQuery(
-                "SELECT Submitted_Issue.IssueID, Submitted_Issue.Issue, City.Name FROM Submitted_Issue JOIN City ON Submitted_Issue.CityID = City.CityID WHERE Submitted_Issue.IssueID = " + id
-            );
+                //Checks that the returned data was valid/data was returned
+                if (!response.data || !Array.isArray(response.data) || response.data.length === 0) return;
 
-            //Checks that the returned data was valid/data was returned
-            if (!response.data || !Array.isArray(response.data) || response.data.length === 0) return;
+                const issue = response.data[0];
 
-            const issue = response.data[0];
-
-            //Displays the issue ID, the city name and the description of the submitted issue
-            issueIDText.textContent = "Issue ID: " + issue.IssueID;
-            issueContent.textContent = "City: " + issue.Name + " - " + issue.Issue;
+                //Displays the issue ID, the city name and the description of the submitted issue
+                issueIDText.textContent = "Issue ID: " + issue.IssueID;
+                issueContent.textContent = "City: " + issue.Name + " - " + issue.Issue;
+            } catch (error) {
+                 alert("An error has occurred");
+                 console.error(error);
+            }
         });
 
         function createAReviewedIssue() {
@@ -228,6 +256,7 @@
         const inputReviewedName = document.getElementById("reviewedIssueName");
         const outputDiv2 = document.getElementById("messageOutput2");
 
+        const inputActionName = document.getElementById("reviewedActionName");
         const inputActionDescription = document.getElementById("reviewedActionDescription");
         const outputDiv3 = document.getElementById("messageOutput3");
 
@@ -247,9 +276,14 @@
             //Checks agaisnt the values for accept and reject, then compares it to 2. If true, then the issue is rejected
             let isRejected = (status === "2") ? 1 : 0;
 
-            const response = await runQuery( "UPDATE Submitted_Issue SET IsRejected = " + isRejected + " WHERE IssueID = " + issueID);
+            try {
+                const response = await runQuery( "UPDATE Submitted_Issue SET IsRejected = " + isRejected + " WHERE IssueID = " + issueID);
 
-            outputDiv1.textContent = response.success ? "Status Updated" : "Error updating status";
+                outputDiv1.textContent = response.success ? "Status Updated" : "Error updating status";
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
+            }
         });
 
         //Runs when the submit button for creating a reviewed issue is clicked
@@ -267,27 +301,32 @@
             }
 
             //Adds the reviewed issue to the Reviewed_Issue table
-            const insertReview = await runQuery(
-                `INSERT INTO Reviewed_Issue (Name, CityID, ReviewerID, Issue, Date, Completed)
-                VALUES ('${name}', ${cityID}, ${currentReviewerID}, '${description}', CURDATE(), 0)`
-            );
+            try {
+                const insertReview = await runQuery(
+                    `INSERT INTO Reviewed_Issue (Name, CityID, ReviewerID, Issue, Date, Completed)
+                    VALUES ('${name}', ${cityID}, ${currentReviewerID}, '${description}', CURDATE(), 0)`
+                );
 
-            if (!insertReview.success) {
-                outputDiv2.textContent = "Error creating review";
-                return;
+                if (!insertReview.success) {
+                    outputDiv2.textContent = "Error creating review";
+                    return;
+                }
+
+                //Saves the review so it's review ID can be used when creating the action later
+                const getReview = await runQuery("SELECT MAX(ReviewID) AS ReviewID FROM Reviewed_Issue");
+
+                currentReviewID = getReview.data[0].ReviewID;
+
+                await runQuery(
+                    "UPDATE Submitted_Issue SET ReviewID = " + currentReviewID +
+                    " WHERE IssueID = " + currentIssueID
+                );
+
+                outputDiv2.textContent = "Reviewed Issue Submitted";
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
             }
-
-            //Saves the review so it's review ID can be used when creating the action later
-            const getReview = await runQuery("SELECT MAX(ReviewID) AS ReviewID FROM Reviewed_Issue");
-
-            currentReviewID = getReview.data[0].ReviewID;
-
-            await runQuery(
-                "UPDATE Submitted_Issue SET ReviewID = " + currentReviewID +
-                " WHERE IssueID = " + currentIssueID
-            );
-
-            outputDiv2.textContent = "Reviewed Issue Submitted";
         });
 
         form3.addEventListener("submit", async function(event3) {
@@ -295,6 +334,7 @@
 
             const actionType = document.getElementById("reviewedActionType").value;
             const inPlace = document.getElementById("reviewedActionInPlace").value;
+            const name = document.getElementById("reviewedActionName").value.replace(/'/g, "''");
             const description = document.getElementById("reviewedActionDescription").value.replace(/'/g, "''");
             const organization = document.getElementById("reviewedOrganization").value;
 
@@ -303,28 +343,33 @@
                 return;
             }
 
-            //Adds the action to the Action table
-            const insertAction = await runQuery(
-                `INSERT INTO Action (Name, ReviewID, ReviewerID, ActionType, InPlace, Description)
-                VALUES ('Action', ${currentReviewID}, ${currentReviewerID}, ${actionType}, ${inPlace}, '${description}')`
-            );
+            try {
+                //Adds the action to the Action table
+                const insertAction = await runQuery(
+                    `INSERT INTO Action (Name, ReviewID, ReviewerID, ActionType, InPlace, Description)
+                    VALUES ('${name}', ${currentReviewID}, ${currentReviewerID}, ${actionType}, ${inPlace}, '${description}')`
+                );
 
-            if (!insertAction.success) {
-                outputDiv3.textContent = "Error creating action";
-                return;
+                if (!insertAction.success) {
+                    outputDiv3.textContent = "Error creating action";
+                    return;
+                }
+
+                const getID = await runQuery("SELECT MAX(ActionID) AS ActionID FROM Action");
+
+                const actionID = getID.data[0].ActionID;
+
+                //Updates the Organization_Action table
+                const linkResult = await runQuery(
+                    `INSERT INTO Organization_Action (ActionID, OrganizationID)
+                    VALUES (${actionID}, ${organization})`
+                );
+
+                outputDiv3.textContent = linkResult.success ? "Action Submitted" : "Action created but linking failed";
+            } catch (error) {
+                alert("An error has occurred");
+                console.error(error);
             }
-
-            const getID = await runQuery("SELECT MAX(ActionID) AS ActionID FROM Action");
-
-            const actionID = getID.data[0].ActionID;
-
-            //Updates the Organization_Action table
-            const linkResult = await runQuery(
-                `INSERT INTO Organization_Action (ActionID, OrganizationID)
-                VALUES (${actionID}, ${organization})`
-            );
-
-            outputDiv3.textContent = linkResult.success ? "Action Submitted" : "Action created but linking failed";
         });
         </script>
     </body>
