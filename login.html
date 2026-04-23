@@ -112,17 +112,19 @@
     const reviewerCheckbox = document.getElementById("reviewerCheckbox");
     const outputDiv = document.getElementById("messageOutput");
 
+    //Runs when the login submit button is clicked
     form.addEventListener("submit", async function(event) {
+        //Prevents the page from refreshing
         event.preventDefault();
 
         try {
 
+            //Checks if the isReviewer checkbox is ticked
             const isReviewer = reviewerCheckbox.checked;
 
             if (isReviewer) {
 
-                const sql =
-                    "SELECT * FROM Reviewer WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+                const sql = "SELECT * FROM Reviewer WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
 
                 const result = await runQuery(sql);
 
@@ -130,6 +132,7 @@
 
                     const reviewer = result.data[0];
 
+                    //Stores the reviewerID to be used in the review issues page
                     localStorage.setItem("reviewerID", reviewer.ReviewerID);
 
                     outputDiv.textContent = "...logging in...";
@@ -141,8 +144,7 @@
 
             } else {
 
-                const sql =
-                    "SELECT * FROM User WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+                const sql = "SELECT * FROM User WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
 
                 const result = await runQuery(sql);
 
@@ -150,6 +152,7 @@
 
                     const user = result.data[0];
 
+                    //Stores the user ID to be used on the account page
                     localStorage.setItem("userID", user.UserID);
 
                     outputDiv.textContent = "...logging in...";
