@@ -142,7 +142,7 @@
                     if (result.success) {
                         outputDiv.textContent = "Reviewer Account Created";
                         //Stores the ReviewerID for while on the next page, so the ReviewerID can be added to the reviewedIssues
-                        localStorage.setItem("reviewerID", newID);
+                        localStorage.setItem("reviewerID", count2);
                         //Goes to the reviewIssue page
                         window.location.href = "reviewIssue.html";
                     } else {
@@ -164,7 +164,7 @@
                     if (result.success) {
                         outputDiv.textContent = "User Account Created";
                         //Stores the UserID if the user who just logged in so it is used on account when it switches pages
-                        localStorage.setItem("userID", newID);
+                        localStorage.setItem("userID", count2);
                         window.location.href = "account.html";
                     } else {
                         outputDiv.textContent = "Database error";
