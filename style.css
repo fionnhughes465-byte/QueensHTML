@@ -256,3 +256,7 @@ th {
     top: 0 ;
 }
 
+tr:hover{
+background-color:gray;
+cursor:pointer;
+}

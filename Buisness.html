@@ -8,6 +8,27 @@
 
   <link rel="stylesheet" href="CSS/style.css">
 
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.querySelector('table');
+
+        table.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.tagName === 'TD') {
+                const row = target.parentNode;
+                const cells = row.querySelectorAll('td');
+                const id = cells[0].textContent;
+                const name = cells[1].textContent;
+                const website = cells[2].textContent;
+
+                window.location.href = `ViewOrganisation.html?id=${id}&name=${encodeURIComponent(name)}
+                &website=${encodeURIComponent(website)}`;
+            }
+        });
+    });
+
+  </script>
 </head>
 
 <body>
