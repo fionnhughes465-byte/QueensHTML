@@ -8,6 +8,28 @@
 
   <link rel="stylesheet" href="CSS/style.css">
 
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.querySelector('table');
+
+        table.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.tagName === 'TD') {
+                const row = target.parentNode;
+                const cells = row.querySelectorAll('td');
+                const id = cells[0].textContent;
+                const name = cells[1].textContent;
+                const website = cells[2].textContent;
+
+                window.location.href = `ViewOrganisation.html?id=${id}&name=${encodeURIComponent(name)}
+                &website=${encodeURIComponent(website)}`;
+            }
+        });
+    });
+
+  </script>
+
 </head>
 
 <body>
@@ -25,11 +47,11 @@
 
     <div class="toolbar3">
         <div style="  display: flex; gap: 0;">
-            <button class="toolbutton">Actions</button>
-            <button class="toolbutton">Towns/Cities</button>
+            <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
             <button class="toolbutton">Issues</button>
-            <button class="toolbutton">Buisnesses</button>
-            <button class="toolbutton" style="border-color: #8e8e8e;">Charities</button>
+            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
+            <a href="Charities.html"><button class="toolbutton" style="border-color: #8e8e8e;">Charities</button></a>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
@@ -47,18 +69,6 @@
                         <th>Name</th>
                         <th>Website</th>
                     </tr>
-                        <tr><td>1</td><td>Alpine Explorer</td><td>Interlaken</td></tr>
-                        <tr><td>2</td><td>Coastal Heritage</td><td>Lisbon</td></tr>
-                        <tr><td>3</td><td>Northern Lights</td><td>Tromsø</td></tr>
-                        <tr><td>4</td><td>Santorini Sunset</td><td>Fira</td></tr>
-                        <tr><td>5</td><td>Kyoto Gardens</td><td >Kyoto</td></tr>
-                        <tr><td>6</td><td>Moroccan Souks</td><td>Marrakech</td></tr>
-                        <tr><td>7</td><td>Scottish Highlands</td><td>Inverness</td></tr>
-                        <tr><td>8</td><td>Icelandic Adventure</td><td>Reykjavík</td></tr>
-                        <tr><td>9</td><td>Amalfi Coast</td><td>Positano</td></tr>
-                        <tr><td>10</td><td>Prague Old Town</td><td>Prague</td></tr>
-                        <tr><td>11</td><td>Vienna Classics</td><td>Vienna</td></tr>
-                        <tr><td>12</td><td>Barcelona Beaches</td><td>Barcelona</td></tr>
                 </table>
             </div>
 
@@ -104,6 +114,46 @@
 
     </div>
     
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    const table = document.querySelector("table");
+
+    let allOrganisations = [];
+
+    async function loadOrganisations() {
+        try {
+
+            const sql = "SELECT OrganizationID, Name, WebLink FROM Organization WHERE OrganizationType = 1";
+            const result = await runQuery(sql);
+
+            if (!result.success || !result.data) return;
+
+            allOrganisations = result.data;
+
+            const header = table.querySelector("tr");
+            table.innerHTML = "";
+            table.appendChild(header);
+
+            for (const org of allOrganisations) {
+
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${org.OrganizationID}</td>
+                    <td>${org.Name}</td>
+                    <td>${org.WebLink}</td>
+                `;
+
+                table.appendChild(row);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    loadOrganisations();
+    </script>
 </body>
 
 </html>
