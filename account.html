@@ -78,7 +78,7 @@
             async function loadUser() {
 
                 //sql statement for gettign all the details of the user that's logged in
-                const sql = "SELECT * FROM `User` WHERE UserID=" + userID;
+                const sql = "SELECT * FROM `User` WHERE UserID='" + userID + "'";
 
                 try {
                     //Runnnign the query using the sql statement above
@@ -131,7 +131,7 @@
                         Postcode='${postcode}',
                         Forename='${firstName}',
                         Surname='${lastName}'
-                    WHERE UserID=${userID}
+                    WHERE UserID='${userID}'
                 `;
 
                 try {
