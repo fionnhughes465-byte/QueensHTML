@@ -19,31 +19,6 @@
                 <form id="submitIssueForm">
                     <label for="city">City:</label>
                     <select name="city" id="city" required>
-                        <option value="102">London</option>
-                        <option value="103">Birmingham</option>
-                        <option value="104">Glasgow</option>
-                        <option value="105">Liverpool</option>
-                        <option value="106">Bristol</option>
-                        <option value="107">Sheffield</option>
-                        <option value="108">Manchester</option>
-                        <option value="109">Leeds</option>
-                        <option value="110">Edinburgh</option>
-                        <option value="111">Leicester</option>
-                        <option value="112">Bradford</option>
-                        <option value="113">Cardiff</option>
-                        <option value="114">Coventry</option>
-                        <option value="115">Nottingham</option>
-                        <option value="116">Hull</option>
-                        <option value="117">Belfast</option>
-                        <option value="118">Stoke</option>
-                        <option value="119">Newcastle</option>
-                        <option value="120">Wolverhampton</option>
-                        <option value="121">Derby</option>
-                        <option value="122">Southampton</option>
-                        <option value="123">Portsmouth</option>
-                        <option value="124">Plymouth</option>
-                        <option value="125">Brighton and Hove</option>
-                        <option value="126">Westminster</option>
                     </select>
                     <br>
                     <br>
@@ -59,6 +34,27 @@
 
         <script src="JavaScript/myJs.js"></script>
         <script>
+//Gets the dropdown box for selecting a city for the submitted issue
+        const submitCitySelect = document.getElementById("city");
+
+        async function loadCities() {
+            //Getting the city ID and names
+            const response = await runQuery("SELECT CityID, Name FROM City");
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+            
+            //Loops through all the citys that were returned
+            response.data.forEach(function(city) {
+                const option = document.createElement("option");
+                option.value = city.CityID;
+                option.textContent = city.Name;
+                submitCitySelect.appendChild(option);
+            });
+        }
+
+        loadCities();
+
             // create references (const)
             const form = document.getElementById("submitIssueForm");
             const city = document.getElementById("city");
@@ -78,7 +74,7 @@
                 //sql statement getting the information for the submitted issue
                 const sql = `
                     INSERT INTO Submitted_Issue (UserID, CityID, ReviewID, Issue, Date, IsRejected)
-                    VALUES ('${userID}', ${city.value}, NULL, '${description.value}', '${today}', 0)
+                    VALUES (${userID}, ${city.value}, NULL, '${description.value}', '${today}', 0)
                 `;
 
                 try {
