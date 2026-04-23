@@ -7,27 +7,35 @@
         initial-scale=1">
         <title>Review Issue</title>
 
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="CSS/styles.css">
 
     </head>
 
     <body>
         <div class="page">
             <div class="banner">
-                <img src="images/logo.png">
+                <a href="index.html">
+                <img src="Images/logo.png">
+                </a>
             </div>
 
             <div class="main">
+                <label for="issueSelect" style="font-size: medium;">Select Issue ID:</label>
+                <select id="issueSelect">
+                    <option value="">-- Select Issue --</option>
+                </select>
+                <br>
+                <br>
                 <div class="issue">
-                    <h3>Issue ID</h3>
-                    <p>City+description</p>
-                </div>
+                <h3 id="issueID">Issue ID: --</h3>
+                <p id="issueContent">City + Description will appear here</p>
+            </div>
                 <form id="issueStatus">
                 <label for="submittedIssueStatus" style="font-size: medium;">Status:</label>
                 <select name="submittedIssueStatus" id="submittedIssueStatus">
-                    <option value="option1">--</option>
-                    <option value="option2">Accept</option>
-                    <option value="option2">Reject</option>
+                    <option value="">--</option>
+                    <option value="1">Accept</option>
+                    <option value="2">Reject</option>
                 </select>
                 <br>
                 <button class="submitButton" type="submit" id="submit1">Update Status</button>
@@ -43,8 +51,6 @@
                     <br>
                     <label for="reviewedcity" style="color: black;font-size: medium;">What city is the issue in?</label>
                     <select name="reviewedcity" id="reviewedcity" required>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
                     </select>
                     <br>
                     <br>
@@ -59,16 +65,14 @@
                     <label for="reviewedActionType" style="color: black; font-size: medium;">Action Type:</label>
                     <select name="reviewedActionType" id="reviewedActionType">
                         <option value="option1">--</option>
-                        <option value="option2">option1</option>
-                        <option value="option2">option2</option>
                     </select>
                     <br>
                     <br>
                     <label for="reviewedActionInPlace" style="color: black; font-size: medium;">In Place:</label>
                     <select name="reviewedActionInPlace" id="reviewedActionInPlace">
-                        <option value="option1">--</option>
-                        <option value="option2">option1</option>
-                        <option value="option2">option2</option>
+                        <option value="">--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
                     </select>
                     <br>
                     <br>
@@ -79,8 +83,6 @@
                     <label for="reviewedOrganization" style="color: black; font-size: medium;">Organization:</label>
                     <select name="reviewedOrganization" id="reviewedOrganization" style=>
                         <option value="option1">--</option>
-                        <option value="option2">option1</option>
-                        <option value="option2">option2</option>
                     </select>
                     <button class="submitButton" type="submit" id="submit3">Submit</button>
                     <div id="messageOutput3"></div>
@@ -91,63 +93,239 @@
             </div>
         </div>
 
+        <script src="JavaScript/myJs.js"></script>"
         <script>
-            //shows form to create a reviewed issue when clicked
-            function createAReviewedIssue(){
-                document.getElementById("createReviewForm").style.display = 'block';
+        //Get's the dropdown box for selecting an issue
+        const issueSelect = document.getElementById("issueSelect");
+
+
+        let currentIssueID = null;
+        let currentReviewID = null;
+        let currentReviewerID = 1;
+
+        //Loads the submitted issue IDs from the database, to displau all of them in the dropdown box
+        async function loadIssueIDs() {
+            //Runs a query to get all the issue IDs from submitted issue
+            const response = await runQuery("SELECT IssueID FROM Submitted_Issue");
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+
+            //Loops through all the issue IDs that were returned
+            response.data.forEach(function(issue) {
+                const option = document.createElement("option");
+                option.value = issue.IssueID;
+                option.textContent = issue.IssueID;
+                issueSelect.appendChild(option);
+            });
+        }
+
+        loadIssueIDs();
+
+        //Gets the dropdown box for selecting a city for the reviewed issue
+        const reviewedCitySelect = document.getElementById("reviewedcity");
+
+        async function loadCities() {
+            //Getting the city ID and names
+            const response = await runQuery("SELECT CityID, Name FROM City");
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+            
+            //Loops through all the citys that were returned
+            response.data.forEach(function(city) {
+                const option = document.createElement("option");
+                option.value = city.CityID;
+                option.textContent = city.Name;
+                reviewedCitySelect.appendChild(option);
+            });
+        }
+
+        loadCities();
+
+        //Gets the dropdown box for selecting an action type
+        const actionTypeSelect = document.getElementById("reviewedActionType");
+
+        async function loadActionTypes() {
+            //Getting the number for the type of action, and the name of the action type
+            const response = await runQuery("SELECT TypeKey, TypeName FROM Action_Type");
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+
+            //Loops through all the action types that were returned
+            response.data.forEach(function(type) {
+                const option = document.createElement("option");
+                option.value = type.TypeKey;
+                option.textContent = type.TypeName;
+                actionTypeSelect.appendChild(option);
+            });
+        }
+
+        loadActionTypes();
+
+        //Gets the dropdown box for selecting an action type
+        const orgSelect = document.getElementById("reviewedOrganization");
+
+        async function loadOrganizations() {
+            //Getting the organization IDs and the names of the orgainizations
+            const response = await runQuery("SELECT OrganizationID, Name FROM Organization");
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+
+            //Loops through all the organizations that were returned
+            response.data.forEach(function(org) {
+                const option = document.createElement("option");
+                option.value = org.OrganizationID;
+                option.textContent = org.Name;
+                orgSelect.appendChild(option);
+            });
+        }
+
+        loadOrganizations();
+
+        const issueIDText = document.getElementById("issueID");
+        const issueContent = document.getElementById("issueContent");
+
+        //Runs when a reviewer selects an issue ID from the dropdown box
+        issueSelect.addEventListener("change", async function () {
+            //Stores the issue ID of the submitted issue selected
+            const id = this.value;
+            if (!id) return;
+
+            currentIssueID = id;
+
+            //Gets the details of the submitted issue, along with the city it's in
+            const response = await runQuery(
+                "SELECT Submitted_Issue.IssueID, Submitted_Issue.Issue, City.Name FROM Submitted_Issue JOIN City ON Submitted_Issue.CityID = City.CityID WHERE Submitted_Issue.IssueID = " + id
+            );
+
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data) || response.data.length === 0) return;
+
+            const issue = response.data[0];
+
+            //Displays the issue ID, the city name and the description of the submitted issue
+            issueIDText.textContent = "Issue ID: " + issue.IssueID;
+            issueContent.textContent = "City: " + issue.Name + " - " + issue.Issue;
+        });
+
+        function createAReviewedIssue() {
+            document.getElementById("createReviewForm").style.display = "block";
+        }
+
+        function createAnAction() {
+            document.getElementById("createActionForm").style.display = "block";
+        }
+
+        const form1 = document.getElementById("issueStatus");
+        const form2 = document.getElementById("createReviewForm");
+        const form3 = document.getElementById("createActionForm");
+
+        const outputDiv1 = document.getElementById("messageOutput1");
+        const inputReviewedDescription = document.getElementById("reviewedIssueDescription");
+        const inputReviewedName = document.getElementById("reviewedIssueName");
+        const outputDiv2 = document.getElementById("messageOutput2");
+
+        const inputActionDescription = document.getElementById("reviewedActionDescription");
+        const outputDiv3 = document.getElementById("messageOutput3");
+
+        //Runs when the update status button is clicked
+        form1.addEventListener("submit", async function(event1) {
+            //Stops the page from reloading
+            event1.preventDefault();
+
+            const issueID = document.getElementById("issueSelect").value;
+            const status = document.getElementById("submittedIssueStatus").value;
+
+            if (!issueID || !status) {
+                outputDiv1.textContent = "Please select an issue and a status";
+                return;
             }
-            //shows form to create a action when clicked
-            function createAnAction(){
-                document.getElementById("createActionForm").style.display = 'block';
+
+            //Checks agaisnt the values for accept and reject, then compares it to 2. If true, then the issue is rejected
+            let isRejected = (status === "2") ? 1 : 0;
+
+            const response = await runQuery( "UPDATE Submitted_Issue SET IsRejected = " + isRejected + " WHERE IssueID = " + issueID);
+
+            outputDiv1.textContent = response.success ? "Status Updated" : "Error updating status";
+        });
+
+        //Runs when the submit button for creating a reviewed issue is clicked
+        form2.addEventListener("submit", async function(event2) {
+            //Stop the page from reloading
+            event2.preventDefault();
+
+            const name = document.getElementById("reviewedIssueName").value.replace(/'/g, "''");
+            const cityID = document.getElementById("reviewedcity").value;
+            const description = document.getElementById("reviewedIssueDescription").value.replace(/'/g, "''");
+
+            if (!currentIssueID) {
+                outputDiv2.textContent = "Please select an issue first";
+                return;
             }
 
-            // create references (const)
-            const form1 = document.getElementById("issueStatus");
-            const form2 = document.getElementById("createReviewForm");
-            const form3 = document.getElementById("createActionForm");
+            //Adds the reviewed issue to the Reviewed_Issue table
+            const insertReview = await runQuery(
+                `INSERT INTO Reviewed_Issue (Name, CityID, ReviewerID, Issue, Date, Completed)
+                VALUES ('${name}', ${cityID}, ${currentReviewerID}, '${description}', CURDATE(), 0)`
+            );
 
-            const outputDiv1 = document.getElementById("messageOutput1");
+            if (!insertReview.success) {
+                outputDiv2.textContent = "Error creating review";
+                return;
+            }
 
-            const inputReviewedDescription = document.getElementById("reviewedIssueDescription");
-            const inputReviewedName = document.getElementById("reviewedIssueName");
-            const outputDiv2 = document.getElementById("messageOutput2");
+            //Saves the review so it's review ID can be used when creating the action later
+            const getReview = await runQuery("SELECT MAX(ReviewID) AS ReviewID FROM Reviewed_Issue");
 
-            const inputActionDescription = document.getElementById("reviewedActionDescription");
-            const outputDiv3 = document.getElementById("messageOutput3");
+            currentReviewID = getReview.data[0].ReviewID;
 
-            //add event listeners
-            form1.addEventListener("submit", function(event1) {
-                // Prevent the default form submission behaviour (page refresh)
-                event1.preventDefault();
+            await runQuery(
+                "UPDATE Submitted_Issue SET ReviewID = " + currentReviewID +
+                " WHERE IssueID = " + currentIssueID
+            );
 
-                // Replace the div text with a confirmation of submission
-                outputDiv1.textContent = "Status Updated";
-                
-            });
+            outputDiv2.textContent = "Reviewed Issue Submitted";
+        });
 
-            form2.addEventListener("submit", function(event2) {
-                // Prevent the default form submission behaviour (page refresh)
-                event2.preventDefault();
+        form3.addEventListener("submit", async function(event3) {
+            event3.preventDefault();
 
-                // Replace the div text with a confirmation of submission
-                outputDiv2.textContent = "Reviewed Issue Submitted";
-                
-                //Clear the input box
-                inputReviewedDescription.value = "";
-                inputReviewedName.value = "";
-            });
+            const actionType = document.getElementById("reviewedActionType").value;
+            const inPlace = document.getElementById("reviewedActionInPlace").value;
+            const description = document.getElementById("reviewedActionDescription").value.replace(/'/g, "''");
+            const organization = document.getElementById("reviewedOrganization").value;
 
-            form3.addEventListener("submit", function(event3) {
-                // Prevent the default form submission behaviour (page refresh)
-                event3.preventDefault();
+            if (!actionType || !inPlace || !description || !organization || !currentReviewID) {
+                outputDiv3.textContent = "Please complete all fields and create/select a review first";
+                return;
+            }
 
-                // Replace the div text with a confirmation of submission
-                outputDiv3.textContent = "Action Submitted";
-                
-                //Clear the input box
-                inputActionDescription.value = "";
-            });
+            //Adds the action to the Action table
+            const insertAction = await runQuery(
+                `INSERT INTO Action (Name, ReviewID, ReviewerID, ActionType, InPlace, Description)
+                VALUES ('Action', ${currentReviewID}, ${currentReviewerID}, ${actionType}, ${inPlace}, '${description}')`
+            );
 
+            if (!insertAction.success) {
+                outputDiv3.textContent = "Error creating action";
+                return;
+            }
+
+            const getID = await runQuery("SELECT MAX(ActionID) AS ActionID FROM Action");
+
+            const actionID = getID.data[0].ActionID;
+
+            //Updates the Organization_Action table
+            const linkResult = await runQuery(
+                `INSERT INTO Organization_Action (ActionID, OrganizationID)
+                VALUES (${actionID}, ${organization})`
+            );
+
+            outputDiv3.textContent = linkResult.success ? "Action Submitted" : "Action created but linking failed";
+        });
         </script>
     </body>
 </html>
