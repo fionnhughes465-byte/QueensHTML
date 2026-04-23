@@ -106,7 +106,7 @@
 
         let currentIssueID = null;
         let currentReviewID = null;
-        let currentReviewerID = 1;
+        let currentReviewerID = localStorage.getItem("reviewerID");
 
         //Loads the submitted issue IDs from the database, to displau all of them in the dropdown box
         async function loadIssueIDs() {
@@ -339,7 +339,7 @@
             //Adds the action to the Action table
             const insertAction = await runQuery(
                 `INSERT INTO Action (Name, ReviewID, ReviewerID, ActionType, InPlace, Description)
-                VALUES ('Action', ${reviewID}, ${currentReviewerID}, ${actionType}, ${inPlace}, '${description}')`
+                VALUES ('Action', ${reviewID}, '${currentReviewerID}', ${actionType}, ${inPlace}, '${description}')`
             );
 
             if (!insertAction.success) {
