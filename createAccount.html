@@ -105,7 +105,6 @@
     </div>
 
         <script src="JavaScript/myJs.js"></script>
-
         <script>
         const form = document.getElementById("createAccountForm");
         const inputEmail = document.getElementById("email");
@@ -113,6 +112,7 @@
         const inputPostcode = document.getElementById("postcode");
         const inputFirstName = document.getElementById("firstName");
         const inputLastName = document.getElementById("lastName");
+        const reviewerCheckbox = document.getElementById("reviewerCheckbox");
         const outputDiv = document.getElementById("messageOutput");
 
         //add event listener
@@ -120,54 +120,64 @@
             // Prevent the default form submission behaviour (page refresh)
             event.preventDefault();
 
-            //TEMPORARY!!!!!!!!!! WILL CHANGE WHEN USERID GETS AUTO INCREMENTED!!! ONCE USERID AUTO INCREMENTS, REMOVE THE '20' FROM DOWN THERE!!! ALSO REMOVE THIS COMMENT
-            //Takes the vlaues that were input into the boxes, and fills them into the SQL statement
+            //Takes the values inputand put them into a sql statement
             try {
+                //Checks if the checkbox is checked, which decides whether or not to treat this user as a reviewer
+                const isReviewer = reviewerCheckbox.checked;
 
-                const idfinder = 'SELECT COUNT(UserID) FROM User;';
+                if (isReviewer) {
 
-                let result1 = await runQuery(idfinder);
-                let count = Number(result1.data[0]['COUNT(UserID)']);
+                    const idfinder = 'SELECT COUNT(ReviewerID) FROM Reviewer;';
+                    let result1 = await runQuery(idfinder);
+                    let count = Number(result1.data[0]['COUNT(ReviewerID)']);
+                    const count2 = count + 1;
 
-                const count2 = count + 1;
+                    const reviewerSQL = `
+                        INSERT INTO Reviewer (ReviewerID, Email, Password, Forename, Surname, DateJoined, IsAdmin)
+                        VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputFirstName.value}', '${inputLastName.value}', CURDATE(), 0)`;
 
-                 const sql = `
-                INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
-                VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')`;
-                 
-                //Uses runQuery from myJs.js, along with the SQL statement we just made
-                const result = await runQuery(sql);
+                    //Uses runQuery from myJs.js, along with the SQL statement we just made
+                    const result = await runQuery(reviewerSQL);
 
-                //If there aren't any errors then this is execcuted
-                if (result.success) {
+                    if (result.success) {
+                        outputDiv.textContent = "Reviewer Account Created";
+                        //Stores the ReviewerID for while on the next page, so the ReviewerID can be added to the reviewedIssues
+                        localStorage.setItem("reviewerID", newID);
+                        //Goes to the reviewIssue page
+                        window.location.href = "reviewIssue.html";
+                    } else {
+                        outputDiv.textContent = "Database error";
+                    }
+                } else {
+                    const idfinder = 'SELECT COUNT(UserID) FROM User;';
+                    let result1 = await runQuery(idfinder);
+                    let count = Number(result1.data[0]['COUNT(UserID)']);
+                    const count2 = count + 1;
 
-                    //This is for a query to look up the user with the email that was just typed in (Assuming there in only one of each email. Can be changed to look at UserID after I'm not manually setting UserID anymore)
-                    const getUser =
-                        "SELECT * FROM `User` WHERE Email='" + inputEmail.value + "'";
+                    const userSQL = `
+                        INSERT INTO User (UserID, Email, Password, Postcode, Forename, Surname)
+                        VALUES ('${count2}', '${inputEmail.value}', '${inputPassword.value}', '${inputPostcode.value}', '${inputFirstName.value}', '${inputLastName.value}')`;
 
-                    //Runs the above query
-                    const userResult = await runQuery(getUser);
-                    const user = userResult.data[0];//Returns the first and only result, which should be the user who just put their details in
+                    //Uses runQuery from myJs.js, along with the SQL statement we just made
+                    const result = await runQuery(userSQL);
 
-                    //Stores the UserID if the user who just logged in so it is used on account when it switches pages
-                    localStorage.setItem("userID", user.UserID);
-
-                    // Replace the div text with a confirmation of submission
-                    outputDiv.textContent = "Account Created";
-
-                    //Clear the input box
-                    inputEmail.value = "";
-                    inputPassword.value = "";
-                    inputPostcode.value = "";
-                    inputFirstName.value = "";
-                    inputLastName.value = "";
-
-                    //takes the user to their new account
-                    window.location.href = "account.html";
-
-                } else { //If something goes wrong, for example it tries to create a user with an already existing UserID, then this happens
-                    outputDiv.textContent = "Database error";
+                    if (result.success) {
+                        outputDiv.textContent = "User Account Created";
+                        //Stores the UserID if the user who just logged in so it is used on account when it switches pages
+                        localStorage.setItem("userID", newID);
+                        window.location.href = "account.html";
+                    } else {
+                        outputDiv.textContent = "Database error";
+                    }
                 }
+
+                //Clear the input box
+                inputEmail.value = "";
+                inputPassword.value = "";
+                inputPostcode.value = "";
+                inputFirstName.value = "";
+                inputLastName.value = "";
+                reviewerCheckbox.checked = false;
 
             } catch (error) {
                 outputDiv.textContent = "Request failed";
