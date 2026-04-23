@@ -35,7 +35,7 @@
                 <select name="submittedIssueStatus" id="submittedIssueStatus">
                     <option value="">--</option>
                     <option value="1">Accept</option>
-                    <option value="2">Reject</option>
+                    <option value="0">Reject</option>
                 </select>
                 <br>
                 <button class="submitButton" type="submit" id="submit1">Update Status</button>
@@ -68,11 +68,16 @@
                     </select>
                     <br>
                     <br>
+                    <label for="reviewSelect" style="color: black; font-size: medium;">Select Review ID:</label>
+                    <select id="reviewSelect">
+                        <option value="">-- Select Review --</option>
+                    </select>
+                    <br>
+                    <br>
                     <label for="reviewedActionInPlace" style="color: black; font-size: medium;">In Place:</label>
                     <select name="reviewedActionInPlace" id="reviewedActionInPlace">
-                        <option value="">--</option>
+                        <option value="0">No</option>
                         <option value="1">Yes</option>
-                        <option value="2">No</option>
                     </select>
                     <br>
                     <br>
@@ -121,6 +126,31 @@
         }
 
         loadIssueIDs();
+
+        async function loadReviewIDs() {
+            //Runs a query to get all the Review IDs from reviewed issue
+            const response = await runQuery("SELECT ReviewID FROM Reviewed_Issue");
+
+            while (reviewSelect.hasChildNodes()){
+                reviewSelect.removeChild(reviewSelect.firstChild);
+            }
+            const topoflist = document.createElement("topoflist");
+            topoflist.value = "";
+            topoflist.textContent = "-- Select Review --";
+            reviewSelect.appendChild(topoflist);
+            //Checks that the returned data was valid/data was returned
+            if (!response.data || !Array.isArray(response.data)) return;
+
+            //Loops through all the Review IDs that were returned
+            response.data.forEach(function(review) {
+                const option = document.createElement("option");
+                option.value = review.ReviewID;
+                option.textContent = review.ReviewID;
+                reviewSelect.appendChild(option);
+            });
+        }
+
+        loadReviewIDs();
 
         //Gets the dropdown box for selecting a city for the reviewed issue
         const reviewedCitySelect = document.getElementById("reviewedcity");
@@ -287,6 +317,8 @@
                 " WHERE IssueID = " + currentIssueID
             );
 
+            loadReviewIDs();
+
             outputDiv2.textContent = "Reviewed Issue Submitted";
         });
 
@@ -294,11 +326,12 @@
             event3.preventDefault();
 
             const actionType = document.getElementById("reviewedActionType").value;
+            const reviewID = document.getElementById("reviewSelect").value;
             const inPlace = document.getElementById("reviewedActionInPlace").value;
             const description = document.getElementById("reviewedActionDescription").value.replace(/'/g, "''");
             const organization = document.getElementById("reviewedOrganization").value;
 
-            if (!actionType || !inPlace || !description || !organization || !currentReviewID) {
+            if (!actionType || !inPlace || !description || !organization || !reviewID) {
                 outputDiv3.textContent = "Please complete all fields and create/select a review first";
                 return;
             }
@@ -306,7 +339,7 @@
             //Adds the action to the Action table
             const insertAction = await runQuery(
                 `INSERT INTO Action (Name, ReviewID, ReviewerID, ActionType, InPlace, Description)
-                VALUES ('Action', ${currentReviewID}, ${currentReviewerID}, ${actionType}, ${inPlace}, '${description}')`
+                VALUES ('Action', ${reviewID}, ${currentReviewerID}, ${actionType}, ${inPlace}, '${description}')`
             );
 
             if (!insertAction.success) {
