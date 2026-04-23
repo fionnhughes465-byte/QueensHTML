@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UN-Habitat Group Project</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="CSS/style.css">
 
 </head>
 
@@ -14,13 +14,14 @@
     <div class="toolbar1">
     </div>
 
-    <div class="toolbar2">
+    <div class="toolbar2" style="display: grid; grid-template-columns: 70% 10% 20%;">
 
         <div>
             <a href="https://data.unhabitat.org/" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
         </div>
 
         <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+        <div style="padding-top: 37.5px; border: none; color: #12b2e6;"><select name="Admin" id="Admin" required><option value="features">Reviewer Features</option><option value="add organizations">Add Organizations</option><option value="Review Issues">Review Issues</option></select></div>
     </div>
 
     <div class="toolbar3">
