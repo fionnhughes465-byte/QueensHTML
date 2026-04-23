@@ -7,7 +7,7 @@
         initial-scale=1">
         <title>Create Organization</title>
 
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="CSS/styles.css">
 
     </head>
 
@@ -48,21 +48,62 @@
             </div>
         </div>
 
+        <script src="JavaScript/myJs.js"></script>
         <script>
         // create references (const)
+
         const form = document.getElementById("createOrganizationForm");
         const inputOrganizationName = document.getElementById("organizationName");
+        const inputOrganizationType = document.getElementById("organizationType").value;
         const inputOrganizationDescription = document.getElementById("organizationdescription");
         const inputOrganizationWebLink = document.getElementById("organizationwebLink");
         const outputDiv = document.getElementById("messageOutput");
 
         //add event listener
-        form.addEventListener("submit", function(event) {
+        form.addEventListener("submit", async function(event) {
             // Prevent the default form submission behaviour (page refresh)
             event.preventDefault();
 
-            // Replace the div text with a confirmation of submission
-            outputDiv.textContent = "Organization Created";
+            const idfinder = 'SELECT COUNT(OrganizationID) FROM Organization;';
+            let result1 = await runQuery(idfinder);
+                        let count = Number(result1.data[0]['COUNT(OrganizationID)']);
+                        const count2 = count + 1;
+
+            alert(inputOrganizationType)
+            const TypeQuery = `SELECT TypeKey FROM Organization_Type WHERE Name = '${inputOrganizationType}';`;
+            alert(TypeQuery)
+            const typeidresult = await runQuery(TypeQuery);
+            alert(typeidresult)
+            const typeID = typeidresult.data[0].TypeKey;
+            alert(typeID)
+
+            alert(count2);
+            alert(inputOrganizationName.value);
+            alert(inputOrganizationDescription.value);
+            alert(inputOrganizationWebLink.value)
+
+
+            const sql = `
+            INSERT INTO Organization (OrganizationID, Name, OrganizationType, Description, WebLink)
+            VALUES (${count2},
+                    '${inputOrganizationName.value}',
+                    ${typeID},
+                    '${inputOrganizationDescription.value}',
+                    '${inputOrganizationWebLink.value}')`;
+
+            try {
+                        const result = await runQuery(sql);
+
+                        if (result.success) {
+                            // Replace the div text with a confirmation of update
+                            messageOutput.textContent = "Organization Created";
+                        } else {
+                            messageOutput.textContent = "Database Error";
+                        }
+
+                    } catch (error) {
+                        console.error(error);
+                    }
             
             //Clear the input box
             inputOrganizationName.value = "";
