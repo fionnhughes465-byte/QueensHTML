@@ -58,8 +58,17 @@
         }
         loadTypes();
         // we need the first one that is autoselected to be the same as the one from the other page
-        
 
+        const TypeQuery = `SELECT OrganizationType FROM Organization WHERE OrganizationID = ${ID};`;
+        const typeidresult = await runQuery(TypeQuery);
+        const typeid = typeidresult.data[0].OrganizationType;
+        alert(typeid);
+
+        const TypeNameQuery = `SELECT Name FROM Organization_Type WHERE TypeKey = ${typeid};`;
+        const typenameresult = await runQuery(TypeNameQuery);
+        const typename = typenameresult.data[0].Name;
+        alert(typename);
+        document.getElementById("Type").value = typename;
     });
   </script>
 </head>
@@ -202,7 +211,7 @@
                 document.getElementById("Link").readOnly = true;
 
                 //sql to upfate database
-
+                
 
             }
         });
