@@ -53,17 +53,22 @@
                             <br>
                             <label for="password">Enter Password:</label>
                             <input type="text" id="password" class="textb" required>
-                            <br><br><br>
+                            <br>
+                            <br>
+                            <label for="reviewer">Are you a reviewer? (Please tick the box if yes):</label>
+                            <input type="checkbox" id="reviewerCheckbox" name="reviewerCheckbox" value="reviewer">
+                            <br>
+                            <br>
                         </form>
                     </div>
                     <div>
-                        <a href="createaccount.html">
+                        <a href="createAccount.html">
                             <button class="loginbutton">Create Account</button>
                         </a>
                         <br>
                         <br>
                         <br>
-                        <button type="submit" class="loginbutton">Submit</button>
+                        <button type="submit" form="loginForm" class="loginbutton">Submit</button>
                     </div>
                     
                 </div>
@@ -99,7 +104,73 @@
         </section>
 
     </div>
-    
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    const form = document.getElementById("loginForm");
+    const inputEmail = document.getElementById("email");
+    const inputPassword = document.getElementById("password");
+    const reviewerCheckbox = document.getElementById("reviewerCheckbox");
+    const outputDiv = document.getElementById("messageOutput");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        try {
+
+            const isReviewer = reviewerCheckbox.checked;
+
+            if (isReviewer) {
+
+                const sql =
+                    "SELECT * FROM Reviewer WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+
+                const result = await runQuery(sql);
+
+                if (result.success && result.data.length > 0) {
+
+                    const reviewer = result.data[0];
+
+                    localStorage.setItem("reviewerID", reviewer.ReviewerID);
+
+                    outputDiv.textContent = "...logging in...";
+                    window.location.href = "reviewIssue.html";
+
+                } else {
+                    outputDiv.textContent = "Incorrect reviewer login details";
+                }
+
+            } else {
+
+                const sql =
+                    "SELECT * FROM User WHERE Email='" + inputEmail.value + "' AND Password='" + inputPassword.value + "'";
+
+                const result = await runQuery(sql);
+
+                if (result.success && result.data.length > 0) {
+
+                    const user = result.data[0];
+
+                    localStorage.setItem("userID", user.UserID);
+
+                    outputDiv.textContent = "...logging in...";
+                    window.location.href = "account.html";
+
+                } else {
+                    outputDiv.textContent = "Incorrect login details";
+                }
+            }
+
+            //Clear the input boxes
+            inputEmail.value="";
+            inputPassword="";
+            reviewerCheckbox="";
+
+        } catch (error) {
+            outputDiv.textContent = "Request failed";
+            console.error(error);
+        }
+    });
+    </script>
 </body>
 
 </html>
