@@ -8,7 +8,7 @@ const userIDToolbar = localStorage.getItem("userID");
 //If there's no UserID found, then it will hide the stuff for the users
 if (!userIDToolbar) userFeatures.style.display = 'none';
 else {
-    if (/[U]/.test(userID)) { //if it is a user, hide the stuff for reviewers
+    if (/[U]/.test(userIDToolbar)) { //if it is a user, hide the stuff for reviewers
         selectFeatures.remove(3);
         selectFeatures.remove(2);
     } 
