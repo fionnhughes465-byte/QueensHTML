@@ -51,12 +51,20 @@
         </div>
     </div>
         <div class="page">
-            <div class="banner">
-                <a href="reports.html"><img src="images/logo.png"></a>
-            </div>
 
             <div class="main">
-                <h1>Report 1</h1> <!--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA add details in here AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-->
+                <h1>Report 3</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>UserID</th>
+                            <th>Postcode</th>
+                            <th>SubmittedCount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     <div class="grid-container">
@@ -82,5 +90,40 @@
         <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
     </div>
     </div>
+
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+        const tableBody = document.querySelector("table tbody");
+
+        let allUserSubs = [];
+
+        async function loadUserSubmissions() {
+            try {
+                const sql = "SELECT User.UserID, User.Postcode, Count(*) as SubmittedCount FROM User INNER JOIN Submitted_Issue ON User.UserID = Submitted_Issue.UserID ORDER BY User.UserID ASC";
+                const result = await runQuery(sql);
+
+                tableBody.innerHTML = "";
+
+                if (!result.success || !result.data) return;
+                allUserSubs = result.data;
+
+                for(const submission of allUserSubs){
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${submission.UserID}</td>
+                        <td>${submission.Postcocde}</td>
+                        <td>${submission.SubmittedCount}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        loadUserSubmissions();
+    </script>
     </body>
 </html>
