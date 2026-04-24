@@ -14,30 +14,22 @@
     <div class="toolbar1">
     </div>
 
-    <div class="toolbar2" style="display: grid; grid-template-columns: 80% 10% 10%;">
+    <div class="toolbar2">
 
         <div>
-            <a href="https://data.unhabitat.org/" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
         </div>
 
-        <div style="padding-top: 37.5px; border: none;" id="userFeatures">
-            <select name="selectFeatures" id="selectFeatures" required>
-                <option value="nothing">--</option>
-                <option value="account">Account</option>
-                <option value="reviewIssues">Review Issues</option>
-                <option value="addOrganizations">Add Organizations</option>
-            </select>
-        </div>
-        <button id="signInButton" style="padding: 10px; background-color: rgba(235, 235, 235, 0.991); border-color: #8e8e8e;">Sign In</button>
+        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
     </div>
 
     <div class="toolbar3">
         <div style="  display: flex; gap: 0;">
-            <a href="action.html"><button class="toolbutton">Actions</button></a>
-            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <button class="toolbutton">Actions</button>
+            <button class="toolbutton">Towns/Cities</button>
             <button class="toolbutton">Issues</button>
-            <a href="Business.html"><button class="toolbutton">Businesses</button></a>
-            <a href="Charities.html"><button class="toolbutton" style="border-color: #8e8e8e;">Charities</button></a>
+            <button class="toolbutton">Businesses</button>
+            <button class="toolbutton" style="border-color: #8e8e8e;">Charities</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
@@ -47,65 +39,45 @@
 
     <div class="content">
 
-        <div style="display: grid; grid-template-columns: 45% 55%;">
-            <div>
-                <table style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
+        <div style="display: grid; grid-template-columns: 45% 55%; gap: 20px;">
+
+        <div>
+            <table style="margin-top: 50px; width: 100%; font-size: 16px; border-collapse: collapse;">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>City/Town</th>
+                        <th>City</th>
                         <th>Date</th>
                         <th>Resolved</th>
                     </tr>
-                        <tr><td>1</td><td>Alpine Explorer</td><td>Interlaken</td><td>5 days</td><td>Yes</td></tr>
-                        <tr><td>2</td><td>Coastal Heritage</td><td>Lisbon</td><td>4 days</td><td>Yes</td></tr>
-                        <tr><td>3</td><td>Northern Lights</td><td>Tromsø</td><td>3 days</td><td>Limited</td></tr>
-                        <tr><td>4</td><td>Santorini Sunset</td><td>Fira</td><td>2 days</td><td>No</td></tr>
-                        <tr><td>5</td><td>Kyoto Gardens</td><td>Kyoto</td><td>6 days</td><td>Yes</td></tr>
-                        <tr><td>6</td><td>Moroccan Souks</td><td>Marrakech</td><td>4 days</td><td>Limited</td></tr>
-                        <tr><td>7</td><td>Scottish Highlands</td><td>Inverness</td><td>5 days</td><td>Yes</td></tr>
-                        <tr><td>8</td><td>Icelandic Adventure</td><td>Reykjavík</td><td>7 days</td><td>No</td></tr>
-                        <tr><td>9</td><td>Amalfi Coast</td><td>Positano</td><td>3 days</td><td>Limited</td></tr>
-                        <tr><td>10</td><td>Banff Wilderness</td><td>Banff</td><td>4 days</td><td>Yes</td></tr>
-                        <tr><td>11</td><td>Machu Picchu</td><td>Cusco</td><td>8 days</td><td>Limited</td></tr>
-                        <tr><td>12</td><td>Swiss Chocolate</td><td>Zurich</td><td>2 days</td><td>Yes</td></tr>
-                        <tr><td>13</td><td>Greek Islands</td><td>Mykonos</td><td>6 days</td><td>Yes</td></tr>
-                        <tr><td>14</td><td>Croatian Riviera</td><td>Dubrovnik</td><td>5 days</td><td>No</td></tr>
-                        <tr><td>15</td><td>Safari Serengeti</td><td>Arusha</td><td>7 days</td><td>Limited</td></tr>
-                        <tr><td>16</td><td>Patagonian Trek</td><td>El Calafate</td><td>6 days</td><td>Yes</td></tr>
-                        <tr><td>17</td><td>Norwegian Fjords</td><td>Bergen</td><td>4 days</td><td>Yes</td></tr>
-                        <tr><td>18</td><td>Bali Retreat</td><td>Ubud</td><td>5 days</td><td>Limited</td></tr>
-                        <tr><td>19</td><td>Tuscany Vineyards</td><td>Florence</td><td>3 days</td><td>Yes</td></tr>
-                        <tr><td>20</td><td>Prague Castle</td><td>Prague</td><td>2 days</td><td>No</td></tr>
-                </table>
-            </div>
+                </thead>
+                <tbody id="issueTableBody">
 
-            <div style="margin-top: 50px;">
-                <form id="createAccountForm">
-                    <label for="ID">Search ID:</label>
-                    <input type="search" name="ID" id="ID" class="searchb">
-                    <br>
-                    <br>
-                    <label for="Name">Search Name:</label>
-                    <input type="search" name="Name" id="Name" class="searchb">
-                    <br>
-                    <br>
-                    <label for="Town">Search Town:</label>
-                    <input type="search" name="Town" id="Town" class="searchb">
-                    <br>
-                    <br>
-                    <label for="Date">Search Date:</label>
-                    <input type="search" name="Date" id="Date" class="searchb">
-                    <br>
-                    <br>
-                    <label for="Resolved">Resolved</label>
-                    <input type="checkbox" name="Resolved" id="Resolved" class="searchb">
-                    <br>
-                    <br>
-                </form>
-                <div id="messageOutput"></div>
-            </div>
+                </tbody>
+            </table>
         </div>
+
+        <div style="margin-top: 50px;">
+            <label>ID:</label>
+            <input type="search" id="filterID" class="searchb"><br><br>
+
+            <label>Name:</label>
+            <input type="search" id="filterName" class="searchb"><br><br>
+
+            <label>Town:</label>
+            <input type="search" id="filterTown" class="searchb"><br><br>
+
+            <label>Date:</label>
+            <input type="search" id="filterDate" class="searchb"><br><br>
+
+            <label>Resolved:</label>
+            <input type="checkbox" id="filterResolved"><br><br>
+
+            <div id="messageOutput"></div>
+        </div>
+
+    </div>
 
 
         <div class="grid-container">
@@ -134,7 +106,100 @@
 
     </div>
     
-    <script src="JavaScript/toolbar.js"></script>
+    <script src="JavaScript/myJs.js"></script>
+    <script>
+    let allIssues = [];
+
+    async function loadIssues() {
+        const sql = `SELECT  ri.ReviewID, ri.Name, c.Name AS CityName, ri.Date, ri.Completed FROM Reviewed_Issue ri JOIN City c ON ri.CityID = c.CityID
+        `;
+
+        const result = await runQuery(sql);
+
+        console.log("RAW RESPONSE:", result);
+
+        const data = result?.data;
+
+        if (!Array.isArray(data)) {
+            document.getElementById("issueTableBody").innerHTML =
+                "<tr><td colspan='5'>No data returned</td></tr>";
+            return;
+        }
+
+        allIssues = data;
+        renderTable(allIssues);
+    }
+
+    function renderTable(data) {
+
+        const tbody = document.getElementById("issueTableBody");
+        tbody.innerHTML = "";
+
+        if (!data || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No results found</td></tr>`;
+            return;
+        }
+
+        data.forEach(row => {
+
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td>${row.ReviewID}</td>
+                <td>${row.Name}</td>
+                <td>${row.CityName}</td>
+                <td>${row.Date}</td>
+                <td>${row.Completed == 1 ? "Yes" : "No"}</td>
+            `;
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    function applyFilters() {
+
+        let filtered = [...allIssues];
+
+        const id = document.getElementById("filterID").value.toLowerCase();
+        const name = document.getElementById("filterName").value.toLowerCase();
+        const town = document.getElementById("filterTown").value.toLowerCase();
+        const date = document.getElementById("filterDate").value.toLowerCase();
+        const resolved = document.getElementById("filterResolved").checked;
+
+        if (id) {
+            filtered = filtered.filter(r => r.ReviewID.toString().includes(id));
+        }
+
+        if (name) {
+            filtered = filtered.filter(r => r.Name.toLowerCase().includes(name));
+        }
+
+        if (town) {
+            filtered = filtered.filter(r => r.CityName.toLowerCase().includes(town));
+        }
+
+        if (date) {
+            filtered = filtered.filter(r => r.Date.includes(date));
+        }
+
+        if (resolved) {
+            filtered = filtered.filter(r => r.Completed == 1);
+        }
+
+        renderTable(filtered);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        loadIssues();
+
+        document.getElementById("filterID").addEventListener("input", applyFilters);
+        document.getElementById("filterName").addEventListener("input", applyFilters);
+        document.getElementById("filterTown").addEventListener("input", applyFilters);
+        document.getElementById("filterDate").addEventListener("input", applyFilters);
+        document.getElementById("filterResolved").addEventListener("change", applyFilters);
+    });
+    </script>
 </body>
 
 </html>

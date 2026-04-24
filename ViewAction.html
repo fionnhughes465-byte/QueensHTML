@@ -5,77 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UN-Habitat Group Project</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="CSS/style.css">
 
-  <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const table = document.querySelector('table');
-
-        const ReviewerID = document.getElementById('ReviewerID');
-        const ReviewID = document.getElementById('ReviewID');
-
-        table.addEventListener('click', function(event) {
-            const target = event.target;
-            if (target.tagName === 'TD' && (ReviewerID.style.backgroundColor == "rgb(18, 178, 230)" || ReviewID.style.backgroundColor == "rgb(18, 178, 230)")) {
-                const row = target.parentNode;
-                const cells = row.querySelectorAll('td');
-                const id = cells[0].textContent;
-
-                if(ReviewID.style.backgroundColor == "rgb(18, 178, 230)")
-                {
-                    ReviewID.value = id;
-                    ReviewID.style = "background-color: transparent; color: black;";
-
-                } else if(ReviewerID.style.backgroundColor == "rgb(18, 178, 230)")
-                {
-                    ReviewerID.value = id;
-                    ReviewerID.style = "background-color: transparent; color: black;";
-                }
-
-                ReviewerID.style = "background-color: transparent; color: black;";
-                ReviewID.style = "background-color: transparent; color: black;";
-
-                //empty table
-                //table.innerHTML = "<tr><th>ID</th><th>Name</th></tr>";
-                document.getElementById('tableT').textContent = "";
-
-            }
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const params = new URLSearchParams(window.location.search);
-        const ID = params.get("id");
-
-        document.getElementById("ID").value = ID;
-
-        try {
-            const descriptionQuery = `SELECT * FROM Organisation WHERE ID = ${ID};`;
-            const result = "";
-            //const result = await runQuery(descriptionQuery);
-            
-            //If there aren't any errors then this is execcuted
-            if (result.success) {
-
-                const description = result.data[0].Description;
-                document.getElementById("description").value = description;
-
-            } else { //If something goes wrong, for example it tries to create a user with an already existing UserID, then this happens
-                outputDiv.textContent = "Database error";
-                const description = "This is a placeholder description, as there was an error retrieving the description from the database.";
-            }
-
-        } catch (error) {
-            outputDiv.textContent = "Request failed";
-            console.error(error);
-            const description = "This is a placeholder description, as there was an error retrieving the description from the database.";
-        }
-        // we need the type drop down to be populated from the organsation type table
-        // we need the first one that is autoselected to be the same as the one from the other page
-
-    });
-  </script>
+  
+  
 </head>
 
 <body>
@@ -159,30 +92,6 @@
                             <th>ID</th>
                             <th>Name</th>
                             </tr>
-                                <tr><td>1</td><td>Alpine Explorer</td></tr>
-                                <tr><td>2</td><td>Coastal Heritage</td></tr>
-                                <tr><td>3</td><td>Northern Lights</td></tr>
-                                <tr><td>4</td><td>Santorini Sunset</td></tr>
-                                <tr><td>5</td><td>Kyoto Gardens</td></tr>
-                                <tr><td>6</td><td>Moroccan Souks</td></tr>
-                                <tr><td>7</td><td>Scottish Highlands</td></tr>
-                                <tr><td>8</td><td>Icelandic Adventure</td></tr>
-                                <tr><td>1</td><td>Alpine Explorer</td></tr>
-                                <tr><td>2</td><td>Coastal Heritage</td></tr>
-                                <tr><td>3</td><td>Northern Lights</td></tr>
-                                <tr><td>4</td><td>Santorini Sunset</td></tr>
-                                <tr><td>5</td><td>Kyoto Gardens</td></tr>
-                                <tr><td>6</td><td>Moroccan Souks</td></tr>
-                                <tr><td>7</td><td>Scottish Highlands</td></tr>
-                                <tr><td>8</td><td>Icelandic Adventure</td></tr>
-                                <tr><td>1</td><td>Alpine Explorer</td></tr>
-                                <tr><td>2</td><td>Coastal Heritage</td></tr>
-                                <tr><td>3</td><td>Northern Lights</td></tr>
-                                <tr><td>4</td><td>Santorini Sunset</td></tr>
-                                <tr><td>5</td><td>Kyoto Gardens</td></tr>
-                                <tr><td>6</td><td>Moroccan Souks</td></tr>
-                                <tr><td>7</td><td>Scottish Highlands</td></tr>
-                                <tr><td>8</td><td>Icelandic Adventure</td></tr>
                         </table>
                         <br>
                         <label for="Search" id = "searchLabel" style="visibility: hidden;">Search Name:</label>
@@ -221,140 +130,275 @@
 
     </div>
 
+    <script src="JavaScript/myJs.js"></script>
     <script>
+    async function loadTypes() {
+        const response = await runQuery("SELECT TypeKey, TypeName FROM Action_Type");
+        if (!response.data || !Array.isArray(response.data)) return;
 
-        let ID;
-        let Name;
-        let ReviewerID;
-        let ReviewID;
-        let Description;
-        let Type;
-        let Active;
+        const typeSelect = document.getElementById("Type");
+        typeSelect.innerHTML = '<option value="">Select Type</option>';
 
-        document.getElementById('editButton').addEventListener('click', function() {
-            event.preventDefault();
-            
-                ID = document.getElementById("ID").value;
-                Name = document.getElementById("Name").value;
-                ReviewerID = document.getElementById("ReviewerID").value;
-                ReviewID = document.getElementById("ReviewID").value;
-                Description = document.getElementById("Description").value;
-                Type = document.getElementById("Type").value;
-                Active = document.getElementById("Active").checked;
+        response.data.forEach(function(type) {
+            const option = document.createElement("option");
+            option.value = type.TypeKey;
+            option.textContent = type.TypeName;
 
-            if (this.textContent == 'Edit') {
-                this.textContent = 'Save';
+            if (type.TypeKey == window.currentTypeID) {
+                option.selected = true;
+            }
 
-                document.getElementById("formContainer").style = 
-                "background-color: white; margin-left: 100px; width: 80%;   display: grid; grid-template-columns: 70% 30%;";
+            typeSelect.appendChild(option);
+        });
+    }
 
-                document.getElementById("Table").style.visibility = "visible";
-                document.getElementById("Search").style.visibility = "visible";
-                document.getElementById("searchLabel").style.visibility = "visible";
+    async function searchTable(type, searchValue) {
+        const table = document.getElementById("Table");
+        let sql = "";
 
-                if(document.getElementById('backButton').textContent == 'Back')
-                {
-                    document.getElementById('backButton').textContent = 'Cancel';
+        if (type === "reviewer") {
+            sql = `SELECT ReviewerID, Forename, Surname FROM Reviewer 
+                WHERE Forename LIKE '%${searchValue}%' 
+                OR Surname LIKE '%${searchValue}%'`;
+        } else if (type === "issue") {
+            sql = `SELECT IssueID, Issue FROM Submitted_Issue 
+                WHERE Issue LIKE '%${searchValue}%'`;
+        }
+
+        try {
+            const result = await runQuery(sql);
+
+            if (!result.data || !Array.isArray(result.data) || result.data.length === 0) {
+                table.innerHTML = "<tr><th>ID</th><th>Name</th></tr><tr><td colspan='2'>No results</td></tr>";
+                return;
+            }
+
+            table.innerHTML = "<tr><th>ID</th><th>Name</th></tr>";
+
+            result.data.forEach(row => {
+                if (type === "reviewer") {
+                    table.innerHTML += `<tr><td>${row.ReviewerID}</td><td>${row.Forename} ${row.Surname}</td></tr>`;
+                } else {
+                    table.innerHTML += `<tr><td>${row.IssueID}</td><td>${row.Issue}</td></tr>`;
                 }
-                document.getElementById("ID").readOnly = false;
-                document.getElementById("Name").readOnly = false;
-                document.getElementById("Type").disabled = false;
-                document.getElementById("Description").readOnly = false;
-                document.getElementById("Active").disabled = false;
-            } else {
-                this.textContent = 'Edit';
+            });
 
-                document.getElementById("formContainer").style = 
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    let currentSearchType = "";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById("Table");
+        const ReviewerID = document.getElementById('ReviewerID');
+        const ReviewID = document.getElementById('ReviewID');
+
+        table.addEventListener('click', function(event) {
+            const target = event.target;
+
+            if (target.tagName === 'TD' &&
+                (ReviewerID.style.backgroundColor == "rgb(18, 178, 230)" ||
+                ReviewID.style.backgroundColor == "rgb(18, 178, 230)")) {
+
+                const row = target.parentNode;
+                const cells = row.querySelectorAll('td');
+                const id = cells[0].textContent;
+
+                if (ReviewID.style.backgroundColor == "rgb(18, 178, 230)") {
+                    ReviewID.value = id;
+                } else if (ReviewerID.style.backgroundColor == "rgb(18, 178, 230)") {
+                    ReviewerID.value = id;
+                }
+
+                ReviewerID.style = "background-color: transparent; color: black;";
+                ReviewID.style = "background-color: transparent; color: black;";
+
+                table.innerHTML = "<tr><th>ID</th><th>Name</th></tr>";
+                document.getElementById('tableT').textContent = "";
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        const params = new URLSearchParams(window.location.search);
+        const ID = params.get("id");
+
+        document.getElementById("ID").value = ID;
+
+        try {
+            const actionQuery = `SELECT * FROM Action WHERE ActionID = ${ID}`;
+            const actionResult = await runQuery(actionQuery);
+
+            if (actionResult.data && Array.isArray(actionResult.data)) {
+                const action = actionResult.data[0];
+
+                document.getElementById("Name").value = action.Name;
+                document.getElementById("Description").value = action.Description;
+                document.getElementById("ReviewerID").value = action.ReviewerID || "";
+                document.getElementById("ReviewID").value = action.ReviewID || "";
+                document.getElementById("Active").checked = action.InPlace == 1;
+
+                window.currentTypeID = action.ActionType;
+            }
+
+            await loadTypes();
+
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    let ID;
+    let Name;
+    let ReviewerID;
+    let ReviewID;
+    let Description;
+    let Type;
+    let Active;
+
+    document.getElementById('editButton').addEventListener('click', async function(event) {
+        event.preventDefault();
+
+        ID = document.getElementById("ID").value;
+        Name = document.getElementById("Name").value;
+        ReviewerID = document.getElementById("ReviewerID").value;
+        ReviewID = document.getElementById("ReviewID").value;
+        Description = document.getElementById("Description").value;
+        Type = document.getElementById("Type").value;
+        Active = document.getElementById("Active").checked;
+
+        if (this.textContent == 'Edit') {
+            this.textContent = 'Save';
+
+            document.getElementById("formContainer").style =
+                "background-color: white; margin-left: 100px; width: 80%; display: grid; grid-template-columns: 70% 30%;";
+
+            document.getElementById("Table").style.visibility = "visible";
+            document.getElementById("Search").style.visibility = "visible";
+            document.getElementById("searchLabel").style.visibility = "visible";
+
+            if (document.getElementById('backButton').textContent == 'Back') {
+                document.getElementById('backButton').textContent = 'Cancel';
+            }
+
+            document.getElementById("ID").readOnly = false;
+            document.getElementById("Name").readOnly = false;
+            document.getElementById("Type").disabled = false;
+            document.getElementById("Description").readOnly = false;
+            document.getElementById("Active").disabled = false;
+
+        } else {
+            this.textContent = 'Edit';
+
+            document.getElementById("formContainer").style =
                 "background-color: white; margin-left: 350px; margin-right: 350px; height: 925px;";
 
-                document.getElementById("Table").style.visibility = "hidden";
-                document.getElementById("Search").style.visibility = "hidden";
-                document.getElementById("searchLabel").style.visibility = "hidden";
-                
-                if(document.getElementById('backButton').textContent == 'Cancel')
-                {
-                    document.getElementById('backButton').textContent = 'Back';
-                }
-                document.getElementById("ID").readOnly = true;
-                document.getElementById("Name").readOnly = true;
-                document.getElementById("Type").disabled = true;
-                document.getElementById("Description").readOnly = true;
-                document.getElementById("Active").disabled = true;
+            document.getElementById("Table").style.visibility = "hidden";
+            document.getElementById("Search").style.visibility = "hidden";
+            document.getElementById("searchLabel").style.visibility = "hidden";
 
-                //sql to upfate database
-
-
+            if (document.getElementById('backButton').textContent == 'Cancel') {
+                document.getElementById('backButton').textContent = 'Back';
             }
-        });
 
-        const ReviewerIDClick = document.getElementById('ReviewerID');
-        ReviewerIDClick.addEventListener('click', function() {
+            document.getElementById("ID").readOnly = true;
+            document.getElementById("Name").readOnly = true;
+            document.getElementById("Type").disabled = true;
+            document.getElementById("Description").readOnly = true;
+            document.getElementById("Active").disabled = true;
 
-            event.preventDefault();
+            const sql = `UPDATE Action SET 
+                Name='${Name}', 
+                Description='${Description}', 
+                ActionType=${Type || 'NULL'}, 
+                InPlace=${Active ? 1 : 0},
+                ReviewerID=${ReviewerID ? `'${ReviewerID}'` : 'NULL'},
+                ReviewID=${ReviewID ? `'${ReviewID}'` : 'NULL'}
+                WHERE ActionID=${ID}`;
 
-            if(document.getElementById('editButton').textContent == 'Save')
-            {
-                document.getElementById('tableT').textContent = "Select a Reviewer";
-                this.style = "background-color: #12b2e6; color: white;";
-                ReviewIDClick.style = "background-color: transparent; color: black;";
-
-                //sql to get all reviewers and populate table
+            try {
+                const result = await runQuery(sql);
+                console.log("Update result:", result);
+            } catch (error) {
+                console.error("Update failed:", error);
             }
-        });
+        }
+    });
 
-         const ReviewIDClick = document.getElementById('ReviewID');
-        ReviewIDClick.addEventListener('click', function() {
+    const ReviewerIDClick = document.getElementById('ReviewerID');
+    ReviewerIDClick.addEventListener('click', async function(event) {
+        event.preventDefault();
 
-            event.preventDefault();
+        if (document.getElementById('editButton').textContent == 'Save') {
+            document.getElementById('tableT').textContent = "Select a Reviewer";
+            this.style = "background-color: #12b2e6; color: white;";
+            ReviewIDClick.style = "background-color: transparent; color: black;";
 
-            if(document.getElementById('editButton').textContent == 'Save')
-            {
-                document.getElementById('tableT').textContent = "Select a Reviewed Issue";
-                this.style = "background-color: #12b2e6; color: white;";
-                ReviewerIDClick.style = "background-color: transparent; color: black;";
+            currentSearchType = "reviewer";
+            searchTable("reviewer", "");
+        }
+    });
 
-                //sql to get all reviewed issues and populate table
-            }
-        });
+    const ReviewIDClick = document.getElementById('ReviewID');
+    ReviewIDClick.addEventListener('click', async function(event) {
+        event.preventDefault();
 
-        const backButton = document.getElementById('backButton');
-        backButton.addEventListener('click', function() {
-            
-            event.preventDefault();
+        if (document.getElementById('editButton').textContent == 'Save') {
+            document.getElementById('tableT').textContent = "Select a Reviewed Issue";
+            this.style = "background-color: #12b2e6; color: white;";
+            ReviewerIDClick.style = "background-color: transparent; color: black;";
 
-            if (this.textContent == 'Back') {
-                window.history.back();
-            } else {
-                this.textContent = 'Back';
+            currentSearchType = "issue";
+            searchTable("issue", "");
+        }
+    });
 
-                document.getElementById("formContainer").style = 
+    const searchInput = document.getElementById("Search");
+    searchInput.addEventListener("input", function() {
+        const value = this.value.trim();
+
+        if (currentSearchType !== "") {
+            searchTable(currentSearchType, value);
+        }
+    });
+
+    const backButton = document.getElementById('backButton');
+    backButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        if (this.textContent == 'Back') {
+            window.history.back();
+        } else {
+            this.textContent = 'Back';
+
+            document.getElementById("formContainer").style =
                 "background-color: white; margin-left: 350px; margin-right: 350px; height: 925px;";
 
-                document.getElementById("Table").style.visibility = "hidden";
-                document.getElementById("Search").style.visibility = "hidden";
-                document.getElementById("searchLabel").style.visibility = "hidden";
+            document.getElementById("Table").style.visibility = "hidden";
+            document.getElementById("Search").style.visibility = "hidden";
+            document.getElementById("searchLabel").style.visibility = "hidden";
 
-                if(document.getElementById('editButton').textContent == 'Save')
-                {
-                    document.getElementById('editButton').textContent = 'Edit';
-                }
-
-                document.getElementById("ID").readOnly = false;
-                document.getElementById("Name").readOnly = false;
-                document.getElementById("Type").disabled = false;
-                document.getElementById("Description").readOnly = false;
-                document.getElementById("Active").disabled = false;
-
-                document.getElementById("ID").value = ID;
-                document.getElementById("Name").value = Name;
-                document.getElementById("Type").value = Type;
-                document.getElementById("Description").value = Description;
-                document.getElementById("Active").checked = Active;
-                document.getElementById("ReviewerID").value = ReviewerID;
-                document.getElementById("ReviewID").value = ReviewID;
+            if (document.getElementById('editButton').textContent == 'Save') {
+                document.getElementById('editButton').textContent = 'Edit';
             }
-        });
 
+            document.getElementById("ID").readOnly = false;
+            document.getElementById("Name").readOnly = false;
+            document.getElementById("Type").disabled = false;
+            document.getElementById("Description").readOnly = false;
+            document.getElementById("Active").disabled = false;
+
+            document.getElementById("ID").value = ID;
+            document.getElementById("Name").value = Name;
+            document.getElementById("Type").value = Type;
+            document.getElementById("Description").value = Description;
+            document.getElementById("Active").checked = Active;
+            document.getElementById("ReviewerID").value = ReviewerID;
+            document.getElementById("ReviewID").value = ReviewID;
+        }
+    });
     </script>
     </body>
 </html>
