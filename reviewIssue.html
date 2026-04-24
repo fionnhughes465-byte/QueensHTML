@@ -9,10 +9,6 @@
 
         <link rel="stylesheet" href="CSS/styles.css">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
     </head>
 
     <body>
@@ -331,7 +327,7 @@
             //Adds the reviewed issue to the Reviewed_Issue table
             const insertReview = await runQuery(
                 `INSERT INTO Reviewed_Issue (Name, CityID, ReviewerID, Issue, Date, Completed)
-                VALUES ('${name}', ${cityID}, '${currentReviewerID}', '${description}', CURDATE(), 0)`
+                VALUES ('${name}', ${cityID}, ${currentReviewerID}, '${description}', CURDATE(), 0)`
             );
 
             if (!insertReview.success) {
@@ -350,6 +346,25 @@
             );
 
             loadReviewIDs();
+
+            console.log(currentIssueID);
+
+           // check the user wants to delete row
+            const shouldDelete = confirm(`Delete Issue ${currentIssueID}?`);
+            if(!shouldDelete){
+                return; //if reviewer doesn't want to delete, they are returned to page
+            }
+            //if user confirms they want to delete row corresponding to issueID selected
+            const deleteSQL = `DELETE FROM Submitted_Issue WHERE IssueID = ${currentIssueID}`;
+
+            const deleteResult = await runQuery(deleteSQL);
+
+            //outputs corresponding message to user if attempt is successful or failed
+            if (deleteResult.success) {
+                outputDiv.textContent = "Issue Deleted";
+            } else {
+                outputDiv.textContent = "Database error";
+            }
 
             outputDiv2.textContent = "Reviewed Issue Submitted";
         });
