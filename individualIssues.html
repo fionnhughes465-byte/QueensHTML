@@ -106,7 +106,7 @@
                 const container = document.getElementById("issuesContainer");
 
                 //sql statement to get all issues the user submitted
-                const sql = "SELECT * FROM Submitted_Issue WHERE UserID=" + userID;
+                const sql = "SELECT * FROM Submitted_Issue WHERE UserID='" + userID + "'";
 
                 try {
                     //Running the sql from above
