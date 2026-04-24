@@ -331,7 +331,7 @@
             //Adds the reviewed issue to the Reviewed_Issue table
             const insertReview = await runQuery(
                 `INSERT INTO Reviewed_Issue (Name, CityID, ReviewerID, Issue, Date, Completed)
-                VALUES ('${name}', ${cityID}, ${currentReviewerID}, '${description}', CURDATE(), 0)`
+                VALUES ('${name}', ${cityID}, '${currentReviewerID}', '${description}', CURDATE(), 0)`
             );
 
             if (!insertReview.success) {
