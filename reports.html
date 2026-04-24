@@ -5,9 +5,9 @@
         <meta name="viewport"
         content="width=device-width,
         initial-scale=1">
-        <title>All Issues</title>
+        <title>Reports</title>
 
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="CSS/style.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,40 @@
     </head>
 
     <body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2" style="display: grid; grid-template-columns: 80% 10% 10%;">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px; border: none;" id="userFeatures">
+            <select name="selectFeatures" id="selectFeatures" required>
+                <option value="nothing">--</option>
+                <option value="account">Account</option>
+                <option value="reviewIssues">Review Issues</option>
+                <option value="addOrganizations">Add Organizations</option>
+            </select>
+        </div>
+        <button id="signInButton" style="padding: 10px; background-color: rgba(235, 235, 235, 0.991); border-color: #8e8e8e; margin: 50px">Sign In</button>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <a href="reviewedIssues.html"><button class="toolbutton">Issues</button></a>
+            <a href="Business.html"><button class="toolbutton">Businesses</button></a>
+            <a href="Charities.html"><button class="toolbutton">Charities</button></a>
+            <a href="reports.html"><button class="toolbutton" style="border-color: #8e8e8e;">Reports</button></a>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
         <div class="page">
             <div class="banner">
                 <img src="images/logo.png">
@@ -24,23 +58,61 @@
             <div class="main">
                 <h1>Reports</h1>
                 <div class="reportOptions">
-                    <a href="reportPages/reportPage1.html"><button class="reportButton" type="button">Report 1</button></a>
-                    <a href="reportPages/reportPage2.html"><button class="reportButton" type="button">Report 2</button></a>
-                    <a href="reportPages/reportPage3.html"><button class="reportButton" type="button">Report 3</button></a>
-                    <a href="reportPages/reportPage4.html"><button class="reportButton" type="button">Report 4</button></a>
-                    <a href="reportPages/reportPage5.html"><button class="reportButton" type="button">Report 5</button></a>
-                    <a href="reportPages/reportPage6.html"><button class="reportButton" type="button">Report 6</button></a>
-                    <a href="reportPages/reportPage7.html"><button class="reportButton" type="button">Report 7</button></a>
-                    <a href="reportPages/reportPage8.html"><button class="reportButton" type="button">Report 8</button></a>
-                    <a href="reportPages/reportPage9.html"><button class="reportButton" type="button">Report 9</button></a>
-                    <a href="reportPages/reportPage10.html"><button class="reportButton" type="button">Report 10</button></a>
-                    <a href="reportPages/reportPage11.html"><button class="reportButton" type="button">Report 11</button></a>
-                    <a href="reportPages/reportPage12.html"><button class="reportButton" type="button">Report 12</button></a>
-                    <a href="reportPages/reportPage13.html"><button class="reportButton" type="button">Report 13</button></a>
-                    <a href="reportPages/reportPage14.html"><button class="reportButton" type="button">Report 14</button></a>
-                    <a href="reportPages/reportPage15.html"><button class="reportButton" type="button">Report 15</button></a>
+                    <a href="reportPage1.html"><button class="reportButton" type="button">Report 1</button></a>
+                    <p>this is the first one</p><br>
+                    <a href="reportPage2.html"><button class="reportButton" type="button">Report 2</button></a>
+                    <p>this is the 2 one</p><br>
+                    <a href="reportPage3.html"><button class="reportButton" type="button">Report 3</button></a>
+                    <p>this is the 3 one</p><br>
+                    <a href="reportPage4.html"><button class="reportButton" type="button">Report 4</button></a>
+                    <p>this is the 4 one</p><br>
+                    <a href="reportPage5.html"><button class="reportButton" type="button">Report 5</button></a>
+                    <p>this is the 5 one</p><br>
+                    <a href="reportPage6.html"><button class="reportButton" type="button">Report 6</button></a>
+                    <p>this is the 6 one</p><br>
+                    <a href="reportPage7.html"><button class="reportButton" type="button">Report 7</button></a>
+                    <p>this is the 7 one</p><br>
+                    <a href="reportPage8.html"><button class="reportButton" type="button">Report 8</button></a>
+                    <p>this is the 8 one</p><br>
+                    <a href="reportPage9.html"><button class="reportButton" type="button">Report 9</button></a>
+                    <p>this is the 9 one</p><br>
+                    <a href="reportPage10.html"><button class="reportButton" type="button">Report 10</button></a>
+                    <p>this is the first one</p><br>
+                    <a href="reportPage11.html"><button class="reportButton" type="button">Report 11</button></a>
+                    <p>this is the first one</p><br>
+                    <a href="reportPage12.html"><button class="reportButton" type="button">Report 12</button></a>
+                    <p>this is the first one</p><br>
+                    <a href="reportPage13.html"><button class="reportButton" type="button">Report 13</button></a>
+                    <p>this is the first one</p><br>
+                    <a href="reportPage14.html"><button class="reportButton" type="button">Report 14</button></a>
+                    <p>this is the first one</p><br>
+                    <a href="reportPage15.html"><button class="reportButton" type="button">Report 15</button></a>
+                    <p>this is the first one</p><br>
                 </div>
             </div>
         </div>
+    <div class="grid-container">
+    <div style="text-align: center; color: #fff;">
+        <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+        <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+        sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+    </div>
+
+    <div style="color: #fff;">
+        <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+        <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+        <br>
+        <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+        <br>
+        <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+    </div>
+
+    <div style="color: #fff;">
+        <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+        <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+        <p></p>
+        <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+    </div>
+    </div>
     </body>
 </html>

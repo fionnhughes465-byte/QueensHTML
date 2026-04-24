@@ -5,21 +5,82 @@
         <meta name="viewport"
         content="width=device-width,
         initial-scale=1">
-        <title>All Issues</title>
+        <title>report1</title>
 
-        <link rel="stylesheet" href="../styles.css">
+        <link rel="stylesheet" href="CSS/style.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     </head>
 
     <body>
+    <div class="toolbar1">
+    </div>
+
+    <div class="toolbar2" style="display: grid; grid-template-columns: 80% 10% 10%;">
+
+        <div>
+            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+        </div>
+
+        <div style="padding-top: 37.5px; border: none;" id="userFeatures">
+            <select name="selectFeatures" id="selectFeatures" required>
+                <option value="nothing">--</option>
+                <option value="account">Account</option>
+                <option value="reviewIssues">Review Issues</option>
+                <option value="addOrganizations">Add Organizations</option>
+            </select>
+        </div>
+        <button id="signInButton" style="padding: 10px; background-color: rgba(235, 235, 235, 0.991); border-color: #8e8e8e; margin: 50px">Sign In</button>
+    </div>
+
+    <div class="toolbar3">
+        <div style="  display: flex; gap: 0;">
+            <a href="action.html"><button class="toolbutton">Actions</button></a>
+            <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
+            <a href="reviewedIssues.html"><button class="toolbutton">Issues</button></a>
+            <a href="Business.html"><button class="toolbutton">Businesses</button></a>
+            <a href="Charities.html"><button class="toolbutton">Charities</button></a>
+            <a href="reports.html"><button class="toolbutton" style="border-color: #8e8e8e;">Reports</button></a>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Food Aide</button>
+            <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
+        </div>
+    </div>
         <div class="page">
             <div class="banner">
-                <a href="../reports.html"><img src="../images/logo.png"></a>
+                <a href="reports.html"><img src="images/logo.png"></a>
             </div>
 
             <div class="main">
-                <h1>Report 13</h1>
+                <h1>Report 1</h1> <!--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA add details in here AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-->
             </div>
         </div>
+    <div class="grid-container">
+    <div style="text-align: center; color: #fff;">
+        <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
+        <p style="font-size:13px; padding-bottom:1px;padding-top:5px;"> UN Habitat is mandated by the UN General Assembly to promote socially and environmentally
+        sustainable towns and cities with the goal of providing adequate shelter for all.  </p>
+    </div>
+
+    <div style="color: #fff;">
+        <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff; text-align: center;"><strong>Important Links</strong></p>
+        <a href="http://unhabitat.org/" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UNHabitat.org</a>
+        <br>
+        <a href="https://unhabitat.org/knowledge/data-and-analytics" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">UN-Habitat Data &amp; Analytics Unit</a>
+        <br>
+        <a href="https://eotoolkit.unhabitat.org" target="_blank" style="font-size:15px; color: #fff; padding-left: 50px;">EO Toolkit for Sustainable Cities </a>
+    </div>
+
+    <div style="color: #fff;">
+        <p style="font-size:15px;padding-bottom:1px;padding-top:5px;color:#fff;"><strong>Contact Us</strong></p>
+        <p style="font-size:15px;  "> <strong>Email:</strong> unhabitat-europe@un.org</p>
+        <p></p>
+        <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
+    </div>
+    </div>
     </body>
 </html>
