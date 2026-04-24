@@ -5,7 +5,7 @@
         <meta name="viewport"
         content="width=device-width,
         initial-scale=1">
-        <title>report1</title>
+        <title>report5</title>
 
         <link rel="stylesheet" href="CSS/style.css">
 
@@ -51,13 +51,21 @@
         </div>
     </div>
         <div class="page">
-            <div class="banner">
-                <a href="reports.html"><img src="images/logo.png"></a>
-            </div>
-
-            <div class="main">
-                <h1>Report 1</h1> <!--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA add details in here AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-->
-            </div>
+            <div class="content">
+                <h1>Report 5</h1> <!--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA add details in here AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-->
+<table style="margin-top: 50px; display: block; overflow-y: auto; overflow-x: auto; width: 75%; height: 400px; font-size: 20px;">
+                    <thead>
+                    <tr>
+                        <th>ReviewerID</th>
+                        <th>Forename</th>
+                        <th>Surname</th>
+                        <th>Email</th>
+                        <th>Total Reviewed Issues</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>            </div>
         </div>
     <div class="grid-container">
     <div style="text-align: center; color: #fff;">
@@ -82,5 +90,42 @@
         <p style="font-size:15px;  ">Boulevard du Régent 37, 1000 Brussels, Belgium</p>
     </div>
     </div>
+
+    <script src="myJs.js"></script>
+    <script>
+    
+        const tableBody = document.querySelector("table tbody");
+
+        let allData = [];
+
+        async function loadData() {
+            try {
+const sql = "SELECT r.ReviewerID, r.Forename, r.Surname, r.Email, COUNT(i.ReviewID) AS TotalReviewedIssues FROM Reviewer AS r LEFT JOIN Reviewed_Issue AS i ON r.ReviewerID = i.ReviewerID GROUP BY r.ReviewerID, r.Forename, r.Surname, r.Email ORDER BY TotalReviewedIssues DESC;";                const result = await runQuery(sql);
+
+                tableBody.innerHTML = "";
+
+                if (!result.success || !result.data) return;
+                allData = result.data;
+
+                for(const org of allData){
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${org.ReviewerID}</td>
+                        <td>${org.Forename}</td>
+                        <td>${org.Surname}</td>
+                        <td>${org.Email}</td>
+                        <td>${org.TotalReviewedIssues}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        loadData();
+    </script>
     </body>
 </html>
