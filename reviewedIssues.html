@@ -12,6 +12,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.querySelector('table');
+
+        table.addEventListener('click', function(event) {
+            const target = event.target;
+            if (target.tagName === 'TD') {
+                const row = target.parentNode;
+                const cells = row.querySelectorAll('td');
+                const id = cells[0].textContent;
+
+                window.location.href = `ViewIssue.html?id=${encodeURIComponent(id)}`;
+            }
+        });
+    });
+  </script>
 
 </head>
 
