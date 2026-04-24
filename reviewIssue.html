@@ -95,6 +95,8 @@
                 <br>
                 <br>
                 <br>
+                <button class="deleteButton" type="click" id="deleteButton">Delete Issue</button> -->
+                <div id="messageOutput"></div>
             </div>
         </div>
 
@@ -248,6 +250,32 @@
         function createAnAction() {
             document.getElementById("createActionForm").style.display = "block";
         }
+
+
+        const deleteIssue = document.getElementById("deleteButton");
+        const outputDiv = document.getElementById("messageOutput");
+
+        deleteIssue.addEventListener("click", async function(event){
+            console.log(currentIssueID);
+
+           // check the user wants to delete row
+            const shouldDelete = confirm(`Delete Issue ${currentIssueID}?`);
+            if(!shouldDelete){
+                return; //if reviewer doesn't want to delete, they are returned to page
+            }
+            //if user confirms they want to delete row corresponding to issueID selected
+            const deleteSQL = `DELETE FROM submitted_issue WHERE issueID = ${currentIssueID}`;
+
+            const deleteResult = await runQuery(deleteSQL);
+
+            //outputs corresponding message to user if attempt is successful or failed
+            if (deleteResult.success) {
+                outputDiv.textContent = "Issue Deleted";
+            } else {
+                outputDiv.textContent = "Database error";
+            }
+
+        });
 
         const form1 = document.getElementById("issueStatus");
         const form2 = document.getElementById("createReviewForm");
