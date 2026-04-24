@@ -14,21 +14,29 @@
     <div class="toolbar1">
     </div>
 
-    <div class="toolbar2">
+    <div class="toolbar2" style="display: grid; grid-template-columns: 80% 10% 10%;">
 
         <div>
-            <a href="index.html" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
+            <a href="https://data.unhabitat.org/" style="cursor:pointer;"><img class="site-logo-big" src="https://guo-un-habitat.maps.arcgis.com/sharing/rest/content/items/02edd66cba944352b69896180aaeb426/data"></a>
         </div>
 
-        <div style="padding-top: 37.5px;"><a href="login.html" class="signinbutton">Sign In</a></div>
+        <div style="padding-top: 37.5px; border: none;" id="userFeatures">
+            <select name="selectFeatures" id="selectFeatures" required>
+                <option value="nothing">--</option>
+                <option value="account">Account</option>
+                <option value="reviewIssues">Review Issues</option>
+                <option value="addOrganizations">Add Organizations</option>
+            </select>
+        </div>
+        <button id="signInButton" style="padding: 10px; background-color: rgba(235, 235, 235, 0.991); border-color: #8e8e8e;">Sign In</button>
     </div>
 
     <div class="toolbar3">
         <div style="  display: flex; gap: 0;">
             <a href="action.html"><button class="toolbutton">Actions</button></a>
             <a href="town.html"><button class="toolbutton">Towns/Cities</button></a>
-            <button class="toolbutton">Issues</button>
-            <a href="Buisness.html"><button class="toolbutton">Buisnesses</button></a>
+            <a href="reviewedIssues.html"><button class="toolbutton">Issues</button></a>
+            <a href="Business.html"><button class="toolbutton">Businesses</button></a>
             <a href="Charities.html"><button class="toolbutton" style="border-color: #8e8e8e;">Charities</button></a>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Work Opportunities</button>
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">Shelters</button>
@@ -36,6 +44,7 @@
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
         </div>
     </div>
+
 
     <div class="content">
 
@@ -107,6 +116,7 @@
     </div>
 
     <script src="JavaScript/myJs.js"></script>
+    <script src="JavaScript/toolbar.js"></script>
     <script>
     const tableBody = document.querySelector("table tbody");
 
