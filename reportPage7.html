@@ -5,7 +5,7 @@
         <meta name="viewport"
         content="width=device-width,
         initial-scale=1">
-        <title>report1</title>
+        <title>report7</title>
 
         <link rel="stylesheet" href="CSS/style.css">
 
@@ -50,15 +50,27 @@
             <button class="toolbutton" style="background-color: rgba(185, 185, 185, 0.644); border-color: #8e8e8e;">News</button>
         </div>
     </div>
-        <div class="page">
-            <div class="banner">
-                <a href="reports.html"><img src="images/logo.png"></a>
-            </div>
 
-            <div class="main">
-                <h1>Report 1</h1> <!--AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA add details in here AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-->
-            </div>
+    <div class="page">
+        <div class="content">
+            <h1>Show all users</h1> 
         </div>
+            <div>
+                <table style="margin-top: 50px; display: block; overflow-y: auto; height: 400px; font-size: 20px;">
+                    <thead>
+                    <tr>
+                        <th>UserID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Postcode</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
     <div class="grid-container">
     <div style="text-align: center; color: #fff;">
         <p style="font-size:15px;padding-bottom:1px;padding-top:5px;"><strong>About UN-Habitat</strong> </p>
@@ -83,4 +95,40 @@
     </div>
     </div>
     </body>
+    <script src="JavaScript/myJs.js"></script>
+    <script src="JavaScript/toolbar.js"></script>
+    <script>
+        
+    const tableBody = document.getElementById("tableBody");
+
+    let allData = [];
+
+    async function loadData() {
+        try {
+            const sql = "SELECT UserID, CONCAT(Forename, ' ', Surname) AS Name, Email, Postcode FROM User ORDER BY Postcode";
+            const result = await runQuery(sql);
+
+            if (!result.success || !result.data) return;
+
+            allData = result.data;
+            tableBody.innerHTML = "";
+
+            for (const dataTBA of allData) {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${dataTBA.UserID}</td>
+                    <td>${dataTBA.Name}</td>
+                    <td>${dataTBA.Email}</td>
+                    <td>${dataTBA.Postcode}</td>
+                `;
+
+                tableBody.appendChild(row);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    loadData();
+    </script>
 </html>

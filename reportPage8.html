@@ -52,11 +52,7 @@
     </div>
 
     <div class="page">
-        <div class="banner">
-            <a href="reports.html"><img src="images/logo.png"></a>
-        </div>
-
-        <div class="content">
+         <div class="content">
             <h1>Show all users</h1> 
         </div>
             <div>
@@ -111,7 +107,8 @@
 
     async function loadData() {
         try {
-            const sql = "SELECT User.Email, userID, CONCAT(User.Forename, ' ', User.Surname) AS UserName, reviewerID, CONCAT(Reviewer.Forename, ' ', Reviewer.Surname) AS ReviewerName  FROM User INNER JOIN Reviewer ON User.Email = Reviewer.Email ORDER BY Email ";
+            const sql = "SELECT User.Email, userID, CONCAT(User.Forename, ' ', User.Surname) AS UserName, reviewerID, " + 
+            "CONCAT(Reviewer.Forename, ' ', Reviewer.Surname) AS ReviewerName  FROM User INNER JOIN Reviewer ON User.Email = Reviewer.Email ORDER BY Email ";
             const result = await runQuery(sql);
             if (!result.success || !result.data) return;
 
